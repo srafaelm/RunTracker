@@ -12,10 +12,6 @@ services:
       - Jwt__Secret=RunTracker-Production-Secret-Key-Change-This-Min-32-Chars!!
       - Jwt__Issuer=RunTracker
       - Jwt__Audience=RunTracker
-      - Strava__ClientId=205084
-      - Strava__ClientSecret=b10c89f12a474625a3bf3c1383f8ff5a5fcfbb31
-      - Strava__RedirectUri=http://localhost:5000/api/auth/strava/callback
-      - Strava__WebhookVerifyToken=runtracker-verify
       - Frontend__Url=http://localhost:5000
     depends_on:
       sqlserver:

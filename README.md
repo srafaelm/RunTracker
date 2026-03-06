@@ -97,7 +97,6 @@ A self-hosted fitness tracking and analysis platform with Strava integration. Im
 
 ### Docker (recommended)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) (includes Docker Compose)
-- Strava API credentials — see [Strava Setup](#strava-api-setup) below
 
 ### Local development
 - [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
@@ -143,16 +142,6 @@ Keep these for the configuration steps below.
 ### Option A — Docker (recommended)
 
 ```bash
-# Linux / macOS
-export STRAVA_CLIENT_ID=<your_client_id>
-export STRAVA_CLIENT_SECRET=<your_client_secret>
-docker compose up --build
-```
-
-```powershell
-# Windows PowerShell
-$env:STRAVA_CLIENT_ID = "<your_client_id>"
-$env:STRAVA_CLIENT_SECRET = "<your_client_secret>"
 docker compose up --build
 ```
 
@@ -248,8 +237,8 @@ RunTracker/
 | Key | Description | Default (dev) |
 |-----|-------------|---------------|
 | `ConnectionStrings:DefaultConnection` | SQL Server connection string | `localhost` |
-| `Strava:ClientId` | Strava API application Client ID | *(required)* |
-| `Strava:ClientSecret` | Strava API application Client Secret | *(required)* |
+| `Strava:ClientId` | Strava API application Client ID | *(configured via UI)* |
+| `Strava:ClientSecret` | Strava API application Client Secret | *(configured via UI)* |
 | `Strava:RedirectUri` | OAuth callback URL | `http://localhost:5122/api/auth/strava/callback` |
 | `Strava:WebhookVerifyToken` | Token used to verify Strava webhook calls | `runtracker-verify` |
 | `Jwt:Secret` | JWT signing secret (min 32 chars) | *(required)* |
@@ -262,7 +251,7 @@ RunTracker/
 ## Troubleshooting
 
 **"Connect Strava" button is missing**
-Make sure `Strava:ClientId` and `Strava:ClientSecret` are set and the app was restarted.
+Make sure your Strava API credentials are configured in the admin settings page.
 
 **Authorization callback domain mismatch**
 The domain in your Strava API app settings must match where RunTracker is hosted. Use `localhost` for local development.
