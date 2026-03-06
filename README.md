@@ -214,9 +214,9 @@ The application seeds three demo accounts on first startup. These accounts conta
 
 | Name | Email | Password | Activities |
 |------|-------|----------|------------|
-| Alice Demo | `alice@demo.com` | `Demo1234!` | 5 |
-| Bob Demo | `bob@demo.com` | `Demo1234!` | 20 |
-| Charlie Demo | `charlie@demo.com` | `Demo1234!` | 50 |
+| Alice Demo | `alice@demo.com` | `demo` | 5 |
+| Bob Demo | `bob@demo.com` | `demo` | 20 |
+| Charlie Demo | `charlie@demo.com` | `demo` | 50 |
 
 ---
 
