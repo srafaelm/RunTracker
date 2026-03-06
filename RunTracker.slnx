@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/RunTracker.Application/RunTracker.Application.csproj" />
+    <Project Path="src/RunTracker.Domain/RunTracker.Domain.csproj" />
+    <Project Path="src/RunTracker.Infrastructure/RunTracker.Infrastructure.csproj" />
+    <Project Path="src/RunTracker.Web/RunTracker.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/RunTracker.Application.Tests/RunTracker.Application.Tests.csproj" />
+    <Project Path="tests/RunTracker.Domain.Tests/RunTracker.Domain.Tests.csproj" />
+    <Project Path="tests/RunTracker.Infrastructure.Tests/RunTracker.Infrastructure.Tests.csproj" />
+  </Folder>
+</Solution>

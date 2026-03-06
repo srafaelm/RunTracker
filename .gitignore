@@ -1,0 +1,36 @@
+# .NET
+bin/
+obj/
+*.user
+*.userosscache
+*.suo
+*.cache
+.vs/
+*.DotSettings.user
+
+# Node
+node_modules/
+dist/
+.env
+.env.local
+
+# ASP.NET Core secrets
+appsettings.Development.json
+appsettings.Production.json
+secrets.json
+
+# IDE
+.idea/
+.vscode/
+
+# macOS
+.DS_Store
+
+# SQL Server
+*.mdf
+*.ldf
+
+
+.claude
+
+*.zip
