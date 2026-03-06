@@ -413,12 +413,12 @@ export default function DashboardPage() {
 
       {/* Onboarding banner — shown when user has no activities yet */}
       {!allTimeLoading && (allTimeStats?.totalRuns ?? 0) === 0 && (
-        <div className="mb-8 rounded-xl border-2 border-primary-300 dark:border-primary-700 bg-primary-50 dark:bg-primary-950/30 p-6">
+        <div className="mb-8 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow p-6">
           <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Welcome to RunTracker!</h2>
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">Get started by importing your activities or adding one manually.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {!profile?.stravaConnected ? (
-              <div className="flex flex-col items-start gap-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+              <div className="flex flex-col items-start gap-3 rounded-xl bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 p-5">
                 <div className="text-3xl">🏅</div>
                 <div>
                   <p className="font-semibold text-gray-900 dark:text-white">Connect Strava</p>
@@ -435,7 +435,7 @@ export default function DashboardPage() {
                 </button>
               </div>
             ) : (
-              <div className="flex flex-col items-start gap-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+              <div className="flex flex-col items-start gap-3 rounded-xl bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 p-5">
                 <div className="text-3xl">🔄</div>
                 <div>
                   <p className="font-semibold text-gray-900 dark:text-white">Strava Connected</p>
@@ -443,7 +443,7 @@ export default function DashboardPage() {
                 </div>
               </div>
             )}
-            <div className="flex flex-col items-start gap-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+            <div className="flex flex-col items-start gap-3 rounded-xl bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 p-5">
               <div className="text-3xl">✏️</div>
               <div>
                 <p className="font-semibold text-gray-900 dark:text-white">Add Manually</p>

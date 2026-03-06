@@ -81,6 +81,7 @@ namespace RunTracker.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
+                    BadgeType = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Icon = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -934,6 +935,12 @@ namespace RunTracker.Infrastructure.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BadgeDefinitions_BadgeType",
+                table: "BadgeDefinitions",
+                column: "BadgeType",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_BenchmarkCompletions_BenchmarkItemId",

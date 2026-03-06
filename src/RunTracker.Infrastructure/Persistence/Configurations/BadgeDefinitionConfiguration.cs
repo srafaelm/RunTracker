@@ -9,8 +9,9 @@ public class BadgeDefinitionConfiguration : IEntityTypeConfiguration<BadgeDefini
     public void Configure(EntityTypeBuilder<BadgeDefinition> builder)
     {
         builder.HasKey(b => b.Id);
-        // Id maps to BadgeType enum values — never auto-generated
         builder.Property(b => b.Id).ValueGeneratedNever();
+        builder.Property(b => b.BadgeType).HasConversion<int>().IsRequired();
+        builder.HasIndex(b => b.BadgeType).IsUnique();
         builder.Property(b => b.Name).HasMaxLength(100).IsRequired();
         builder.Property(b => b.Description).HasMaxLength(500).IsRequired();
         builder.Property(b => b.Icon).HasMaxLength(50).IsRequired();

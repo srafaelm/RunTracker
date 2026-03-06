@@ -48,6 +48,7 @@ public class DatabaseSetupService
             }
             else
             {
+                existing.BadgeType   = def.BadgeType;
                 existing.Name        = def.Name;
                 existing.Description = def.Description;
                 existing.Icon        = def.Icon;
@@ -323,166 +324,161 @@ file static class TestActivityGenerator
 
 /// <summary>
 /// Single source of truth for badge metadata.
-/// Id values must match the BadgeType enum.
+/// Id equals the integer value of the BadgeType enum.
 /// </summary>
 public static class BadgeSeedData
 {
+    private static BadgeDefinition B(BadgeType type, string name, string description, string icon, string category, int sortOrder)
+        => new() { Id = (int)type, BadgeType = type, Name = name, Description = description, Icon = icon, Category = category, SortOrder = sortOrder };
+
     public static readonly BadgeDefinition[] All =
     [
-        // Distance Milestones (single run)
-        new() { Id = 5,  Name = "First 1K",         Description = "Completed your first 1km run",                                    Icon = "🎽", Category = "Distance Milestones", SortOrder = 0 },
-        new() { Id = 1,  Name = "First 5K",         Description = "Completed your first 5km run",                                    Icon = "🏅", Category = "Distance Milestones", SortOrder = 1 },
-        new() { Id = 2,  Name = "First 10K",        Description = "Completed your first 10km run",                                   Icon = "🥈", Category = "Distance Milestones", SortOrder = 2 },
-        new() { Id = 6,  Name = "First 15K",        Description = "Completed your first 15km run",                                   Icon = "🎖️", Category = "Distance Milestones", SortOrder = 3 },
-        new() { Id = 3,  Name = "First Half",       Description = "Completed your first half marathon (21.1 km)",                    Icon = "🥇", Category = "Distance Milestones", SortOrder = 4 },
-        new() { Id = 7,  Name = "First 50K",        Description = "Completed your first 50km ultra run",                             Icon = "🦁", Category = "Distance Milestones", SortOrder = 5 },
-        new() { Id = 4,  Name = "First Marathon",   Description = "Completed your first full marathon (42.2 km)",                    Icon = "🏆", Category = "Distance Milestones", SortOrder = 6 },
-        new() { Id = 8,  Name = "First 100K",       Description = "Completed your first 100km ultra run",                            Icon = "🔥", Category = "Distance Milestones", SortOrder = 7 },
-        new() { Id = 9,  Name = "First 100 Miles",  Description = "Completed your first 100-mile (160.9 km) ultra run",              Icon = "💎", Category = "Distance Milestones", SortOrder = 8 },
+        // Distance Milestones (single run) — SortOrder matches ascending distance order
+        B(BadgeType.First1K,            "First 1K",          "Completed your first 1km run",                                    "🎽", "Distance Milestones", 10 ),
+        B(BadgeType.First5K,            "First 5K",          "Completed your first 5km run",                                    "🏅", "Distance Milestones", 20 ),
+        B(BadgeType.First10K,           "First 10K",         "Completed your first 10km run",                                   "🥈", "Distance Milestones", 30 ),
+        B(BadgeType.First15K,           "First 15K",         "Completed your first 15km run",                                   "🎖️", "Distance Milestones", 40 ),
+        B(BadgeType.First21K,           "First Half",        "Completed your first half marathon (21.1 km)",                    "🥇", "Distance Milestones", 50 ),
+        B(BadgeType.First42K,           "First Marathon",    "Completed your first full marathon (42.2 km)",                    "🏆", "Distance Milestones", 70 ),
+        B(BadgeType.First50K,           "First 50K",         "Completed your first 50km ultra run",                             "🦁", "Distance Milestones", 80 ),
+        B(BadgeType.First100K,          "First 100K",        "Completed your first 100km ultra run",                            "🔥", "Distance Milestones", 110),
+        B(BadgeType.First100Mile,       "First 100 Miles",   "Completed your first 100-mile (160.9 km) ultra run",              "💎", "Distance Milestones", 120),
+        B(BadgeType.First20K,           "First 20K",         "Completed your first 20 km run",                                  "🎯", "Distance Milestones", 45 ),
+        B(BadgeType.First25K,           "First 25K",         "Completed your first 25 km run",                                  "🎯", "Distance Milestones", 55 ),
+        B(BadgeType.First30K,           "First 30K",         "Completed your first 30 km run",                                  "🏅", "Distance Milestones", 60 ),
+        B(BadgeType.First35K,           "First 35K",         "Completed your first 35 km run",                                  "🏅", "Distance Milestones", 65 ),
+        B(BadgeType.First75K,           "First 75K",         "Completed your first 75 km ultra run",                            "🦅", "Distance Milestones", 90 ),
+        B(BadgeType.FirstDoubleMarathon,"Double Marathon",   "Ran 84.39 km+ — twice the marathon distance in one go!",         "💪", "Distance Milestones", 100),
 
         // Total Distance
-        new() { Id = 10, Name = "Century",          Description = "Accumulated 100 km of total running distance",                    Icon = "💯", Category = "Total Distance",       SortOrder = 1 },
-        new() { Id = 11, Name = "500 km Club",      Description = "Accumulated 500 km of total running distance",                    Icon = "⭐", Category = "Total Distance",       SortOrder = 2 },
-        new() { Id = 12, Name = "1000 km Club",     Description = "Accumulated 1,000 km of total running distance",                  Icon = "🌟", Category = "Total Distance",       SortOrder = 3 },
-        new() { Id = 13, Name = "Ultra Runner",     Description = "Accumulated 5,000 km of total running distance",                  Icon = "🚀", Category = "Total Distance",       SortOrder = 4 },
+        B(BadgeType.Total100km,         "Century",           "Accumulated 100 km of total running distance",                    "💯", "Total Distance",  1 ),
+        B(BadgeType.Total250km,         "250 km Club",       "Accumulated 250 km of total running distance",                    "🌱", "Total Distance",  15),
+        B(BadgeType.Total500km,         "500 km Club",       "Accumulated 500 km of total running distance",                    "⭐", "Total Distance",  2 ),
+        B(BadgeType.Total750km,         "750 km Club",       "Accumulated 750 km of total running distance",                    "🌿", "Total Distance",  25),
+        B(BadgeType.Total1000km,        "1000 km Club",      "Accumulated 1,000 km of total running distance",                  "🌟", "Total Distance",  3 ),
+        B(BadgeType.Total2000km,        "2000 km Club",      "Accumulated 2,000 km of total running distance",                  "🌍", "Total Distance",  45),
+        B(BadgeType.Total3000km,        "3000 km Club",      "Accumulated 3,000 km of total running distance",                  "🌎", "Total Distance",  55),
+        B(BadgeType.Total5000km,        "Ultra Runner",      "Accumulated 5,000 km of total running distance",                  "🚀", "Total Distance",  4 ),
+        B(BadgeType.Total10000km,       "10,000 km Club",    "Accumulated 10,000 km of total running distance",                 "🏆", "Total Distance",  65),
+        B(BadgeType.Total15000km,       "15,000 km Club",    "Accumulated 15,000 km — the distance around the globe!",         "🌏", "Total Distance",  75),
 
         // Runs
-        new() { Id = 20, Name = "First Steps",      Description = "Logged your very first run",                                      Icon = "👟", Category = "Runs",                 SortOrder = 1 },
-        new() { Id = 21, Name = "10 Runs",          Description = "Completed 10 runs",                                               Icon = "🔟", Category = "Runs",                 SortOrder = 2 },
-        new() { Id = 22, Name = "50 Runs",          Description = "Completed 50 runs",                                               Icon = "🎯", Category = "Runs",                 SortOrder = 3 },
-        new() { Id = 23, Name = "Century Runner",   Description = "Completed 100 runs",                                              Icon = "💪", Category = "Runs",                 SortOrder = 4 },
-        new() { Id = 24, Name = "Full Year",        Description = "Completed 365 runs — one for every day of the year",              Icon = "📅", Category = "Runs",                 SortOrder = 5 },
-        new() { Id = 25, Name = "1,000 Runs",       Description = "Completed 1,000 runs",                                            Icon = "🏟️", Category = "Runs",                 SortOrder = 6 },
+        B(BadgeType.FirstRun,           "First Steps",       "Logged your very first run",                                      "👟", "Runs", 1 ),
+        B(BadgeType.Runs10,             "10 Runs",           "Completed 10 runs",                                               "🔟", "Runs", 2 ),
+        B(BadgeType.Runs25,             "25 Runs",           "Completed 25 runs",                                               "🏃", "Runs", 15),
+        B(BadgeType.Runs50,             "50 Runs",           "Completed 50 runs",                                               "🎯", "Runs", 3 ),
+        B(BadgeType.Runs75,             "75 Runs",           "Completed 75 runs",                                               "🏃", "Runs", 25),
+        B(BadgeType.Runs100,            "Century Runner",    "Completed 100 runs",                                              "💪", "Runs", 4 ),
+        B(BadgeType.Runs150,            "150 Runs",          "Completed 150 runs",                                              "🏅", "Runs", 35),
+        B(BadgeType.Runs200,            "200 Runs",          "Completed 200 runs",                                              "🏅", "Runs", 45),
+        B(BadgeType.Runs300,            "300 Runs",          "Completed 300 runs",                                              "🥇", "Runs", 50),
+        B(BadgeType.Runs365,            "Full Year",         "Completed 365 runs — one for every day of the year",              "📅", "Runs", 5 ),
+        B(BadgeType.Runs500,            "500 Runs",          "Completed 500 runs — half a thousand!",                           "⭐", "Runs", 55),
+        B(BadgeType.Runs750,            "750 Runs",          "Completed 750 runs",                                              "🌟", "Runs", 60),
+        B(BadgeType.Runs1000,           "1,000 Runs",        "Completed 1,000 runs",                                            "🏟️", "Runs", 6 ),
+        B(BadgeType.Runs1500,           "1,500 Runs",        "Completed 1,500 runs",                                            "🚀", "Runs", 70),
+        B(BadgeType.Runs2000,           "2,000 Runs",        "Completed 2,000 runs",                                            "💎", "Runs", 80),
+        B(BadgeType.Runs2500,           "2,500 Runs",        "Completed 2,500 runs — legendary!",                              "👑", "Runs", 90),
 
         // Elevation (single run)
-        new() { Id = 30, Name = "Everest",          Description = "Climbed 8,848 m elevation gain in a single run",                  Icon = "🏔️", Category = "Elevation",           SortOrder = 1 },
-        new() { Id = 31, Name = "Kilimanjaro",      Description = "Climbed 5,895 m elevation gain in a single run",                  Icon = "🌋", Category = "Elevation",           SortOrder = 2 },
-        new() { Id = 32, Name = "Mont Blanc",       Description = "Climbed 4,808 m elevation gain in a single run",                  Icon = "⛰️", Category = "Elevation",           SortOrder = 3 },
-        new() { Id = 33, Name = "K2",               Description = "Climbed 8,611 m elevation gain in a single run",                  Icon = "🗻", Category = "Elevation",           SortOrder = 4 },
+        B(BadgeType.HillStarter,        "Hill Starter",      "Gained 200 m of elevation in a single run",                       "⛰️", "Elevation", 1),
+        B(BadgeType.HillClimber,        "Hill Climber",      "Gained 500 m of elevation in a single run",                       "🏕️", "Elevation", 2),
+        B(BadgeType.MountainRunner,     "Mountain Runner",   "Gained 1,000 m of elevation in a single run",                     "🏔️", "Elevation", 3),
+        B(BadgeType.AlpineMaster,       "Alpine Master",     "Gained 2,000 m of elevation in a single run",                     "🗻", "Elevation", 4),
+        B(BadgeType.HighPeaks,          "High Peaks",        "Gained 3,000 m of elevation in a single run",                     "🌨️", "Elevation", 5),
+        B(BadgeType.MontBlancRun,       "Mont Blanc",        "Climbed 4,808 m elevation gain in a single run",                  "⛰️", "Elevation", 6),
+        B(BadgeType.KilimanjaroRun,     "Kilimanjaro",       "Climbed 5,895 m elevation gain in a single run",                  "🌋", "Elevation", 7),
+        B(BadgeType.K2Run,              "K2",                "Climbed 8,611 m elevation gain in a single run",                  "🗻", "Elevation", 8),
+        B(BadgeType.EverestRun,         "Everest",           "Climbed 8,848 m elevation gain in a single run",                  "🏔️", "Elevation", 9),
 
         // Cumulative Elevation
-        new() { Id = 35, Name = "Cauberg",          Description = "Accumulated 157 m total elevation gain across all runs",          Icon = "🚵", Category = "Cumulative Elevation", SortOrder = 1 },
-        new() { Id = 36, Name = "Vaalserberg",      Description = "Accumulated 322 m total elevation gain across all runs",          Icon = "🏕️", Category = "Cumulative Elevation", SortOrder = 2 },
-        new() { Id = 37, Name = "Mont Ventoux",     Description = "Accumulated 1,912 m total elevation gain across all runs",        Icon = "🌬️", Category = "Cumulative Elevation", SortOrder = 3 },
-        new() { Id = 38, Name = "Zugspitze",        Description = "Accumulated 2,962 m total elevation gain across all runs",        Icon = "🏔️", Category = "Cumulative Elevation", SortOrder = 4 },
-        new() { Id = 39, Name = "Etna",             Description = "Accumulated 3,357 m total elevation gain across all runs",        Icon = "🌋", Category = "Cumulative Elevation", SortOrder = 5 },
-        new() { Id = 34, Name = "Everest Climber",  Description = "Accumulated 8,848 m total elevation gain across all runs",        Icon = "🧗", Category = "Cumulative Elevation", SortOrder = 6 },
-        new() { Id = 61, Name = "Everest ×2",       Description = "Accumulated 17,696 m total elevation gain across all runs",       Icon = "🧗", Category = "Cumulative Elevation", SortOrder = 7 },
-        new() { Id = 62, Name = "Everest ×3",       Description = "Accumulated 26,544 m total elevation gain across all runs",       Icon = "🧗", Category = "Cumulative Elevation", SortOrder = 8 },
-        new() { Id = 63, Name = "Everest ×4",       Description = "Accumulated 35,392 m total elevation gain across all runs",       Icon = "🧗", Category = "Cumulative Elevation", SortOrder = 9 },
-        new() { Id = 64, Name = "Everest ×5",       Description = "Accumulated 44,240 m total elevation gain across all runs",       Icon = "🧗", Category = "Cumulative Elevation", SortOrder = 10 },
-        new() { Id = 65, Name = "Everest ×6",       Description = "Accumulated 53,088 m total elevation gain across all runs",       Icon = "🧗", Category = "Cumulative Elevation", SortOrder = 11 },
-        new() { Id = 66, Name = "Everest ×7",       Description = "Accumulated 61,936 m total elevation gain across all runs",       Icon = "🧗", Category = "Cumulative Elevation", SortOrder = 12 },
-        new() { Id = 67, Name = "Everest ×8",       Description = "Accumulated 70,784 m total elevation gain across all runs",       Icon = "🧗", Category = "Cumulative Elevation", SortOrder = 13 },
-        new() { Id = 68, Name = "Everest ×9",       Description = "Accumulated 79,632 m total elevation gain across all runs",       Icon = "🧗", Category = "Cumulative Elevation", SortOrder = 14 },
-        new() { Id = 69, Name = "Everest ×10",      Description = "Accumulated 88,480 m total elevation gain across all runs",       Icon = "🧗", Category = "Cumulative Elevation", SortOrder = 15 },
+        B(BadgeType.Cauberg,            "Cauberg",           "Accumulated 157 m total elevation gain across all runs",          "🚵", "Cumulative Elevation", 1 ),
+        B(BadgeType.Vaalserberg,        "Vaalserberg",       "Accumulated 322 m total elevation gain across all runs",          "🏕️", "Cumulative Elevation", 2 ),
+        B(BadgeType.MontVentoux,        "Mont Ventoux",      "Accumulated 1,912 m total elevation gain across all runs",        "🌬️", "Cumulative Elevation", 3 ),
+        B(BadgeType.Zugspitze,          "Zugspitze",         "Accumulated 2,962 m total elevation gain across all runs",        "🏔️", "Cumulative Elevation", 4 ),
+        B(BadgeType.Etna,               "Etna",              "Accumulated 3,357 m total elevation gain across all runs",        "🌋", "Cumulative Elevation", 5 ),
+        B(BadgeType.EverestCumulative,  "Everest Climber",   "Accumulated 8,848 m total elevation gain across all runs",        "🧗", "Cumulative Elevation", 6 ),
+        B(BadgeType.EverestLevel2,      "Everest ×2",        "Accumulated 17,696 m total elevation gain across all runs",       "🧗", "Cumulative Elevation", 7 ),
+        B(BadgeType.EverestLevel3,      "Everest ×3",        "Accumulated 26,544 m total elevation gain across all runs",       "🧗", "Cumulative Elevation", 8 ),
+        B(BadgeType.EverestLevel4,      "Everest ×4",        "Accumulated 35,392 m total elevation gain across all runs",       "🧗", "Cumulative Elevation", 9 ),
+        B(BadgeType.EverestLevel5,      "Everest ×5",        "Accumulated 44,240 m total elevation gain across all runs",       "🧗", "Cumulative Elevation", 10),
+        B(BadgeType.EverestLevel6,      "Everest ×6",        "Accumulated 53,088 m total elevation gain across all runs",       "🧗", "Cumulative Elevation", 11),
+        B(BadgeType.EverestLevel7,      "Everest ×7",        "Accumulated 61,936 m total elevation gain across all runs",       "🧗", "Cumulative Elevation", 12),
+        B(BadgeType.EverestLevel8,      "Everest ×8",        "Accumulated 70,784 m total elevation gain across all runs",       "🧗", "Cumulative Elevation", 13),
+        B(BadgeType.EverestLevel9,      "Everest ×9",        "Accumulated 79,632 m total elevation gain across all runs",       "🧗", "Cumulative Elevation", 14),
+        B(BadgeType.EverestLevel10,     "Everest ×10",       "Accumulated 88,480 m total elevation gain across all runs",       "🧗", "Cumulative Elevation", 15),
 
         // Exploration
-        new() { Id = 40, Name = "Explorer",         Description = "Visited 100 map tiles",                                           Icon = "🗺️", Category = "Exploration",         SortOrder = 1 },
-        new() { Id = 41, Name = "Adventurer",       Description = "Visited 500 map tiles",                                           Icon = "🧭", Category = "Exploration",         SortOrder = 2 },
-        new() { Id = 42, Name = "Cartographer",     Description = "Visited 1,000 map tiles",                                         Icon = "📍", Category = "Exploration",         SortOrder = 3 },
-        new() { Id = 43, Name = "World Traveller",  Description = "Visited 5,000 map tiles",                                         Icon = "🌍", Category = "Exploration",         SortOrder = 4 },
-        new() { Id = 50, Name = "Street Explorer",  Description = "Completed 100% of all streets in any city",                       Icon = "🏙️", Category = "Exploration",         SortOrder = 5 },
+        B(BadgeType.Tiles100,           "Explorer",          "Visited 100 map tiles",                                           "🗺️", "Exploration", 1),
+        B(BadgeType.Tiles500,           "Adventurer",        "Visited 500 map tiles",                                           "🧭", "Exploration", 2),
+        B(BadgeType.Tiles1000,          "Cartographer",      "Visited 1,000 map tiles",                                         "📍", "Exploration", 3),
+        B(BadgeType.Tiles5000,          "World Traveller",   "Visited 5,000 map tiles",                                         "🌍", "Exploration", 4),
+        B(BadgeType.StreetExplorer,     "Street Explorer",   "Completed 100% of all streets in any city",                       "🏙️", "Exploration", 5),
 
         // Cycling
-        new() { Id = 70, Name = "First Ride",       Description = "Logged your very first cycling activity",                          Icon = "🚴", Category = "Cycling",             SortOrder = 1 },
-        new() { Id = 71, Name = "10 Rides",         Description = "Completed 10 cycling activities",                                  Icon = "🚵", Category = "Cycling",             SortOrder = 2 },
-        new() { Id = 72, Name = "50 Rides",         Description = "Completed 50 cycling activities",                                  Icon = "🏅", Category = "Cycling",             SortOrder = 3 },
-        new() { Id = 73, Name = "Century Ride",     Description = "Accumulated 100 km of total cycling distance",                     Icon = "💯", Category = "Cycling",             SortOrder = 4 },
-        new() { Id = 74, Name = "500 km Cyclist",   Description = "Accumulated 500 km of total cycling distance",                     Icon = "⭐", Category = "Cycling",             SortOrder = 5 },
-        new() { Id = 75, Name = "1000 km Cyclist",  Description = "Accumulated 1,000 km of total cycling distance",                   Icon = "🌟", Category = "Cycling",             SortOrder = 6 },
+        B(BadgeType.FirstRide,          "First Ride",        "Logged your very first cycling activity",                          "🚴", "Cycling", 1),
+        B(BadgeType.Rides10,            "10 Rides",          "Completed 10 cycling activities",                                  "🚵", "Cycling", 2),
+        B(BadgeType.Rides50,            "50 Rides",          "Completed 50 cycling activities",                                  "🏅", "Cycling", 3),
+        B(BadgeType.CyclingTotal100km,  "Century Ride",      "Accumulated 100 km of total cycling distance",                     "💯", "Cycling", 4),
+        B(BadgeType.CyclingTotal500km,  "500 km Cyclist",    "Accumulated 500 km of total cycling distance",                     "⭐", "Cycling", 5),
+        B(BadgeType.CyclingTotal1000km, "1000 km Cyclist",   "Accumulated 1,000 km of total cycling distance",                   "🌟", "Cycling", 6),
 
         // Swimming
-        new() { Id = 76, Name = "First Swim",       Description = "Logged your very first swimming activity",                         Icon = "🏊", Category = "Swimming",            SortOrder = 1 },
-        new() { Id = 77, Name = "10 Swims",         Description = "Completed 10 swimming activities",                                 Icon = "🌊", Category = "Swimming",            SortOrder = 2 },
-        new() { Id = 78, Name = "10 km Swimmer",    Description = "Accumulated 10 km of total swimming distance",                     Icon = "🐬", Category = "Swimming",            SortOrder = 3 },
-        new() { Id = 79, Name = "50 km Swimmer",    Description = "Accumulated 50 km of total swimming distance",                     Icon = "🦈", Category = "Swimming",            SortOrder = 4 },
+        B(BadgeType.FirstSwim,          "First Swim",        "Logged your very first swimming activity",                         "🏊", "Swimming", 1),
+        B(BadgeType.Swims10,            "10 Swims",          "Completed 10 swimming activities",                                 "🌊", "Swimming", 2),
+        B(BadgeType.SwimTotal10km,      "10 km Swimmer",     "Accumulated 10 km of total swimming distance",                     "🐬", "Swimming", 3),
+        B(BadgeType.SwimTotal50km,      "50 km Swimmer",     "Accumulated 50 km of total swimming distance",                     "🦈", "Swimming", 4),
 
         // Walking & Hiking
-        new() { Id = 80, Name = "First Walk",           Description = "Logged your very first walk or hike",                              Icon = "🚶", Category = "Walking & Hiking",    SortOrder = 1 },
-        new() { Id = 81, Name = "10 Walks",             Description = "Completed 10 walks or hikes",                                      Icon = "🥾", Category = "Walking & Hiking",    SortOrder = 2 },
-        new() { Id = 82, Name = "100 km Walker",        Description = "Accumulated 100 km of total walking and hiking distance",          Icon = "🌿", Category = "Walking & Hiking",    SortOrder = 3 },
+        B(BadgeType.FirstWalk,          "First Walk",        "Logged your very first walk or hike",                              "🚶", "Walking & Hiking", 1),
+        B(BadgeType.Walks10,            "10 Walks",          "Completed 10 walks or hikes",                                      "🥾", "Walking & Hiking", 2),
+        B(BadgeType.WalkingTotal100km,  "100 km Walker",     "Accumulated 100 km of total walking and hiking distance",          "🌿", "Walking & Hiking", 3),
 
-        // Running: Speed
-        new() { Id = 83,  Name = "Sub-7 Pace",          Description = "Ran 5 km+ at a pace under 7:00 /km",                              Icon = "🏃", Category = "Speed",              SortOrder = 1  },
-        new() { Id = 84,  Name = "Sub-6 Pace",          Description = "Ran 5 km+ at a pace under 6:00 /km",                              Icon = "⚡", Category = "Speed",              SortOrder = 2  },
-        new() { Id = 85,  Name = "Sub-5 Pace",          Description = "Ran 5 km+ at a pace under 5:00 /km",                              Icon = "🔥", Category = "Speed",              SortOrder = 3  },
-        new() { Id = 86,  Name = "Sub-4:30 5K",         Description = "Ran 5 km+ at a pace under 4:30 /km",                              Icon = "💨", Category = "Speed",              SortOrder = 4  },
-        new() { Id = 87,  Name = "Sub-4 5K",            Description = "Ran 5 km+ at a pace under 4:00 /km — elite territory!",           Icon = "🚀", Category = "Speed",              SortOrder = 5  },
-        new() { Id = 88,  Name = "Sub-6 10K",           Description = "Ran 10 km+ at a pace under 6:00 /km",                             Icon = "⚡", Category = "Speed",              SortOrder = 6  },
-        new() { Id = 89,  Name = "Sub-5 10K",           Description = "Ran 10 km+ at a pace under 5:00 /km",                             Icon = "🔥", Category = "Speed",              SortOrder = 7  },
-        new() { Id = 90,  Name = "Sub-4:30 10K",        Description = "Ran 10 km+ at a pace under 4:30 /km",                             Icon = "💨", Category = "Speed",              SortOrder = 8  },
-        new() { Id = 91,  Name = "Sub-2:06 Half",       Description = "Ran a half marathon+ at a pace under 6:00 /km",                   Icon = "⚡", Category = "Speed",              SortOrder = 9  },
-        new() { Id = 92,  Name = "Sub-1:56 Half",       Description = "Ran a half marathon+ at a pace under 5:30 /km",                   Icon = "🔥", Category = "Speed",              SortOrder = 10 },
-        new() { Id = 93,  Name = "Sub-1:45 Half",       Description = "Ran a half marathon+ at a pace under 5:00 /km",                   Icon = "💨", Category = "Speed",              SortOrder = 11 },
-        new() { Id = 94,  Name = "Sub-3:30 Marathon",   Description = "Ran a full marathon+ at a pace under 5:00 /km",                   Icon = "🚀", Category = "Speed",              SortOrder = 12 },
+        // Speed
+        B(BadgeType.Sub75K,             "Sub-7 Pace",        "Ran 5 km+ at a pace under 7:00 /km",                              "🏃", "Speed", 1 ),
+        B(BadgeType.Sub65K,             "Sub-6 Pace",        "Ran 5 km+ at a pace under 6:00 /km",                              "⚡", "Speed", 2 ),
+        B(BadgeType.Sub55K,             "Sub-5 Pace",        "Ran 5 km+ at a pace under 5:00 /km",                              "🔥", "Speed", 3 ),
+        B(BadgeType.Sub4305K,           "Sub-4:30 5K",       "Ran 5 km+ at a pace under 4:30 /km",                              "💨", "Speed", 4 ),
+        B(BadgeType.Sub45K,             "Sub-4 5K",          "Ran 5 km+ at a pace under 4:00 /km — elite territory!",           "🚀", "Speed", 5 ),
+        B(BadgeType.Sub610K,            "Sub-6 10K",         "Ran 10 km+ at a pace under 6:00 /km",                             "⚡", "Speed", 6 ),
+        B(BadgeType.Sub510K,            "Sub-5 10K",         "Ran 10 km+ at a pace under 5:00 /km",                             "🔥", "Speed", 7 ),
+        B(BadgeType.Sub43010K,          "Sub-4:30 10K",      "Ran 10 km+ at a pace under 4:30 /km",                             "💨", "Speed", 8 ),
+        B(BadgeType.Sub6Half,           "Sub-2:06 Half",     "Ran a half marathon+ at a pace under 6:00 /km",                   "⚡", "Speed", 9 ),
+        B(BadgeType.Sub530Half,         "Sub-1:56 Half",     "Ran a half marathon+ at a pace under 5:30 /km",                   "🔥", "Speed", 10),
+        B(BadgeType.Sub5Half,           "Sub-1:45 Half",     "Ran a half marathon+ at a pace under 5:00 /km",                   "💨", "Speed", 11),
+        B(BadgeType.Sub5Marathon,       "Sub-3:30 Marathon", "Ran a full marathon+ at a pace under 5:00 /km",                   "🚀", "Speed", 12),
 
-        // Running: Consistency / Streaks
-        new() { Id = 95,  Name = "3-Day Streak",        Description = "Ran on 3 consecutive days",                                        Icon = "🔆", Category = "Consistency",        SortOrder = 1  },
-        new() { Id = 96,  Name = "7-Day Streak",        Description = "Ran on 7 consecutive days",                                        Icon = "📅", Category = "Consistency",        SortOrder = 2  },
-        new() { Id = 97,  Name = "2-Week Streak",       Description = "Ran on 14 consecutive days",                                       Icon = "🗓️", Category = "Consistency",        SortOrder = 3  },
-        new() { Id = 98,  Name = "30-Day Streak",       Description = "Ran on 30 consecutive days",                                       Icon = "🌙", Category = "Consistency",        SortOrder = 4  },
-        new() { Id = 99,  Name = "60-Day Streak",       Description = "Ran on 60 consecutive days",                                       Icon = "⭐", Category = "Consistency",        SortOrder = 5  },
-        new() { Id = 100, Name = "100-Day Streak",      Description = "Ran on 100 consecutive days — incredible dedication!",             Icon = "💯", Category = "Consistency",        SortOrder = 6  },
+        // Consistency / Streaks
+        B(BadgeType.Streak3,            "3-Day Streak",      "Ran on 3 consecutive days",                                        "🔆", "Consistency", 1),
+        B(BadgeType.Streak7,            "7-Day Streak",      "Ran on 7 consecutive days",                                        "📅", "Consistency", 2),
+        B(BadgeType.Streak14,           "2-Week Streak",     "Ran on 14 consecutive days",                                       "🗓️", "Consistency", 3),
+        B(BadgeType.Streak30,           "30-Day Streak",     "Ran on 30 consecutive days",                                       "🌙", "Consistency", 4),
+        B(BadgeType.Streak60,           "60-Day Streak",     "Ran on 60 consecutive days",                                       "⭐", "Consistency", 5),
+        B(BadgeType.Streak100,          "100-Day Streak",    "Ran on 100 consecutive days — incredible dedication!",             "💯", "Consistency", 6),
 
-        // Running: Cadence
-        new() { Id = 101, Name = "Rhythm Runner",       Description = "Ran 5 km+ with an average cadence of at least 170 spm",           Icon = "🎵", Category = "Cadence",            SortOrder = 1  },
-        new() { Id = 102, Name = "Metronome",           Description = "Ran 5 km+ with an average cadence of at least 180 spm",           Icon = "🎶", Category = "Cadence",            SortOrder = 2  },
-        new() { Id = 103, Name = "Stride Master",       Description = "Ran 5 km+ with an average cadence of at least 185 spm",           Icon = "🎼", Category = "Cadence",            SortOrder = 3  },
+        // Cadence
+        B(BadgeType.RhythmRunner,       "Rhythm Runner",     "Ran 5 km+ with an average cadence of at least 170 spm",           "🎵", "Cadence", 1),
+        B(BadgeType.MetronomeRunner,    "Metronome",         "Ran 5 km+ with an average cadence of at least 180 spm",           "🎶", "Cadence", 2),
+        B(BadgeType.StrideMaster,       "Stride Master",     "Ran 5 km+ with an average cadence of at least 185 spm",           "🎼", "Cadence", 3),
 
-        // Running: Calorie Burn
-        new() { Id = 104, Name = "Calorie Burner",      Description = "Burned 500+ calories in a single run",                            Icon = "🍔", Category = "Calorie Burn",       SortOrder = 1  },
-        new() { Id = 105, Name = "Inferno",             Description = "Burned 1,000+ calories in a single run",                          Icon = "🔥", Category = "Calorie Burn",       SortOrder = 2  },
-        new() { Id = 106, Name = "10K Calories",        Description = "Burned a total of 10,000 calories across all runs",               Icon = "⚡", Category = "Calorie Burn",       SortOrder = 3  },
-        new() { Id = 107, Name = "50K Calories",        Description = "Burned a total of 50,000 calories across all runs",               Icon = "🌟", Category = "Calorie Burn",       SortOrder = 4  },
-        new() { Id = 108, Name = "100K Calories",       Description = "Burned a total of 100,000 calories across all runs",              Icon = "🏆", Category = "Calorie Burn",       SortOrder = 5  },
+        // Calorie Burn
+        B(BadgeType.CalorieBurner500,   "Calorie Burner",    "Burned 500+ calories in a single run",                            "🍔", "Calorie Burn", 1),
+        B(BadgeType.Inferno,            "Inferno",           "Burned 1,000+ calories in a single run",                          "🔥", "Calorie Burn", 2),
+        B(BadgeType.TotalCal10K,        "10K Calories",      "Burned a total of 10,000 calories across all runs",               "⚡", "Calorie Burn", 3),
+        B(BadgeType.TotalCal50K,        "50K Calories",      "Burned a total of 50,000 calories across all runs",               "🌟", "Calorie Burn", 4),
+        B(BadgeType.TotalCal100K,       "100K Calories",     "Burned a total of 100,000 calories across all runs",              "🏆", "Calorie Burn", 5),
 
-        // Running: Monthly Volume
-        new() { Id = 109, Name = "50 km Month",         Description = "Ran at least 50 km in a single calendar month",                   Icon = "📆", Category = "Monthly Volume",     SortOrder = 1  },
-        new() { Id = 110, Name = "100 km Month",        Description = "Ran at least 100 km in a single calendar month",                  Icon = "🗓️", Category = "Monthly Volume",     SortOrder = 2  },
-        new() { Id = 111, Name = "200 km Month",        Description = "Ran at least 200 km in a single calendar month",                  Icon = "⭐", Category = "Monthly Volume",     SortOrder = 3  },
-        new() { Id = 112, Name = "300 km Month",        Description = "Ran at least 300 km in a single calendar month — beast mode!",    Icon = "🔥", Category = "Monthly Volume",     SortOrder = 4  },
+        // Monthly Volume
+        B(BadgeType.Month50km,          "50 km Month",       "Ran at least 50 km in a single calendar month",                   "📆", "Monthly Volume", 1),
+        B(BadgeType.Month100km,         "100 km Month",      "Ran at least 100 km in a single calendar month",                  "🗓️", "Monthly Volume", 2),
+        B(BadgeType.Month200km,         "200 km Month",      "Ran at least 200 km in a single calendar month",                  "⭐", "Monthly Volume", 3),
+        B(BadgeType.Month300km,         "300 km Month",      "Ran at least 300 km in a single calendar month — beast mode!",    "🔥", "Monthly Volume", 4),
 
-        // Running: More Distance Milestones
-        new() { Id = 113, Name = "First 20K",           Description = "Completed your first 20 km run",                                  Icon = "🎯", Category = "Distance Milestones", SortOrder = 45 },
-        new() { Id = 114, Name = "First 25K",           Description = "Completed your first 25 km run",                                  Icon = "🎯", Category = "Distance Milestones", SortOrder = 55 },
-        new() { Id = 115, Name = "First 30K",           Description = "Completed your first 30 km run",                                  Icon = "🏅", Category = "Distance Milestones", SortOrder = 60 },
-        new() { Id = 116, Name = "First 35K",           Description = "Completed your first 35 km run",                                  Icon = "🏅", Category = "Distance Milestones", SortOrder = 65 },
-        new() { Id = 117, Name = "First 75K",           Description = "Completed your first 75 km ultra run",                            Icon = "🦅", Category = "Distance Milestones", SortOrder = 90 },
-        new() { Id = 118, Name = "Double Marathon",     Description = "Ran 84.39 km+ — twice the marathon distance in one go!",         Icon = "💪", Category = "Distance Milestones", SortOrder = 100 },
-
-        // Running: More Total Distance
-        new() { Id = 119, Name = "250 km Club",         Description = "Accumulated 250 km of total running distance",                    Icon = "🌱", Category = "Total Distance",      SortOrder = 15 },
-        new() { Id = 120, Name = "750 km Club",         Description = "Accumulated 750 km of total running distance",                    Icon = "🌿", Category = "Total Distance",      SortOrder = 25 },
-        new() { Id = 121, Name = "2000 km Club",        Description = "Accumulated 2,000 km of total running distance",                  Icon = "🌍", Category = "Total Distance",      SortOrder = 45 },
-        new() { Id = 122, Name = "3000 km Club",        Description = "Accumulated 3,000 km of total running distance",                  Icon = "🌎", Category = "Total Distance",      SortOrder = 55 },
-        new() { Id = 123, Name = "10,000 km Club",      Description = "Accumulated 10,000 km of total running distance",                 Icon = "🏆", Category = "Total Distance",      SortOrder = 65 },
-        new() { Id = 124, Name = "15,000 km Club",      Description = "Accumulated 15,000 km — the distance around the globe!",         Icon = "🌏", Category = "Total Distance",      SortOrder = 75 },
-
-        // Running: More Run Count
-        new() { Id = 125, Name = "25 Runs",             Description = "Completed 25 runs",                                               Icon = "🏃", Category = "Runs",                SortOrder = 15 },
-        new() { Id = 126, Name = "75 Runs",             Description = "Completed 75 runs",                                               Icon = "🏃", Category = "Runs",                SortOrder = 25 },
-        new() { Id = 127, Name = "150 Runs",            Description = "Completed 150 runs",                                              Icon = "🏅", Category = "Runs",                SortOrder = 35 },
-        new() { Id = 128, Name = "200 Runs",            Description = "Completed 200 runs",                                              Icon = "🏅", Category = "Runs",                SortOrder = 45 },
-        new() { Id = 129, Name = "500 Runs",            Description = "Completed 500 runs — half a thousand!",                           Icon = "⭐", Category = "Runs",                SortOrder = 55 },
-        new() { Id = 140, Name = "300 Runs",            Description = "Completed 300 runs",                                              Icon = "🥇", Category = "Runs",                SortOrder = 50 },
-        new() { Id = 141, Name = "750 Runs",            Description = "Completed 750 runs",                                              Icon = "🌟", Category = "Runs",                SortOrder = 60 },
-        new() { Id = 142, Name = "1,500 Runs",          Description = "Completed 1,500 runs",                                            Icon = "🚀", Category = "Runs",                SortOrder = 70 },
-        new() { Id = 143, Name = "2,000 Runs",          Description = "Completed 2,000 runs",                                            Icon = "💎", Category = "Runs",                SortOrder = 80 },
-        new() { Id = 144, Name = "2,500 Runs",          Description = "Completed 2,500 runs — legendary!",                              Icon = "👑", Category = "Runs",                SortOrder = 90 },
-
-        // Running: Habits
-        new() { Id = 130, Name = "Weekend Warrior",     Description = "Logged runs on 20 different Saturday or Sunday dates",            Icon = "🌅", Category = "Habits",              SortOrder = 1  },
-        new() { Id = 131, Name = "5-Day Week",          Description = "Ran on 5 different days in a single calendar week",               Icon = "📅", Category = "Habits",              SortOrder = 2  },
-        new() { Id = 132, Name = "6-Day Week",          Description = "Ran on 6 different days in a single calendar week",               Icon = "🗓️", Category = "Habits",              SortOrder = 3  },
-        new() { Id = 133, Name = "Daily Double",        Description = "Logged 2 or more runs on the same day",                           Icon = "✌️", Category = "Habits",              SortOrder = 4  },
-        new() { Id = 134, Name = "Long Runner",         Description = "Completed 10 runs of 21 km or more",                              Icon = "🦁", Category = "Habits",              SortOrder = 5  },
-
-        // Running: More Single-Run Elevation
-        new() { Id = 135, Name = "Hill Starter",        Description = "Gained 200 m of elevation in a single run",                       Icon = "⛰️", Category = "Elevation",          SortOrder = 5  },
-        new() { Id = 136, Name = "Hill Climber",        Description = "Gained 500 m of elevation in a single run",                       Icon = "🏕️", Category = "Elevation",          SortOrder = 6  },
-        new() { Id = 137, Name = "Mountain Runner",     Description = "Gained 1,000 m of elevation in a single run",                     Icon = "🏔️", Category = "Elevation",          SortOrder = 7  },
-        new() { Id = 138, Name = "Alpine Master",       Description = "Gained 2,000 m of elevation in a single run",                     Icon = "🗻", Category = "Elevation",          SortOrder = 8  },
-        new() { Id = 139, Name = "High Peaks",          Description = "Gained 3,000 m of elevation in a single run",                     Icon = "🌨️", Category = "Elevation",          SortOrder = 9  },
+        // Habits
+        B(BadgeType.WeekendWarrior,     "Weekend Warrior",   "Logged runs on 20 different Saturday or Sunday dates",            "🌅", "Habits", 1),
+        B(BadgeType.FiveDayWeek,        "5-Day Week",        "Ran on 5 different days in a single calendar week",               "📅", "Habits", 2),
+        B(BadgeType.SixDayWeek,         "6-Day Week",        "Ran on 6 different days in a single calendar week",               "🗓️", "Habits", 3),
+        B(BadgeType.DailyDouble,        "Daily Double",      "Logged 2 or more runs on the same day",                           "✌️", "Habits", 4),
+        B(BadgeType.LongRunner10,       "Long Runner",       "Completed 10 runs of 21 km or more",                              "🦁", "Habits", 5),
     ];
 }

@@ -382,6 +382,29 @@ export default function ProfilePage() {
         </div>
       )}
 
+      {/* Profile completion prompt — shown when key fields are missing */}
+      {!editing && (!profile?.weightKg || !profile?.maxHeartRate || !profile?.birthYear) && (
+        <div className="mb-6 rounded-xl border-2 border-blue-300 bg-blue-50 dark:bg-blue-950/30 dark:border-blue-600 p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div className="flex-shrink-0 text-3xl">📋</div>
+          <div className="flex-1">
+            <p className="font-semibold text-blue-900 dark:text-blue-300 text-base">Complete your profile</p>
+            <p className="text-sm text-blue-700 dark:text-blue-400 mt-0.5">
+              Add your{[
+                !profile?.birthYear && 'age',
+                !profile?.weightKg && 'weight',
+                !profile?.maxHeartRate && 'max heart rate',
+              ].filter(Boolean).join(', ')} to unlock accurate HR zones, pace predictions, and fitness insights.
+            </p>
+          </div>
+          <button
+            onClick={startEdit}
+            className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-sm transition-colors"
+          >
+            Fill in profile
+          </button>
+        </div>
+      )}
+
       {/* Account + physical info */}
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-100 dark:border-gray-700 p-6 mb-8">
         <div className="flex items-center gap-4 mb-6">

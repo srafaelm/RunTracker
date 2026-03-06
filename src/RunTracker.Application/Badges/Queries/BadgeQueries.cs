@@ -38,7 +38,7 @@ public class GetAllBadgesQueryHandler : IRequestHandler<GetAllBadgesQuery, List<
 
         var earned = await _db.UserBadges
             .Where(b => b.UserId == request.UserId)
-            .ToDictionaryAsync(b => (int)b.BadgeType, b => (DateTime?)b.EarnedAt, ct);
+            .ToDictionaryAsync(b => b.BadgeType, b => (DateTime?)b.EarnedAt, ct);
 
         return definitions.Select(d => new BadgeWithStatusDto(
             d.Id,
@@ -47,8 +47,8 @@ public class GetAllBadgesQueryHandler : IRequestHandler<GetAllBadgesQuery, List<
             d.Icon,
             d.Category,
             d.SortOrder,
-            earned.ContainsKey(d.Id),
-            earned.TryGetValue(d.Id, out var dt) ? dt : null
+            earned.ContainsKey(d.BadgeType),
+            earned.TryGetValue(d.BadgeType, out var dt) ? dt : null
         )).ToList();
     }
 }

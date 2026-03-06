@@ -21,30 +21,7 @@ const CATEGORY_ORDER = [
   'Walking & Hiking',
 ];
 
-// The BadgeType enum values were assigned non-sequentially, so sortOrder (which equals the enum
-// value) doesn't match logical distance order. Map each sortOrder to the correct position.
-const DISTANCE_MILESTONE_SORT: Record<number, number> = {
-  5:   10,  // First1K
-  1:   20,  // First5K
-  2:   30,  // First10K
-  6:   40,  // First15K
-  113: 45,  // First20K
-  3:   50,  // First21K (Half Marathon)
-  114: 55,  // First25K
-  115: 60,  // First30K
-  116: 65,  // First35K
-  4:   70,  // First42K (Marathon)
-  7:   80,  // First50K
-  117: 90,  // First75K
-  118: 100, // FirstDoubleMarathon
-  8:   110, // First100K
-  9:   120, // First100Mile
-};
-
 function badgeSortKey(b: BadgeWithStatus): number {
-  if (b.category === 'Distance Milestones') {
-    return DISTANCE_MILESTONE_SORT[b.sortOrder] ?? b.sortOrder;
-  }
   return b.sortOrder;
 }
 

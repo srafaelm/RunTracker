@@ -105,6 +105,31 @@ function secondsToMmss(sec: number): string {
   return `${m}:${s.toString().padStart(2, '0')}`;
 }
 
+/** 3723 → "1:02:03" */
+function secondsToHhmmss(seconds: number): string {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = seconds % 60;
+  return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+}
+
+/** "1:02:03" → 3723 */
+function hhmmssToSeconds(value: string): number | undefined {
+  const parts = value.split(':');
+  if (parts.length === 3) {
+    const h = parseInt(parts[0], 10);
+    const m = parseInt(parts[1], 10);
+    const s = parseInt(parts[2], 10);
+    if (!isNaN(h) && !isNaN(m) && !isNaN(s)) return h * 3600 + m * 60 + s;
+  }
+  if (parts.length === 2) {
+    const h = parseInt(parts[0], 10);
+    const m = parseInt(parts[1], 10);
+    if (!isNaN(h) && !isNaN(m)) return h * 3600 + m * 60;
+  }
+  return undefined;
+}
+
 function formatDistKm(m: number | null | undefined): string {
   if (m == null) return '—';
   return (m / 1000).toFixed(2) + ' km';
@@ -330,6 +355,16 @@ function WorkoutModal({ modal, onClose, onSaved }: WorkoutModalProps) {
     const m = existing?.notes?.match(/\[intervals:([^\]]+)\]/);
     return m ? m[1] : '';
   });
+  const [raceLocation, setRaceLocation] = useState(existing?.location ?? '');
+  const [raceDistKm, setRaceDistKm] = useState(
+    existing?.raceDistanceMeters ? (existing.raceDistanceMeters / 1000).toFixed(2) : ''
+  );
+  const [goalTime, setGoalTime] = useState(
+    existing?.goalTimeSecs ? secondsToHhmmss(existing.goalTimeSecs) : ''
+  );
+  const [resultTime, setResultTime] = useState(
+    existing?.resultTimeSecs ? secondsToHhmmss(existing.resultTimeSecs) : ''
+  );
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [duplicateDate, setDuplicateDate] = useState('');
@@ -349,6 +384,10 @@ function WorkoutModal({ modal, onClose, onSaved }: WorkoutModalProps) {
       plannedDurationSeconds: duration ? hhmmToSeconds(duration) : undefined,
       plannedPaceSecondsPerKm: pace ? mmssToSeconds(pace) : undefined,
       plannedHeartRateZone: hrZone ? parseInt(hrZone) : undefined,
+      location: workoutType === WorkoutType.Race && raceLocation ? raceLocation : undefined,
+      raceDistanceMeters: workoutType === WorkoutType.Race && raceDistKm ? parseFloat(raceDistKm) * 1000 : undefined,
+      goalTimeSecs: workoutType === WorkoutType.Race && goalTime ? hhmmssToSeconds(goalTime) : undefined,
+      resultTimeSecs: workoutType === WorkoutType.Race && resultTime ? hhmmssToSeconds(resultTime) : undefined,
     };
   };
 
@@ -548,6 +587,55 @@ function WorkoutModal({ modal, onClose, onSaved }: WorkoutModalProps) {
             </div>
           )}
 
+          {/* Race-specific fields */}
+          {workoutType === WorkoutType.Race && (
+            <div className="space-y-3 rounded-lg border border-purple-200 dark:border-purple-800 bg-purple-50 dark:bg-purple-900/20 p-3">
+              <p className="text-xs font-semibold text-purple-700 dark:text-purple-300 uppercase tracking-wide">Race details</p>
+              <div>
+                <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Location</label>
+                <input
+                  type="text"
+                  value={raceLocation}
+                  onChange={(e) => setRaceLocation(e.target.value)}
+                  placeholder="e.g. Amsterdam, NL"
+                  className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Race Distance (km)</label>
+                  <input
+                    type="number" min="0" step="0.001"
+                    value={raceDistKm}
+                    onChange={(e) => setRaceDistKm(e.target.value)}
+                    placeholder="42.195"
+                    className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Goal Time (h:mm:ss)</label>
+                  <input
+                    type="text"
+                    value={goalTime}
+                    onChange={(e) => setGoalTime(e.target.value)}
+                    placeholder="3:30:00"
+                    className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Result Time (h:mm:ss)</label>
+                <input
+                  type="text"
+                  value={resultTime}
+                  onChange={(e) => setResultTime(e.target.value)}
+                  placeholder="3:28:45"
+                  className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                />
+              </div>
+            </div>
+          )}
+
           {/* Notes */}
           <div>
             <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Notes</label>
@@ -684,6 +772,7 @@ export default function TrainingPage() {
   const { data: activitiesPage } = useActivities({ from: fromStr, to: toStr, pageSize: 100 });
   const { data: absenceDays = [] } = useAbsenceDays(fromStr, toStr);
   const [absenceDialogDate, setAbsenceDialogDate] = useState<string | null>(null); // null = closed, string = pre-filled date
+  const [dayDetail, setDayDetail] = useState<string | null>(null);
 
   const comparisonMap = comparisons.reduce<Record<string, WorkoutComparison>>((acc, c) => {
     acc[c.workout.id] = c;
@@ -792,9 +881,9 @@ export default function TrainingPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6 sm:py-8">
+    <div className="max-w-7xl mx-auto px-4 py-3 sm:py-4">
       {/* Header */}
-      <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
+      <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Training Schedule</h1>
 
         <div className="flex flex-wrap items-center gap-2">
@@ -858,7 +947,7 @@ export default function TrainingPage() {
 
       {/* Month navigator */}
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow border border-gray-100 dark:border-gray-700 overflow-hidden">
-        <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-2.5 border-b border-gray-100 dark:border-gray-700">
           <button onClick={prevMonth} className="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700" aria-label="Previous month">←</button>
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{MONTH_NAMES[month]} {year}</h2>
           <button onClick={nextMonth} className="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700" aria-label="Next month">→</button>
@@ -867,7 +956,7 @@ export default function TrainingPage() {
         {/* Day-of-week header */}
         <div className="grid grid-cols-7 border-b border-gray-100 dark:border-gray-700">
           {DAY_NAMES.map((d) => (
-            <div key={d} className="py-2 text-center text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">{d}</div>
+            <div key={d} className="py-1 text-center text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">{d}</div>
           ))}
         </div>
 
@@ -876,7 +965,7 @@ export default function TrainingPage() {
           <div className="grid grid-cols-7">
             {days.map((day, idx) => {
               if (!day) {
-                return <div key={`empty-${idx}`} className="h-[100px] sm:h-[120px] border-b border-r border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/30" />;
+                return <div key={`empty-${idx}`} className="h-[100px] sm:h-[115px] border-b border-r border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/30" />;
               }
               const dateStr = toDateStr(day);
               const dayWorkouts = workoutMap[dateStr] ?? [];
@@ -893,91 +982,113 @@ export default function TrainingPage() {
                 <DroppableDay key={dateStr} dateStr={dateStr}>
                   <div
                     onClick={() => setModal({ mode: 'create', initialDate: dateStr })}
-                    className={`group h-[100px] sm:h-[120px] overflow-hidden border-b border-r border-gray-100 dark:border-gray-700 p-1.5 cursor-pointer hover:bg-blue-50/40 dark:hover:bg-blue-900/20 transition-colors ${isToday ? 'bg-primary-50/50 dark:bg-primary-900/20' : ''}`}
+                    className={`group h-[100px] sm:h-[115px] overflow-hidden border-b border-r border-gray-100 dark:border-gray-700 p-1.5 cursor-pointer hover:bg-blue-50/40 dark:hover:bg-blue-900/20 transition-colors ${isToday ? 'bg-primary-50/50 dark:bg-primary-900/20' : ''}`}
                   >
                     <div className={`text-xs font-medium mb-1 w-6 h-6 flex items-center justify-center rounded-full ${
                       isToday ? 'bg-primary-600 text-white' : 'text-gray-500 dark:text-gray-400'
                     }`}>
                       {day.getDate()}
                     </div>
-                    <div className="space-y-1">
-                      {dayWorkouts.map((w) => {
-                        const cfg = workoutTypeConfig(w.workoutType);
-                        const cmp = comparisonMap[w.id];
-                        const hasActivity = cmp?.activityId != null;
-                        const isRace = w.workoutType === WorkoutType.Race;
-                        const distLabel = w.plannedDistanceMeters ? ` (${(w.plannedDistanceMeters / 1000).toFixed(1)}k)` : '';
-                        const intervalsMatch = w.notes?.match(/\[intervals:([^\]]+)\]/);
-                        const paceMaxMatch = w.notes?.match(/\[paceMax:([^\]]+)\]/);
-                        const paceRangeLabel = w.plannedPaceSecondsPerKm
-                          ? paceMaxMatch
-                            ? ` ${formatPaceMmss(w.plannedPaceSecondsPerKm)}–${paceMaxMatch[1]}`
-                            : ` ${formatPaceMmss(w.plannedPaceSecondsPerKm)}`
-                          : '';
-                        return (
-                          <DraggableWorkout key={w.id} workout={w}>
-                            <div>
-                              <div
-                                onClick={(e) => { e.stopPropagation(); if (isRace) setRacePreview(w); else setModal({ mode: 'edit', workout: w }); }}
-                                className={`text-xs px-1.5 py-0.5 rounded border truncate cursor-pointer hover:opacity-80 ${cfg.classes} ${isRace ? 'font-bold ring-1 ring-purple-400' : ''}`}
-                                title={w.notes ?? w.title}
-                              >
-                                <span>{isRace ? '🏁' : sportTypeEmoji(w.sportType)} </span>
-                                <span className="font-medium hidden sm:inline">{cfg.label} · </span>
-                                <span>{w.title}{distLabel}</span>
-                                {paceRangeLabel && <span className="hidden sm:inline opacity-70">{paceRangeLabel}</span>}
-                                {intervalsMatch && <span className="hidden sm:inline opacity-70"> · {intervalsMatch[1]}</span>}
-                              </div>
-                              {hasActivity && (
-                                <button
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    const act = (activitiesPage?.items ?? []).find((a) => a.id === cmp.activityId);
-                                    if (act) setActivityPreview({ id: act.id, name: act.name });
-                                  }}
-                                  className="block w-full text-left text-xs text-gray-500 dark:text-gray-400 px-1 mt-0.5 truncate hover:text-primary-600 dark:hover:text-primary-400"
-                                >
-                                  ✓ {formatDistKm(cmp.actualDistanceM)}
-                                  {cmp.actualPaceSecPerKm != null && (
-                                    <span className="hidden sm:inline"> · {formatPaceMmss(cmp.actualPaceSecPerKm)}</span>
+                    {(() => {
+                      const absences = absenceByDate[dateStr] ?? [];
+                      const MAX = 2;
+                      const totalCount = dayWorkouts.length + unscheduledActivities.length + absences.length;
+                      const hiddenCount = Math.max(0, totalCount - MAX);
+                      const visibleWorkouts = dayWorkouts.slice(0, MAX);
+                      const rem1 = MAX - visibleWorkouts.length;
+                      const visibleActivities = unscheduledActivities.slice(0, rem1);
+                      const rem2 = rem1 - visibleActivities.length;
+                      const visibleAbsences = absences.slice(0, rem2);
+                      return (
+                        <div className="space-y-0.5">
+                          {visibleWorkouts.map((w) => {
+                            const cfg = workoutTypeConfig(w.workoutType);
+                            const cmp = comparisonMap[w.id];
+                            const hasActivity = cmp?.activityId != null;
+                            const isRace = w.workoutType === WorkoutType.Race;
+                            const distLabel = w.plannedDistanceMeters ? ` (${(w.plannedDistanceMeters / 1000).toFixed(1)}k)` : '';
+                            const intervalsMatch = w.notes?.match(/\[intervals:([^\]]+)\]/);
+                            const paceMaxMatch = w.notes?.match(/\[paceMax:([^\]]+)\]/);
+                            const paceRangeLabel = w.plannedPaceSecondsPerKm
+                              ? paceMaxMatch
+                                ? ` ${formatPaceMmss(w.plannedPaceSecondsPerKm)}–${paceMaxMatch[1]}`
+                                : ` ${formatPaceMmss(w.plannedPaceSecondsPerKm)}`
+                              : '';
+                            return (
+                              <DraggableWorkout key={w.id} workout={w}>
+                                <div>
+                                  <div
+                                    onClick={(e) => { e.stopPropagation(); if (isRace) setRacePreview(w); else setModal({ mode: 'edit', workout: w }); }}
+                                    className={`text-xs px-1.5 py-0.5 rounded border truncate cursor-pointer hover:opacity-80 ${cfg.classes} ${isRace ? 'font-bold ring-1 ring-purple-400' : ''}`}
+                                    title={w.notes ?? w.title}
+                                  >
+                                    <span>{isRace ? '🏁' : sportTypeEmoji(w.sportType)} </span>
+                                    <span className="font-medium hidden sm:inline">{cfg.label} · </span>
+                                    <span>{w.title}{distLabel}</span>
+                                    {paceRangeLabel && <span className="hidden sm:inline opacity-70">{paceRangeLabel}</span>}
+                                    {intervalsMatch && <span className="hidden sm:inline opacity-70"> · {intervalsMatch[1]}</span>}
+                                  </div>
+                                  {hasActivity && (
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        const act = (activitiesPage?.items ?? []).find((a) => a.id === cmp.activityId);
+                                        if (act) setActivityPreview({ id: act.id, name: act.name });
+                                      }}
+                                      className="block w-full text-left text-xs text-gray-500 dark:text-gray-400 px-1 mt-0.5 truncate hover:text-primary-600 dark:hover:text-primary-400"
+                                    >
+                                      ✓ {formatDistKm(cmp.actualDistanceM)}
+                                      {cmp.actualPaceSecPerKm != null && (
+                                        <span className="hidden sm:inline"> · {formatPaceMmss(cmp.actualPaceSecPerKm)}</span>
+                                      )}
+                                    </button>
                                   )}
-                                </button>
-                              )}
-                            </div>
-                          </DraggableWorkout>
-                        );
-                      })}
-                      {unscheduledActivities.map((a) => (
-                        <button
-                          key={a.id}
-                          onClick={(e) => { e.stopPropagation(); setActivityPreview({ id: a.id, name: a.name }); }}
-                          className="block w-full text-left text-xs px-1.5 py-0.5 rounded border truncate bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-primary-600 dark:hover:text-primary-400"
-                          title={a.name}
-                        >
-                          <span className="hidden sm:inline">{formatDistKm(a.distance)} · </span>
-                          <span>{a.name}</span>
-                        </button>
-                      ))}
-                      {(absenceByDate[dateStr] ?? []).map((ab) => {
-                        const cfg = absenceTypeConfig(ab.absenceType);
-                        return (
-                          <button
-                            key={ab.id}
-                            onClick={(e) => { e.stopPropagation(); setAbsenceDetail(ab); }}
-                            className={`text-xs px-1.5 py-0.5 rounded border w-full text-left truncate ${cfg.color}`}
-                            title={ab.notes ?? cfg.label}
-                          >
-                            {cfg.emoji} <span className="hidden sm:inline">{cfg.label}</span>
-                            {ab.notes && <span className="hidden sm:inline text-[10px] opacity-70"> · {ab.notes}</span>}
-                          </button>
-                        );
-                      })}
-                      <button
-                        className="text-xs text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 mt-0.5 w-full text-left opacity-0 group-hover:opacity-100 transition-opacity"
-                        onClick={(e) => { e.stopPropagation(); setAbsenceDialogDate(dateStr); }}
-                        title="Mark absence"
-                      >+ absence</button>
-                    </div>
+                                </div>
+                              </DraggableWorkout>
+                            );
+                          })}
+                          {visibleActivities.map((a) => (
+                            <button
+                              key={a.id}
+                              onClick={(e) => { e.stopPropagation(); setActivityPreview({ id: a.id, name: a.name }); }}
+                              className="block w-full text-left text-xs px-1.5 py-0.5 rounded border truncate bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-primary-600 dark:hover:text-primary-400"
+                              title={a.name}
+                            >
+                              <span className="hidden sm:inline">{formatDistKm(a.distance)} · </span>
+                              <span>{a.name}</span>
+                            </button>
+                          ))}
+                          {visibleAbsences.map((ab) => {
+                            const cfg = absenceTypeConfig(ab.absenceType);
+                            return (
+                              <button
+                                key={ab.id}
+                                onClick={(e) => { e.stopPropagation(); setAbsenceDetail(ab); }}
+                                className={`text-xs px-1.5 py-0.5 rounded border w-full text-left truncate ${cfg.color}`}
+                                title={ab.notes ?? cfg.label}
+                              >
+                                {cfg.emoji} <span className="hidden sm:inline">{cfg.label}</span>
+                                {ab.notes && <span className="hidden sm:inline text-[10px] opacity-70"> · {ab.notes}</span>}
+                              </button>
+                            );
+                          })}
+                          {hiddenCount > 0 ? (
+                            <button
+                              onClick={(e) => { e.stopPropagation(); setDayDetail(dateStr); }}
+                              className="text-xs text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 w-full text-left px-1 font-medium leading-5"
+                            >
+                              +{hiddenCount} more
+                            </button>
+                          ) : (
+                            <button
+                              className="text-xs text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 mt-0.5 w-full text-left opacity-0 group-hover:opacity-100 transition-opacity"
+                              onClick={(e) => { e.stopPropagation(); setAbsenceDialogDate(dateStr); }}
+                              title="Mark absence"
+                            >+ absence</button>
+                          )}
+                        </div>
+                      );
+                    })()}
                   </div>
                 </DroppableDay>
               );
@@ -1154,6 +1265,97 @@ export default function TrainingPage() {
           </div>
         </div>
       )}
+
+      {/* Day Detail Modal */}
+      {dayDetail && (() => {
+        const detailWorkouts = workoutMap[dayDetail] ?? [];
+        const linkedIds = new Set(detailWorkouts.map((w) => comparisonMap[w.id]?.activityId).filter(Boolean) as string[]);
+        const detailActivities = (activityByDate[dayDetail] ?? []).filter((a) => !linkedIds.has(a.id));
+        const detailAbsences = absenceByDate[dayDetail] ?? [];
+        const detailDate = new Date(dayDetail + 'T00:00:00');
+        const displayDate = detailDate.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+        return (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onClick={() => setDayDetail(null)}>
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-sm max-h-[80vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100 dark:border-gray-700">
+                <p className="font-semibold text-gray-900 dark:text-white">{displayDate}</p>
+                <button onClick={() => setDayDetail(null)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl leading-none">×</button>
+              </div>
+              <div className="overflow-y-auto flex-1 px-4 py-3 space-y-2">
+                {detailWorkouts.map((w) => {
+                  const cfg = workoutTypeConfig(w.workoutType);
+                  const cmp = comparisonMap[w.id];
+                  const hasActivity = cmp?.activityId != null;
+                  const isRace = w.workoutType === WorkoutType.Race;
+                  const distLabel = w.plannedDistanceMeters ? ` · ${(w.plannedDistanceMeters / 1000).toFixed(1)} km` : '';
+                  return (
+                    <div key={w.id} className={`rounded-lg border p-2.5 ${cfg.classes}`}>
+                      <button
+                        onClick={() => { setDayDetail(null); if (isRace) setRacePreview(w); else setModal({ mode: 'edit', workout: w }); }}
+                        className="w-full text-left"
+                      >
+                        <p className="text-sm font-medium truncate">{isRace ? '🏁' : sportTypeEmoji(w.sportType)} {w.title}{distLabel}</p>
+                        <p className="text-xs opacity-70 mt-0.5">{cfg.label}{w.plannedDurationSeconds ? ` · ${formatDurHhmm(w.plannedDurationSeconds)}` : ''}</p>
+                      </button>
+                      {hasActivity && (
+                        <button
+                          onClick={() => {
+                            const act = (activitiesPage?.items ?? []).find((a) => a.id === cmp.activityId);
+                            if (act) { setDayDetail(null); setActivityPreview({ id: act.id, name: act.name }); }
+                          }}
+                          className="mt-1 text-xs text-current opacity-60 hover:opacity-100"
+                        >
+                          ✓ {formatDistKm(cmp.actualDistanceM)}{cmp.actualPaceSecPerKm != null ? ` · ${formatPaceMmss(cmp.actualPaceSecPerKm)}` : ''}
+                        </button>
+                      )}
+                    </div>
+                  );
+                })}
+                {detailActivities.map((a) => (
+                  <button
+                    key={a.id}
+                    onClick={() => { setDayDetail(null); setActivityPreview({ id: a.id, name: a.name }); }}
+                    className="w-full text-left rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 p-2.5 hover:bg-gray-100 dark:hover:bg-gray-600"
+                  >
+                    <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{a.name}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{formatDistKm(a.distance)}</p>
+                  </button>
+                ))}
+                {detailAbsences.map((ab) => {
+                  const cfg = absenceTypeConfig(ab.absenceType);
+                  return (
+                    <button
+                      key={ab.id}
+                      onClick={() => { setDayDetail(null); setAbsenceDetail(ab); }}
+                      className={`w-full text-left rounded-lg border p-2.5 ${cfg.color}`}
+                    >
+                      <p className="text-sm font-medium">{cfg.emoji} {cfg.label}</p>
+                      {ab.notes && <p className="text-xs opacity-70 mt-0.5">{ab.notes}</p>}
+                    </button>
+                  );
+                })}
+                {detailWorkouts.length === 0 && detailActivities.length === 0 && detailAbsences.length === 0 && (
+                  <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-4">No items for this day.</p>
+                )}
+              </div>
+              <div className="px-4 py-3 border-t border-gray-100 dark:border-gray-700 flex gap-2">
+                <button
+                  onClick={() => { setDayDetail(null); setModal({ mode: 'create', initialDate: dayDetail }); }}
+                  className="flex-1 px-3 py-2 text-sm font-medium text-primary-600 dark:text-primary-400 border border-primary-300 dark:border-primary-600 rounded-md hover:bg-primary-50 dark:hover:bg-primary-900/20"
+                >
+                  + Workout
+                </button>
+                <button
+                  onClick={() => { setDayDetail(null); setAbsenceDialogDate(dayDetail); }}
+                  className="flex-1 px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700"
+                >
+                  + Absence
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Clear Range Dialog */}
       {showClearRange && (

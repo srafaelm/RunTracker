@@ -354,6 +354,9 @@ namespace RunTracker.Infrastructure.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
+                    b.Property<int>("BadgeType")
+                        .HasColumnType("int");
+
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -378,6 +381,9 @@ namespace RunTracker.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BadgeType")
+                        .IsUnique();
 
                     b.ToTable("BadgeDefinitions");
                 });
