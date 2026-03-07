@@ -84,7 +84,14 @@ public static class StatisticsEndpoints
             if (!appUser.BirthYear.HasValue)
                 return Results.Ok(new { HasData = false, Message = "Please set your birth year in your profile." });
 
-            var age = DateTime.UtcNow.Year - appUser.BirthYear.Value;
+            var today = DateTime.UtcNow;
+            var age = today.Year - appUser.BirthYear.Value;
+            if (appUser.BirthMonth.HasValue && appUser.BirthDay.HasValue)
+            {
+                var hadBirthdayThisYear = today.Month > appUser.BirthMonth.Value ||
+                    (today.Month == appUser.BirthMonth.Value && today.Day >= appUser.BirthDay.Value);
+                if (!hadBirthdayThisYear) age--;
+            }
             var isMale = appUser.Gender == Gender.Male;
 
             return Results.Ok(await mediator.Send(new GetRunningPercentileQuery(userId, isMale, age)));

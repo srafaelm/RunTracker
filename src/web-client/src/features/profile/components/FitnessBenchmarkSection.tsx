@@ -43,6 +43,8 @@ export function FitnessBenchmarkSection() {
   const [editName, setEditName] = useState('');
   const [editCategory, setEditCategory] = useState('');
   const [showHistory, setShowHistory] = useState(false);
+  const [completingId, setCompletingId] = useState<string | null>(null);
+  const [completionDate, setCompletionDate] = useState(new Date().toISOString().slice(0, 10));
 
   const { data: items = [], isLoading } = useQuery({
     queryKey: ['benchmarkItems'],
@@ -80,10 +82,12 @@ export function FitnessBenchmarkSection() {
   });
 
   const logCompletion = useMutation({
-    mutationFn: (itemId: string) => benchmarkApi.logCompletion(itemId),
+    mutationFn: ({ itemId, date }: { itemId: string; date: string }) =>
+      benchmarkApi.logCompletion(itemId, { date }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['benchmarkItems'] });
       qc.invalidateQueries({ queryKey: ['benchmarkHistory'] });
+      setCompletingId(null);
     },
   });
 
@@ -278,12 +282,35 @@ export function FitnessBenchmarkSection() {
                       >
                         Undo
                       </button>
+                    ) : completingId === item.id ? (
+                      <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+                        <input
+                          type="date"
+                          value={completionDate}
+                          onChange={(e) => setCompletionDate(e.target.value)}
+                          max={new Date().toISOString().slice(0, 10)}
+                          className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded px-1.5 py-0.5 text-xs focus:outline-none focus:ring-1 focus:ring-primary-500"
+                          autoFocus
+                        />
+                        <button
+                          onClick={() => logCompletion.mutate({ itemId: item.id, date: completionDate })}
+                          disabled={logCompletion.isPending}
+                          className="text-xs text-primary-600 dark:text-primary-400 hover:text-primary-700 px-1.5 py-0.5 rounded border border-primary-300 dark:border-primary-600 whitespace-nowrap"
+                        >
+                          OK
+                        </button>
+                        <button
+                          onClick={() => setCompletingId(null)}
+                          className="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 px-1 py-0.5"
+                        >
+                          ✕
+                        </button>
+                      </div>
                     ) : (
                       <button
-                        onClick={() => logCompletion.mutate(item.id)}
-                        disabled={logCompletion.isPending}
+                        onClick={() => { setCompletingId(item.id); setCompletionDate(new Date().toISOString().slice(0, 10)); }}
                         className="text-xs text-primary-600 dark:text-primary-400 hover:text-primary-700 px-1.5 py-0.5 rounded border border-primary-300 dark:border-primary-600 whitespace-nowrap"
-                        title="Mark as done today"
+                        title="Mark as done"
                       >
                         Done
                       </button>

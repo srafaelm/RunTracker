@@ -412,8 +412,8 @@ export default function ProfilePage() {
       )}
 
       {/* Account + physical info */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-100 dark:border-gray-700 p-6 mb-8">
-        <div className="flex items-center gap-4 mb-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-100 dark:border-gray-700 p-4 mb-6">
+        <div className="flex items-center gap-4 mb-4">
           <div className="relative">
             {profile?.profilePictureUrl ? (
               <img
@@ -618,24 +618,6 @@ export default function ProfilePage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Birth Date</label>
                 <div className="flex gap-2">
-                  <input
-                    type="number"
-                    min={1920} max={new Date().getFullYear() - 10}
-                    value={form.birthYear ?? ''}
-                    onChange={(e) => setForm({ ...form, birthYear: e.target.value ? parseInt(e.target.value) : null })}
-                    className="w-24 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
-                    placeholder="Year"
-                  />
-                  <select
-                    value={form.birthMonth ?? ''}
-                    onChange={(e) => setForm({ ...form, birthMonth: e.target.value ? parseInt(e.target.value) : null })}
-                    className="flex-1 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  >
-                    <option value="">Month</option>
-                    {['January','February','March','April','May','June','July','August','September','October','November','December'].map((m, i) => (
-                      <option key={i + 1} value={i + 1}>{m}</option>
-                    ))}
-                  </select>
                   <select
                     value={form.birthDay ?? ''}
                     onChange={(e) => setForm({ ...form, birthDay: e.target.value ? parseInt(e.target.value) : null })}
@@ -646,6 +628,24 @@ export default function ProfilePage() {
                       <option key={d} value={d}>{d}</option>
                     ))}
                   </select>
+                  <select
+                    value={form.birthMonth ?? ''}
+                    onChange={(e) => setForm({ ...form, birthMonth: e.target.value ? parseInt(e.target.value) : null })}
+                    className="flex-1 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  >
+                    <option value="">Month</option>
+                    {['January','February','March','April','May','June','July','August','September','October','November','December'].map((m, i) => (
+                      <option key={i + 1} value={i + 1}>{m}</option>
+                    ))}
+                  </select>
+                  <input
+                    type="number"
+                    min={1920} max={new Date().getFullYear() - 10}
+                    value={form.birthYear ?? ''}
+                    onChange={(e) => setForm({ ...form, birthYear: e.target.value ? parseInt(e.target.value) : null })}
+                    className="w-24 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    placeholder="Year"
+                  />
                 </div>
               </div>
             </div>
@@ -729,38 +729,45 @@ export default function ProfilePage() {
             </div>
           </div>
         ) : (
-          <div className="space-y-3">
-            {profile?.userName && (
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="text-gray-600 dark:text-gray-400">Username</span>
-                <span className="font-medium text-gray-900 dark:text-white">@{profile.userName}</span>
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Column 1: Account Information */}
+              <div className="space-y-2">
+                <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-3">Account</p>
+                {profile?.userName && (
+                  <div>
+                    <p className="text-xs text-gray-400 dark:text-gray-500">Username</p>
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">@{profile.userName}</p>
+                  </div>
+                )}
+                {profile?.displayName && (
+                  <div>
+                    <p className="text-xs text-gray-400 dark:text-gray-500">Name</p>
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">{profile.displayName}</p>
+                  </div>
+                )}
+                <div>
+                  <p className="text-xs text-gray-400 dark:text-gray-500">Email</p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-white break-all">{user?.email}</p>
+                </div>
+                {profile?.bio && (
+                  <div>
+                    <p className="text-xs text-gray-400 dark:text-gray-500">Bio</p>
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">{profile.bio}</p>
+                  </div>
+                )}
               </div>
-            )}
-            {profile?.displayName && (
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="text-gray-600 dark:text-gray-400">Name</span>
-                <span className="font-medium text-gray-900 dark:text-white">{profile.displayName}</span>
-              </div>
-            )}
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="text-gray-600 dark:text-gray-400">Email</span>
-              <span className="font-medium text-gray-900 dark:text-white break-all">{user?.email}</span>
-            </div>
-            {profile?.bio && (
-              <div className="flex flex-wrap items-start justify-between gap-2">
-                <span className="text-gray-600 dark:text-gray-400">Bio</span>
-                <span className="font-medium text-right max-w-xs text-gray-900 dark:text-white">{profile.bio}</span>
-              </div>
-            )}
-            {(profile?.weightKg || profile?.heightCm) && (
-              <div className="flex flex-wrap gap-6 pt-1">
-                {profile.weightKg && (
+
+              {/* Column 2: Stats */}
+              <div className="space-y-2">
+                <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-3">Stats</p>
+                {profile?.weightKg && (
                   <div>
                     <p className="text-xs text-gray-400 dark:text-gray-500">Weight</p>
                     <p className="text-sm font-medium text-gray-900 dark:text-white">{profile.weightKg} kg</p>
                   </div>
                 )}
-                {profile.heightCm && (
+                {profile?.heightCm && (
                   <div>
                     <p className="text-xs text-gray-400 dark:text-gray-500">Height</p>
                     <p className="text-sm font-medium text-gray-900 dark:text-white">{profile.heightCm} cm</p>
@@ -772,19 +779,19 @@ export default function ProfilePage() {
                     <p className="text-sm font-medium text-gray-900 dark:text-white">{bmi}</p>
                   </div>
                 )}
-                {profile.maxHeartRate && (
+                {profile?.maxHeartRate && (
                   <div>
                     <p className="text-xs text-gray-400 dark:text-gray-500">Max HR</p>
                     <p className="text-sm font-medium text-gray-900 dark:text-white">{profile.maxHeartRate} bpm</p>
                   </div>
                 )}
-                {profile.restingHeartRate && (
+                {profile?.restingHeartRate && (
                   <div>
                     <p className="text-xs text-gray-400 dark:text-gray-500">Resting HR</p>
                     <p className="text-sm font-medium text-gray-900 dark:text-white">{profile.restingHeartRate} bpm</p>
                   </div>
                 )}
-                {profile.birthYear && (
+                {profile?.birthYear && (
                   <div>
                     <p className="text-xs text-gray-400 dark:text-gray-500">Birth Date</p>
                     <p className="text-sm font-medium text-gray-900 dark:text-white">
@@ -795,11 +802,17 @@ export default function ProfilePage() {
                   </div>
                 )}
               </div>
-            )}
-            {profile?.hrZones && profile.hrZones.length > 0 && (
-              <HrZoneDisplay zones={profile.hrZones} algorithm={profile.hrZoneAlgorithm} />
-            )}
-            <div className="flex flex-wrap items-start justify-between gap-2 pt-1">
+
+              {/* Column 3: HR Zones */}
+              {profile?.hrZones && profile.hrZones.length > 0 ? (
+                <div>
+                  <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-3">HR Zones</p>
+                  <HrZoneDisplay zones={profile.hrZones} algorithm={profile.hrZoneAlgorithm} />
+                </div>
+              ) : <div />}
+            </div>
+
+            <div className="border-t border-gray-100 dark:border-gray-700 pt-3 flex flex-wrap items-start justify-between gap-2">
               <span className="text-gray-600 dark:text-gray-400 pt-1">Strava</span>
               <div className="flex items-start">
                 {user?.stravaConnected ? (
@@ -1007,9 +1020,6 @@ export default function ProfilePage() {
         </>
       )}
 
-      {/* Fitness Benchmark */}
-      <FitnessBenchmarkSection />
-
       {/* Running Level */}
       <RunningLevelCard />
 
@@ -1030,6 +1040,11 @@ export default function ProfilePage() {
 
       {/* Weight Log */}
       <WeightLogSection goalWeightKg={profile?.goalWeightKg} />
+
+      {/* Fitness Benchmark */}
+      <div className="mt-8">
+        <FitnessBenchmarkSection />
+      </div>
 
       {/* Visible Activity Types dialog */}
       {sportTypesDialogOpen && (() => {
