@@ -207,6 +207,12 @@ function ProfileDropdown({ onLogout }: { onLogout: () => void }) {
               </svg>
               Gear
             </Link>
+            <Link to="/pace-calculator" onClick={close} className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+              <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Pace Calculator
+            </Link>
           </div>
 
           <div className="border-t border-gray-100 dark:border-gray-700 py-1">
@@ -474,6 +480,9 @@ export default function Navbar() {
               </Link>
               <Link to="/gear" onClick={closeMenu} className="block px-2 py-2.5 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-white font-medium rounded-md hover:bg-gray-50 dark:hover:bg-gray-700">
                 Gear
+              </Link>
+              <Link to="/pace-calculator" onClick={closeMenu} className="block px-2 py-2.5 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-white font-medium rounded-md hover:bg-gray-50 dark:hover:bg-gray-700">
+                Pace Calculator
               </Link>
             </div>
 

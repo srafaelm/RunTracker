@@ -27,6 +27,7 @@ import RouteCreatorPage from './features/map/RouteCreatorPage';
 import GearPage from './features/gear/GearPage';
 import RaceHistoryPage from './features/stats/RaceHistoryPage';
 import CalendarPage from './features/training/CalendarPage';
+import PaceCalculatorPage from './features/stats/PaceCalculatorPage';
 import LoadingSpinner from './components/LoadingSpinner';
 
 const queryClient = new QueryClient({
@@ -89,6 +90,7 @@ export default function App() {
                     <Route path="/gear" element={<GearPage />} />
                     <Route path="/races" element={<RaceHistoryPage />} />
                     <Route path="/calendar" element={<CalendarPage />} />
+                    <Route path="/pace-calculator" element={<PaceCalculatorPage />} />
                   </Route>
                 </Route>
               </Routes>
