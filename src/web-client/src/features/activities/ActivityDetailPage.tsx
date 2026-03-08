@@ -436,40 +436,44 @@ export default function ActivityDetailPage() {
         {activity.calories && (
           <StatCard title="Calories" value={`${activity.calories} kcal`} />
         )}
+        {/* Weather card */}
+        {activity.weatherTempC != null ? (
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
+            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Weather</p>
+            <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mt-1">
+              🌡 {activity.weatherTempC.toFixed(1)} °C
+            </p>
+            <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
+              {[
+                activity.weatherCondition,
+                activity.weatherHumidityPct != null ? `💧 ${activity.weatherHumidityPct}%` : null,
+                activity.weatherWindSpeedKmh != null ? `💨 ${activity.weatherWindSpeedKmh.toFixed(1)} km/h` : null,
+              ].filter(Boolean).join(' · ')}
+            </p>
+          </div>
+        ) : (
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 sm:p-6 border border-gray-200 dark:border-gray-700 flex flex-col justify-between">
+            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Weather</p>
+            <p className="text-sm text-gray-400 dark:text-gray-500 italic mt-1">
+              {fetchWeather.isError ? 'No GPS data' : 'No data'}
+            </p>
+            <button
+              onClick={() => fetchWeather.mutate()}
+              disabled={fetchWeather.isPending}
+              className="mt-2 px-2.5 py-1 text-xs font-medium rounded-md bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 transition-colors self-start"
+            >
+              {fetchWeather.isPending ? 'Fetching…' : 'Fetch'}
+            </button>
+          </div>
+        )}
         {activity.newStreetsDiscovered > 0 && (
           <StatCard title="New Streets" value={`${activity.newStreetsDiscovered}`} />
         )}
       </div>
 
-      {/* Weather — compact inline strip */}
-      <div className="flex flex-wrap items-center gap-3 px-4 py-2.5 mb-6 bg-gray-50 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700 rounded-lg text-sm">
-        <span className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide shrink-0">Weather</span>
-        {activity.weatherTempC != null ? (
-          <>
-            <span className="font-medium text-gray-900 dark:text-white">🌡 {activity.weatherTempC.toFixed(1)} °C</span>
-            {activity.weatherCondition && <span className="text-gray-600 dark:text-gray-300">{activity.weatherCondition}</span>}
-            {activity.weatherHumidityPct != null && <span className="text-gray-500 dark:text-gray-400">💧 {activity.weatherHumidityPct}%</span>}
-            {activity.weatherWindSpeedKmh != null && <span className="text-gray-500 dark:text-gray-400">💨 {activity.weatherWindSpeedKmh.toFixed(1)} km/h</span>}
-          </>
-        ) : (
-          <>
-            <span className="text-gray-400 dark:text-gray-500 italic">
-              {fetchWeather.isError ? 'Could not fetch weather — activity may lack GPS data.' : 'No weather data available.'}
-            </span>
-            <button
-              onClick={() => fetchWeather.mutate()}
-              disabled={fetchWeather.isPending}
-              className="ml-auto px-2.5 py-1 text-xs font-medium rounded-md bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 transition-colors shrink-0"
-            >
-              {fetchWeather.isPending ? 'Fetching…' : 'Fetch'}
-            </button>
-          </>
-        )}
-      </div>
-
       {/* Map */}
       {routeGeoJson && bounds && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-100 dark:border-gray-700 overflow-hidden mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden mb-8">
           <div className="flex items-center justify-between px-4 py-2 border-b border-gray-100 dark:border-gray-700">
             <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Route</span>
             <div className="flex gap-2">
@@ -514,7 +518,7 @@ export default function ActivityDetailPage() {
 
       {/* Splits table */}
       {hasSplits && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-100 dark:border-gray-700 overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
               Splits per km
@@ -580,7 +584,7 @@ export default function ActivityDetailPage() {
 
       {/* HR zone breakdown */}
       {hrZoneBreakdown && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-100 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-5">Time in Heart Rate Zones</h2>
           <div className="space-y-4">
             {[...hrZoneBreakdown].reverse().map((z) => {
@@ -625,7 +629,7 @@ export default function ActivityDetailPage() {
 
       {/* Heart rate / altitude chart — full width below splits and zones */}
       {hrChartData.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-100 dark:border-gray-700 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700 mb-8">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
             Heart Rate & Altitude
           </h2>
@@ -675,7 +679,7 @@ export default function ActivityDetailPage() {
 
       {/* Interval Analysis */}
       {intervalData?.hasIntervals && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-100 dark:border-gray-700 mt-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700 mt-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Interval Analysis</h2>
             <div className="flex items-center gap-3">
@@ -789,7 +793,7 @@ export default function ActivityDetailPage() {
 
       {/* Pace chart */}
       {paceChartData.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-100 dark:border-gray-700 mt-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700 mt-8">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
             Pace
           </h2>

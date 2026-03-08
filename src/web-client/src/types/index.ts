@@ -397,6 +397,9 @@ export interface UserProfile {
   dashboardConfig: string | null;
   customHrZones: string | null;
   hiddenSportTypes: string | null; // JSON int[]
+  homeAddress: string | null;
+  homeLat: number | null;
+  homeLng: number | null;
   stravaConnected: boolean;
   stravaAthleteId: number | null;
   hrZones: HrZone[] | null;
@@ -440,6 +443,9 @@ export interface UpdateProfileData {
   dashboardConfig?: string | null;
   customHrZones?: string | null;
   hiddenSportTypes?: string | null;
+  homeAddress?: string | null;
+  homeLat?: number | null;
+  homeLng?: number | null;
 }
 
 export interface StravaCredentials {

@@ -946,7 +946,7 @@ export default function TrainingPage() {
       </div>
 
       {/* Month navigator */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow border border-gray-100 dark:border-gray-700 overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
         <div className="flex items-center justify-between px-4 sm:px-6 py-2.5 border-b border-gray-100 dark:border-gray-700">
           <button onClick={prevMonth} className="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700" aria-label="Previous month">←</button>
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{MONTH_NAMES[month]} {year}</h2>

@@ -39,6 +39,11 @@ public class User : IdentityUser
     /// <summary>JSON int[] of SportType values the user has chosen to hide from lists, graphs, and statistics.</summary>
     public string? HiddenSportTypes { get; set; }
 
+    /// <summary>Human-readable home address used as default map location.</summary>
+    public string? HomeAddress { get; set; }
+    public double? HomeLat { get; set; }
+    public double? HomeLng { get; set; }
+
     // Navigation properties
     public ICollection<Activity> Activities { get; set; } = new List<Activity>();
     public ICollection<PersonalRecord> PersonalRecords { get; set; } = new List<PersonalRecord>();

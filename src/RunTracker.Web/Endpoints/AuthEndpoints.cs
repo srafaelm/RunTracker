@@ -71,6 +71,9 @@ public static class AuthEndpoints
                 appUser.DashboardConfig,
                 appUser.CustomHrZones,
                 appUser.HiddenSportTypes,
+                appUser.HomeAddress,
+                appUser.HomeLat,
+                appUser.HomeLng,
                 StravaConnected = appUser.StravaAthleteId.HasValue,
                 appUser.StravaAthleteId,
                 HrZones = zones,
@@ -133,6 +136,12 @@ public static class AuthEndpoints
                 appUser.HiddenSportTypes = request.HiddenSportTypes;
             if (request.GoalWeightKg.HasValue)
                 appUser.GoalWeightKg = request.GoalWeightKg;
+            if (request.HomeAddress != null)
+                appUser.HomeAddress = request.HomeAddress;
+            if (request.HomeLat.HasValue)
+                appUser.HomeLat = request.HomeLat;
+            if (request.HomeLng.HasValue)
+                appUser.HomeLng = request.HomeLng;
 
             await userManager.UpdateAsync(appUser);
 
@@ -160,6 +169,9 @@ public static class AuthEndpoints
                 appUser.ProfilePictureUrl,
                 appUser.DashboardConfig,
                 appUser.HiddenSportTypes,
+                appUser.HomeAddress,
+                appUser.HomeLat,
+                appUser.HomeLng,
                 StravaConnected = appUser.StravaAthleteId.HasValue,
                 appUser.StravaAthleteId,
                 HrZones = zones
@@ -272,7 +284,7 @@ public static class AuthEndpoints
                 ? appUser.StravaAccessToken!
                 : null; // will be refreshed client-side; keep this endpoint lightweight
 
-            var localCount = await db.Activities.CountAsync(a => a.UserId == userId);
+            var localCount = await db.Activities.CountAsync(a => a.UserId == userId && a.Source == ActivitySource.Strava);
 
             StravaAthleteStats? stravaStats = null;
             if (accessToken is not null)
@@ -329,4 +341,7 @@ public record UpdateProfileRequest(
     string? DashboardConfig = null,
     string? CustomHrZones = null,
     string? HiddenSportTypes = null,
-    double? GoalWeightKg = null);
+    double? GoalWeightKg = null,
+    string? HomeAddress = null,
+    double? HomeLat = null,
+    double? HomeLng = null);

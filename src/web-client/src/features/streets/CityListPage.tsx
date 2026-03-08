@@ -37,7 +37,7 @@ function ImportCityForm({ onSuccess, onClose }: { onSuccess: () => void; onClose
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 p-6 w-full max-w-2xl mx-auto">
+    <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 p-6 w-full max-w-2xl mx-auto">
       <div className="flex items-center justify-between mb-1">
         <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Import City from OpenStreetMap</h2>
         <button type="button" onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-2xl leading-none">&times;</button>
@@ -208,7 +208,7 @@ export default function CityListPage() {
       )}
 
       {(!cities || cities.length === 0) ? (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-100 dark:border-gray-700 p-12 text-center">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-12 text-center">
           <p className="text-gray-500 dark:text-gray-400 text-lg">No cities imported yet. Use the form above to get started!</p>
         </div>
       ) : (
@@ -217,7 +217,7 @@ export default function CityListPage() {
             <Link
               key={city.id}
               to={`/streets/${city.id}`}
-              className="block bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow"
+              className="block bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow"
             >
               <div className="p-6">
                 <div className="flex items-start justify-between mb-4">

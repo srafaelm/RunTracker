@@ -76,14 +76,16 @@ public class GetUserBadgesQueryHandler : IRequestHandler<GetUserBadgesQuery, Lis
 
     public async Task<List<BadgeDto>> Handle(GetUserBadgesQuery request, CancellationToken ct)
     {
-        return await _db.UserBadges
+        var rows = await _db.UserBadges
             .Where(b => b.UserId == request.UserId)
             .Join(_db.BadgeDefinitions,
                 ub => ub.BadgeType,
                 bd => bd.BadgeType,
-                (ub, bd) => new BadgeDto(ub.BadgeType, bd.Name, bd.Description, bd.Icon, ub.EarnedAt))
-            .OrderBy(b => b.EarnedAt)
+                (ub, bd) => new { ub.BadgeType, bd.Name, bd.Description, bd.Icon, ub.EarnedAt })
+            .OrderBy(x => x.EarnedAt)
             .ToListAsync(ct);
+
+        return rows.Select(x => new BadgeDto(x.BadgeType, x.Name, x.Description, x.Icon, x.EarnedAt)).ToList();
     }
 }
 

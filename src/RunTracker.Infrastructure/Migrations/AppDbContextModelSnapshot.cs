@@ -936,6 +936,16 @@ namespace RunTracker.Infrastructure.Migrations
                     b.Property<string>("HiddenSportTypes")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("HomeAddress")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<double?>("HomeLat")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("HomeLng")
+                        .HasColumnType("float");
+
                     b.Property<int>("HrZoneAlgorithm")
                         .HasColumnType("int");
 

@@ -76,8 +76,7 @@ public class DatabaseSetupService
             activityCount: 10,
             badges:
             [
-                BadgeType.FirstRun, BadgeType.FirstSteps_Unused,
-                BadgeType.First1K, BadgeType.First5K, BadgeType.First10K,
+                BadgeType.FirstRun, BadgeType.First1K, BadgeType.First5K, BadgeType.First10K,
                 BadgeType.Total100km,
                 BadgeType.Runs10,
                 BadgeType.Sub75K, BadgeType.Sub65K,

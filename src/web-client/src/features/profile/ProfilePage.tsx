@@ -208,7 +208,7 @@ function WeightLogSection({ goalWeightKg }: { goalWeightKg?: number | null }) {
   }));
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-100 dark:border-gray-700 p-6">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Weight Log</h2>
         <label className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 cursor-pointer">
@@ -331,6 +331,9 @@ export default function ProfilePage() {
       birthMonth: profile?.birthMonth ?? null,
       birthDay: profile?.birthDay ?? null,
       customHrZones: profile?.customHrZones ?? null,
+      homeAddress: profile?.homeAddress ?? null,
+      homeLat: profile?.homeLat ?? null,
+      homeLng: profile?.homeLng ?? null,
     });
     setEditing(true);
   }
@@ -338,7 +341,21 @@ export default function ProfilePage() {
   async function saveProfile() {
     setSaving(true);
     try {
-      await authApi.updateProfile(form);
+      let payload = { ...form };
+      // Geocode home address via Nominatim if it changed
+      if (form.homeAddress && form.homeAddress !== profile?.homeAddress) {
+        try {
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(form.homeAddress)}&format=json&limit=1`,
+            { headers: { 'Accept-Language': 'en' } }
+          );
+          const results = await res.json();
+          if (results.length > 0) {
+            payload = { ...payload, homeLat: parseFloat(results[0].lat), homeLng: parseFloat(results[0].lon) };
+          }
+        } catch { /* geocode failure is non-fatal */ }
+      }
+      await authApi.updateProfile(payload);
       await queryClient.invalidateQueries({ queryKey: ['profile'] });
       setEditing(false);
     } finally {
@@ -412,7 +429,7 @@ export default function ProfilePage() {
       )}
 
       {/* Account + physical info */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-100 dark:border-gray-700 p-4 mb-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 mb-6">
         <div className="flex items-center gap-4 mb-4">
           <div className="relative">
             {profile?.profilePictureUrl ? (
@@ -534,6 +551,17 @@ export default function ProfilePage() {
                 className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
                 placeholder="A short bio…"
               />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Home Location</label>
+              <input
+                type="text"
+                value={form.homeAddress ?? ''}
+                onChange={(e) => setForm({ ...form, homeAddress: e.target.value || null })}
+                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                placeholder="e.g. Amsterdam, Netherlands"
+              />
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Used as the default location in the Route Creator.</p>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div>
@@ -838,14 +866,15 @@ export default function ProfilePage() {
                           ) : (() => {
                             const local = syncStatus?.localActivityCount ?? 0;
                             const total = syncStatus?.stravaApproxTotal ?? null;
-                            const pct = total && total > 0 ? Math.round((local / total) * 100) : null;
+                            const rawPct = total && total > 0 ? Math.round((local / total) * 100) : null;
+                            const pct = rawPct !== null ? Math.min(rawPct, 100) : null;
                             return (
                               <>
                                 <svg className="w-3.5 h-3.5 text-yellow-500 animate-pulse" viewBox="0 0 20 20" fill="currentColor">
                                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
                                 </svg>
                                 <span>{pct !== null ? `${pct}% synced` : 'Syncing…'}</span>
-                                {total !== null && <span className="text-gray-400 dark:text-gray-500">({local}/{total})</span>}
+                                {total !== null && local < total && <span className="text-gray-400 dark:text-gray-500">({local}/{total})</span>}
                               </>
                             );
                           })()}
@@ -973,13 +1002,13 @@ export default function ProfilePage() {
 
       {/* Badges */}
       {badges && badges.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-100 dark:border-gray-700 p-6 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Achievements</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {badges.map((badge) => (
               <div
                 key={badge.badgeType}
-                className="flex flex-col items-center text-center p-3 rounded-xl border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 hover:bg-primary-50 dark:hover:bg-gray-600 transition-colors"
+                className="flex flex-col items-center text-center p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 hover:bg-primary-50 dark:hover:bg-gray-600 transition-colors"
                 title={badge.description}
               >
                 <span className="text-3xl mb-2">{badge.icon}</span>
@@ -1024,7 +1053,7 @@ export default function ProfilePage() {
       <RunningLevelCard />
 
       {/* Personal Records */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-100 dark:border-gray-700 p-6 mb-8">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
         <div className="mb-4">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Running Personal Records</h2>
           <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">Road &amp; trail runs only</p>

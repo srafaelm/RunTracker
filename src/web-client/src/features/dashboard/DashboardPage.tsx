@@ -413,7 +413,7 @@ export default function DashboardPage() {
 
       {/* Onboarding banner — shown when user has no activities yet */}
       {!allTimeLoading && (allTimeStats?.totalRuns ?? 0) === 0 && (
-        <div className="mb-8 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow p-6">
+        <div className="mb-8 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm p-6">
           <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-1">Welcome to RunTracker!</h2>
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">Get started by importing your activities or adding one manually.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -470,15 +470,15 @@ export default function DashboardPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-8">
           {isAllTime ? (
             <>
-              <StatCard title="Total Distance" value={formatDistance(allTimeStats?.totalDistance ?? 0)} icon="📏" />
+              <StatCard title="Total Distance" value={`${Math.round((allTimeStats?.totalDistance ?? 0) / 1000)} km`} icon="📏" />
               <StatCard title={activityCountLabel} value={String(allTimeStats?.totalRuns ?? 0)} icon={activityCountIcon} />
-              <StatCard title="Total Time" value={formatDuration(allTimeStats?.totalTimeSeconds ?? 0)} icon="⏱️" />
+              <StatCard title="Total Time" value={(() => { const s = allTimeStats?.totalTimeSeconds ?? 0; const h = Math.floor(s / 3600); const m = Math.floor((s % 3600) / 60); return `${h}h ${m}m`; })()} icon="⏱️" />
               <StatCard title="Elevation Gain" value={formatElevation(allTimeStats?.totalElevationGain ?? 0)} icon="⛰️" />
               {nextRace ? (() => {
                 const daysUntil = Math.max(0, Math.ceil((new Date(nextRace.date).getTime() - Date.now()) / 86400000));
                 return (
                   <Link to="/races" className="block">
-                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-purple-200 dark:border-purple-700 hover:border-purple-400 dark:hover:border-purple-500 transition-colors">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-purple-200 dark:border-purple-700 hover:border-purple-400 dark:hover:border-purple-500 transition-colors">
                       <p className="text-xs font-medium text-purple-500 dark:text-purple-400 uppercase tracking-wider mb-1">Next Race</p>
                       <p className="text-lg font-bold text-gray-900 dark:text-white truncate">{nextRace.title}</p>
                       <p className="text-sm text-purple-600 dark:text-purple-300 font-semibold">{daysUntil} days to go</p>
@@ -488,7 +488,7 @@ export default function DashboardPage() {
                 );
               })() : (
                 <Link to="/races" className="block">
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700 hover:border-purple-400 dark:hover:border-purple-500 transition-colors">
+                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700 hover:border-purple-400 dark:hover:border-purple-500 transition-colors">
                     <p className="text-xs font-medium text-purple-500 dark:text-purple-400 uppercase tracking-wider mb-1">Next Race</p>
                     <p className="text-lg font-bold text-gray-900 dark:text-white">No race planned</p>
                     <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">Add a race to start counting down</p>
@@ -498,15 +498,15 @@ export default function DashboardPage() {
             </>
           ) : (
             <>
-              <StatCard title="Total Distance" value={formatDistance(yearlyStats?.totalDistance ?? 0)} icon="📏" />
+              <StatCard title="Total Distance" value={`${Math.round((yearlyStats?.totalDistance ?? 0) / 1000)} km`} icon="📏" />
               <StatCard title={activityCountLabel} value={String(yearlyStats?.totalRuns ?? 0)} icon={activityCountIcon} />
-              <StatCard title="Total Time" value={formatDuration(yearlyStats?.totalTimeSeconds ?? 0)} icon="⏱️" />
+              <StatCard title="Total Time" value={(() => { const s = yearlyStats?.totalTimeSeconds ?? 0; const h = Math.floor(s / 3600); const m = Math.floor((s % 3600) / 60); return `${h}h ${m}m`; })()} icon="⏱️" />
               <StatCard title="Elevation Gain" value={formatElevation(yearlyStats?.totalElevationGain ?? 0)} icon="⛰️" />
               {nextRace ? (() => {
                 const daysUntil = Math.max(0, Math.ceil((new Date(nextRace.date).getTime() - Date.now()) / 86400000));
                 return (
                   <Link to="/races" className="block">
-                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-purple-200 dark:border-purple-700 hover:border-purple-400 dark:hover:border-purple-500 transition-colors">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-purple-200 dark:border-purple-700 hover:border-purple-400 dark:hover:border-purple-500 transition-colors">
                       <p className="text-xs font-medium text-purple-500 dark:text-purple-400 uppercase tracking-wider mb-1">Next Race</p>
                       <p className="text-lg font-bold text-gray-900 dark:text-white truncate">{nextRace.title}</p>
                       <p className="text-sm text-purple-600 dark:text-purple-300 font-semibold">{daysUntil} days to go</p>
@@ -516,7 +516,7 @@ export default function DashboardPage() {
                 );
               })() : (
                 <Link to="/races" className="block">
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700 hover:border-purple-400 dark:hover:border-purple-500 transition-colors">
+                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700 hover:border-purple-400 dark:hover:border-purple-500 transition-colors">
                     <p className="text-xs font-medium text-purple-500 dark:text-purple-400 uppercase tracking-wider mb-1">Next Race</p>
                     <p className="text-lg font-bold text-gray-900 dark:text-white">No race planned</p>
                     <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">Add a race to start counting down</p>
@@ -544,7 +544,7 @@ export default function DashboardPage() {
 
       {/* Upcoming training */}
       {show('upcoming_training') && upcomingWorkouts && upcomingWorkouts.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-100 dark:border-gray-700 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 mb-8">
           <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-700">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Upcoming Training</h2>
             <Link to="/training" className="text-sm text-primary-600 hover:text-primary-800 font-medium">View schedule →</Link>
@@ -574,7 +574,7 @@ export default function DashboardPage() {
 
       {/* Recent Activities */}
       {show('recent_activities') && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-100 dark:border-gray-700 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 mb-8">
           <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-700">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Activities</h2>
             <Link to="/activities" className="text-sm text-primary-600 hover:text-primary-800 font-medium">View all →</Link>
@@ -610,7 +610,7 @@ export default function DashboardPage() {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {show('monthly_chart') && !isAllTime && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-100 dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Monthly Distance (km)</h2>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={monthlyChartData}>
@@ -625,7 +625,7 @@ export default function DashboardPage() {
         )}
 
         {show('weekly_chart') && !isAllTime && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-100 dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Weekly Distance (km)</h2>
             {!weeklyStats ? <LoadingSpinner /> : (
               <ResponsiveContainer width="100%" height={300}>
@@ -642,7 +642,7 @@ export default function DashboardPage() {
         )}
 
         {show('multi_year') && multiYearChartData.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-100 dark:border-gray-700 lg:col-span-2">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700 lg:col-span-2">
             <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
               <div>
                 <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Distance per year (km/month)</h2>
@@ -681,7 +681,7 @@ export default function DashboardPage() {
         )}
 
         {show('eddington') && eddingtonData && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-100 dark:border-gray-700 lg:col-span-2">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700 lg:col-span-2">
             <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
               <div>
                 <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Eddington Number</h2>
@@ -713,7 +713,7 @@ export default function DashboardPage() {
         )}
 
         {show('pace_trend') && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-100 dark:border-gray-700 lg:col-span-2">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700 lg:col-span-2">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Pace Trend (min/km)</h2>
             {!paceTrend ? <LoadingSpinner /> : (
               <ResponsiveContainer width="100%" height={300}>
@@ -732,7 +732,7 @@ export default function DashboardPage() {
 
       {/* Exploration Stats */}
       {show('exploration_stats') && explorationStats && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-100 dark:border-gray-700 p-6 mt-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mt-8">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Exploration Stats</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
             <div className="text-center">

@@ -55,7 +55,7 @@ public class RouteGenerationService : IRouteGenerationService
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(ex, "ORS route generation failed, falling back to geometric");
+                _logger.LogError(ex, "ORS route generation failed, falling back to geometric. Message: {Msg}", ex.Message);
             }
         }
 
@@ -85,16 +85,16 @@ public class RouteGenerationService : IRouteGenerationService
         };
 
         using var request = new HttpRequestMessage(HttpMethod.Post, "v2/directions/foot-walking");
-        request.Headers.Add("Authorization", apiKey);
+        request.Headers.TryAddWithoutValidation("Authorization", apiKey);
         request.Content = new StringContent(
             JsonSerializer.Serialize(body, JsonOpts),
             System.Text.Encoding.UTF8,
             "application/json");
 
         var response = await _httpClient.SendAsync(request, ct);
-        response.EnsureSuccessStatusCode();
-
         var json = await response.Content.ReadAsStringAsync(ct);
+        if (!response.IsSuccessStatusCode)
+            throw new HttpRequestException($"ORS {(int)response.StatusCode}: {json}");
         using var doc = JsonDocument.Parse(json);
 
         var root = doc.RootElement;

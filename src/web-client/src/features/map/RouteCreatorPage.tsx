@@ -3,7 +3,7 @@ import Map, { Source, Layer, Marker } from 'react-map-gl/maplibre';
 import type { MapMouseEvent, MapRef } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import * as polyline from '@mapbox/polyline';
-import { usePlannedRoutes, useCreatePlannedRoute, useDeletePlannedRoute } from '../../hooks/useQueries';
+import { usePlannedRoutes, useCreatePlannedRoute, useDeletePlannedRoute, useProfile } from '../../hooks/useQueries';
 import { exportRouteGpx } from '../../utils/routeExport';
 import { plannedRoutesApi } from '../../api/client';
 import type { FeatureCollection, LineString } from 'geojson';
@@ -79,6 +79,7 @@ export default function RouteCreatorPage() {
     }
   }
 
+  const { data: profile } = useProfile();
   const { data: savedRoutes } = usePlannedRoutes();
   const createRoute = useCreatePlannedRoute();
   const deleteRoute = useDeletePlannedRoute();
@@ -322,7 +323,11 @@ export default function RouteCreatorPage() {
       <div className="flex-1 relative">
         <Map
           ref={mapRef}
-          initialViewState={{ latitude: 51.9225, longitude: 4.4792, zoom: 12 }}
+          initialViewState={{
+            latitude: profile?.homeLat ?? 51.9225,
+            longitude: profile?.homeLng ?? 4.4792,
+            zoom: 12,
+          }}
           style={{ width: '100%', height: '100%' }}
           mapStyle="https://tiles.openfreemap.org/styles/liberty"
           onClick={handleMapClick}

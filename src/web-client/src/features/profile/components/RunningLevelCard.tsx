@@ -21,7 +21,7 @@ export default function RunningLevelCard() {
 
   if (!profile?.birthYear) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-100 dark:border-gray-700 p-6 mb-8">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
         <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Running Level</h2>
         <p className="text-sm text-gray-500 dark:text-gray-400">
           Set your birth year in profile settings to see where your times rank against age-group standards.
@@ -33,7 +33,7 @@ export default function RunningLevelCard() {
   if (!level?.hasData) return null;
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-100 dark:border-gray-700 p-6 mb-8">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
       <div className="flex items-center justify-between mb-4">
         <div>
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Running Level</h2>

@@ -84,7 +84,7 @@ export default function PaceCalculatorPage() {
       <div className="flex gap-6 items-start">
         {/* Pace input — sticky sidebar */}
         <div className="shrink-0 sticky top-4">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-100 dark:border-gray-700 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
             <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Expected Pace</h2>
             <div className="flex flex-col gap-2">
               <div>
@@ -119,7 +119,7 @@ export default function PaceCalculatorPage() {
         </div>
 
         {/* Table */}
-        <div className="flex-1 bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-100 dark:border-gray-700 overflow-hidden">
+        <div className="flex-1 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>

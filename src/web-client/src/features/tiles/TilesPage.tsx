@@ -128,26 +128,26 @@ export default function TilesPage() {
 
       {/* Basic stats row */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
           <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Tiles Visited</p>
           <p className="text-3xl font-bold text-primary-600 mt-1">
             {stats?.visitedCount.toLocaleString() ?? 0}
           </p>
         </div>
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
           <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Area Covered</p>
           <p className="text-3xl font-bold text-primary-600 mt-1">
             ~{visitedKm2.toLocaleString()} km²
           </p>
         </div>
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
           <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Max Square</p>
           <p className="text-3xl font-bold text-purple-600 mt-1">
             {advanced?.maxSquareSize ?? 0}×{advanced?.maxSquareSize ?? 0}
           </p>
           <p className="text-xs text-gray-400 mt-0.5">tiles</p>
         </div>
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
           <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Explorer Score</p>
           <p className="text-2xl font-bold text-amber-600 mt-1">
             {(advanced?.explorerScore ?? 0).toLocaleString()}
@@ -159,7 +159,7 @@ export default function TilesPage() {
       {/* Advanced exploration cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Explorer rank */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-5">
           <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Explorer Ranking</h3>
           <div className="flex items-end gap-3">
             <div>
@@ -182,7 +182,7 @@ export default function TilesPage() {
         </div>
 
         {/* Weekly challenge */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-5">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Weekly Challenge Tile</h3>
             {advanced?.challengeTile && (
@@ -234,7 +234,7 @@ export default function TilesPage() {
       )}
 
       {/* Map */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden" style={{ height: 560 }}>
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden" style={{ height: 560 }}>
         {geoJson?.features?.length === 0 ? (
           <div className="h-full flex items-center justify-center text-gray-400 dark:text-gray-500">
             <div className="text-center">

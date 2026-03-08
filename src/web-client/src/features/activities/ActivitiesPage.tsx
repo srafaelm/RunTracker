@@ -236,7 +236,7 @@ export default function ActivitiesPage() {
           <Link
             key={activity.id}
             to={`/activities/${activity.id}`}
-            className="block bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-100 dark:border-gray-700 p-4 hover:shadow-md transition-shadow"
+            className="block bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md transition-shadow"
           >
             <div className="flex items-start justify-between mb-1">
               <span className="text-xs text-gray-400 dark:text-gray-500">{formatDate(activity.startDate)}</span>
@@ -253,14 +253,14 @@ export default function ActivitiesPage() {
           </Link>
         ))}
         {data?.items.length === 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-100 dark:border-gray-700 p-8 text-center text-gray-500 dark:text-gray-400">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8 text-center text-gray-500 dark:text-gray-400">
             No activities found. Connect your Strava account to sync your runs!
           </div>
         )}
       </div>
 
       {/* Desktop table */}
-      <div className="hidden sm:block bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-100 dark:border-gray-700 overflow-hidden">
+      <div className="hidden sm:block bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
