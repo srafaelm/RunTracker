@@ -278,6 +278,7 @@ export const importApi = {
 export const badgesApi = {
   getAll: () => api.get<Badge[]>('/badges'),
   getAllWithStatus: () => api.get<BadgeWithStatus[]>('/badges/all'),
+  recalculate: () => api.post('/badges/recalculate'),
   adminGetAll: () => api.get<BadgeAdmin[]>('/admin/badges'),
   adminArchive: (id: number) => api.put(`/admin/badges/${id}/archive`),
   adminUnarchive: (id: number) => api.put(`/admin/badges/${id}/unarchive`),

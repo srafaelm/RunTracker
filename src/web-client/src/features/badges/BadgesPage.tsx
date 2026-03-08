@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAllBadges } from '../../hooks/useQueries';
+import { badgesApi } from '../../api/client';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import type { BadgeWithStatus } from '../../types';
 
@@ -128,8 +130,14 @@ function BadgeCard({ badge, onClick }: { badge: BadgeWithStatus; onClick: () => 
 
 export default function BadgesPage() {
   const { data: badges, isLoading } = useAllBadges();
+  const queryClient = useQueryClient();
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [selectedBadge, setSelectedBadge] = useState<BadgeWithStatus | null>(null);
+
+  const recalculate = useMutation({
+    mutationFn: () => badgesApi.recalculate(),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['badges'] }),
+  });
 
   if (isLoading) return <LoadingSpinner size="lg" />;
 
@@ -165,6 +173,25 @@ export default function BadgesPage() {
             {earnedCount} of {totalCount} earned
           </p>
         </div>
+
+        {/* Recalculate button */}
+        <button
+          onClick={() => recalculate.mutate()}
+          disabled={recalculate.isPending}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        >
+          {recalculate.isPending ? (
+            <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+            </svg>
+          ) : (
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          )}
+          {recalculate.isPending ? 'Recalculating…' : 'Recalculate'}
+        </button>
 
         {/* Progress bar */}
         <div className="flex items-center gap-3 min-w-48">

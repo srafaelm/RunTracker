@@ -2,6 +2,7 @@ using System.Security.Claims;
 using MediatR;
 using RunTracker.Application.Badges.Commands;
 using RunTracker.Application.Badges.Queries;
+using RunTracker.Application.Common.Interfaces;
 
 namespace RunTracker.Web.Endpoints;
 
@@ -23,6 +24,13 @@ public static class BadgeEndpoints
             var userId = user.FindFirstValue(ClaimTypes.NameIdentifier)!;
             var result = await mediator.Send(new GetAllBadgesQuery(userId));
             return Results.Ok(result);
+        });
+
+        group.MapPost("/recalculate", async (IBadgeService badgeService, ClaimsPrincipal user, CancellationToken ct) =>
+        {
+            var userId = user.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            await badgeService.CheckAndAwardBadgesAsync(userId, ct);
+            return Results.Ok(new { message = "Badge recalculation complete." });
         });
 
         // ── Admin routes ─────────────────────────────────────────────────────

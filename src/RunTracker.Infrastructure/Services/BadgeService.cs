@@ -164,7 +164,7 @@ public class BadgeService : IBadgeService
         }
 
         // ---- Distance milestones (single run) ----
-        foreach (var a in runs)
+        foreach (var a in runsOrdered)
         {
             if (a.Distance >= 1000)   Award(BadgeType.First1K,      a.Id, a.StartDate);
             if (a.Distance >= 5000)   Award(BadgeType.First5K,      a.Id, a.StartDate);
@@ -299,7 +299,7 @@ public class BadgeService : IBadgeService
 
         // ---- Cadence badges ----
         // AverageCadence is stored as single-foot SPM; multiply by 2 for total SPM
-        foreach (var a in runs)
+        foreach (var a in runsOrdered)
         {
             if (a.AverageCadence == null || a.Distance < 5000) continue;
             var spm = a.AverageCadence.Value * 2;
@@ -309,7 +309,7 @@ public class BadgeService : IBadgeService
         }
 
         // ---- Calorie badges ----
-        foreach (var a in runs)
+        foreach (var a in runsOrdered)
         {
             if (a.Calories == null) continue;
             if (a.Calories >= 500)  Award(BadgeType.CalorieBurner500, a.Id, a.StartDate);
@@ -326,7 +326,7 @@ public class BadgeService : IBadgeService
         if (maxMonthlyDistM >= 300_000) Award(BadgeType.Month300km);
 
         // ---- More single-run distance milestones ----
-        foreach (var a in runs)
+        foreach (var a in runsOrdered)
         {
             if (a.Distance >= 20000)  Award(BadgeType.First20K,            a.Id, a.StartDate);
             if (a.Distance >= 25000)  Award(BadgeType.First25K,            a.Id, a.StartDate);
@@ -364,7 +364,7 @@ public class BadgeService : IBadgeService
         if (longRunCount >= 10)     Award(BadgeType.LongRunner10);
 
         // ---- More single-run elevation milestones ----
-        foreach (var a in runs)
+        foreach (var a in runsOrdered)
         {
             if (a.TotalElevationGain >= 200)  Award(BadgeType.HillStarter,    a.Id, a.StartDate);
             if (a.TotalElevationGain >= 500)  Award(BadgeType.HillClimber,    a.Id, a.StartDate);
