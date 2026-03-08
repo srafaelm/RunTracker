@@ -530,14 +530,12 @@ export default function DashboardPage() {
 
       {/* Streaks + Goals */}
       {(show('streaks') || show('goals')) && (
-        <div className="flex gap-4 mb-6 items-stretch">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-6 items-stretch">
           {show('streaks') && allTimeStats && (
-            <div className="flex-shrink-0 flex">
-              <StatCard title="Week Streak" value={`${allTimeStats.currentWeekStreak} wks`} icon="📅" className="flex flex-col justify-center" />
-            </div>
+            <StatCard title="Week Streak" value={`${allTimeStats.currentWeekStreak} wks`} icon="📅" className="flex flex-col justify-center" />
           )}
           {show('goals') && (
-            <div className="flex-1 min-w-0">
+            <div className={show('streaks') ? 'col-span-1 md:col-span-3 lg:col-span-4' : 'col-span-2 md:col-span-4 lg:col-span-5'}>
               <GoalsWidget />
             </div>
           )}

@@ -411,10 +411,9 @@ export default function ActivityDetailPage() {
           title="Pace"
           value={`${formatPace(activity.averagePaceMinPerKm)} /km`}
         />
-        <StatCard
-          title="Elevation"
-          value={`${Math.round(activity.totalElevationGain)} m`}
-        />
+        {minHeartRate != null && (
+          <StatCard title="Min HR" value={`${minHeartRate} bpm`} />
+        )}
         {activity.averageHeartRate && (
           <StatCard
             title="Avg HR"
@@ -424,9 +423,10 @@ export default function ActivityDetailPage() {
         {activity.maxHeartRate && (
           <StatCard title="Max HR" value={`${activity.maxHeartRate} bpm`} />
         )}
-        {minHeartRate != null && (
-          <StatCard title="Min HR" value={`${minHeartRate} bpm`} />
-        )}
+        <StatCard
+          title="Elevation"
+          value={`${Math.round(activity.totalElevationGain)} m`}
+        />
         {activity.averageCadence != null && (
           <StatCard
             title="Cadence"
