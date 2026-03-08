@@ -36,7 +36,7 @@ public class BadgeService : IBadgeService
         // Cycling activities
         var rides = await _db.Activities
             .Where(a => a.UserId == userId && a.SportType == SportType.Ride)
-            .Select(a => new { a.Id, a.Distance, a.StartDate })
+            .Select(a => new { a.Id, a.Distance, a.TotalElevationGain, a.MovingTime, a.StartDate })
             .ToListAsync(ct);
 
         // Swimming activities
@@ -50,7 +50,7 @@ public class BadgeService : IBadgeService
             .Where(a => a.UserId == userId &&
                        (a.SportType == SportType.Walk ||
                         a.SportType == SportType.Hike))
-            .Select(a => new { a.Id, a.Distance, a.StartDate })
+            .Select(a => new { a.Id, a.Distance, a.TotalElevationGain, a.StartDate })
             .ToListAsync(ct);
 
         var runsOrdered  = runs.OrderBy(a => a.StartDate).ToList();
@@ -61,13 +61,18 @@ public class BadgeService : IBadgeService
         var totalRunDistanceM  = runs.Sum(a => a.Distance);
         var runCount           = runs.Count;
         var totalElevationM    = runs.Sum(a => a.TotalElevationGain);
-        var totalRideDistanceM = rides.Sum(a => a.Distance);
         var totalSwimDistanceM = swims.Sum(a => a.Distance);
         var totalWalkDistanceM = walks.Sum(a => a.Distance);
 
-        var totalCalories    = runs.Sum(a => a.Calories ?? 0);
+        var totalCalories      = runs.Sum(a => a.Calories ?? 0);
+        var totalMovingTimeSec = runs.Sum(a => (long)a.MovingTime);
         var maxMonthlyDistM  = runs.Count > 0
             ? runs.GroupBy(a => new { a.StartDate.Year, a.StartDate.Month })
+                  .Select(g => g.Sum(a => (double)a.Distance))
+                  .Max()
+            : 0.0;
+        var maxYearlyDistM = runs.Count > 0
+            ? runs.GroupBy(a => a.StartDate.Year)
                   .Select(g => g.Sum(a => (double)a.Distance))
                   .Max()
             : 0.0;
@@ -82,14 +87,26 @@ public class BadgeService : IBadgeService
                   .Select(g => g.Select(a => a.StartDate.Date).Distinct().Count())
                   .Max()
             : 0;
-        var maxRunsInDay  = runs.Count > 0
+        var maxRunsInDay    = runs.Count > 0
             ? runs.GroupBy(a => a.StartDate.Date).Select(g => g.Count()).Max()
             : 0;
-        var longRunCount  = runs.Count(a => a.Distance >= 21097);
+        var longRunCount    = runs.Count(a => a.Distance >= 21097);
+        var marathonCount   = runs.Count(a => a.Distance >= 42195);
+        var morningRunCount = runs.Count(a => a.StartDate.Hour < 8);
+        var eveningRunCount = runs.Count(a => a.StartDate.Hour >= 20);
+
+        var totalRideDistanceM  = rides.Sum(a => a.Distance);
+        var totalRideElevationM = rides.Sum(a => a.TotalElevationGain);
+        var maxRideMonthlyDistM = rides.Count > 0
+            ? rides.GroupBy(a => new { a.StartDate.Year, a.StartDate.Month })
+                   .Select(g => g.Sum(a => (double)a.Distance))
+                   .Max()
+            : 0.0;
 
         // Compute when each streak length was first achieved
         DateTime? streak3Date = null, streak7Date = null, streak14Date = null,
-                  streak30Date = null, streak60Date = null, streak100Date = null;
+                  streak30Date = null, streak60Date = null, streak100Date = null,
+                  streak200Date = null, streak365Date = null;
         {
             var dates = runsOrdered.Select(a => a.StartDate.Date).Distinct().OrderBy(d => d).ToList();
             int cur = 0; DateTime? last = null;
@@ -102,6 +119,8 @@ public class BadgeService : IBadgeService
                 if (cur >= 30  && streak30Date  == null) streak30Date  = d;
                 if (cur >= 60  && streak60Date  == null) streak60Date  = d;
                 if (cur >= 100 && streak100Date == null) streak100Date = d;
+                if (cur >= 200 && streak200Date == null) streak200Date = d;
+                if (cur >= 365 && streak365Date == null) streak365Date = d;
                 last = d;
             }
         }
@@ -161,6 +180,22 @@ public class BadgeService : IBadgeService
             double acc = 0;
             foreach (var a in walksOrdered) { acc += a.Distance; if (acc >= threshold) return a.StartDate; }
             return null;
+        }
+
+        // Returns the date of the activity that pushed the cumulative ride elevation past a threshold.
+        DateTime? RideElevationTip(double threshold)
+        {
+            double acc = 0;
+            foreach (var a in ridesOrdered) { acc += a.TotalElevationGain; if (acc >= threshold) return a.StartDate; }
+            return null;
+        }
+
+        // Returns the Nth run (1-indexed, ordered by date) that meets a distance filter, or null.
+        (Guid? id, DateTime? date) NthRun(int n, double minDist = 0)
+        {
+            var filtered2 = minDist > 0 ? runsOrdered.Where(a => a.Distance >= minDist).ToList() : runsOrdered;
+            var item = filtered2.ElementAtOrDefault(n - 1);
+            return item is null ? (null, null) : (item.Id, item.StartDate);
         }
 
         // ---- Distance milestones (single run) ----
@@ -357,11 +392,20 @@ public class BadgeService : IBadgeService
         if (runCount >= 2500) Award(BadgeType.Runs2500, runsOrdered.ElementAtOrDefault(2499)?.Id, runsOrdered.ElementAtOrDefault(2499)?.StartDate);
 
         // ---- Habit badges ----
-        if (weekendRunDays >= 20)   Award(BadgeType.WeekendWarrior);
-        if (maxRunDaysInWeek >= 5)  Award(BadgeType.FiveDayWeek);
-        if (maxRunDaysInWeek >= 6)  Award(BadgeType.SixDayWeek);
-        if (maxRunsInDay >= 2)      Award(BadgeType.DailyDouble);
-        if (longRunCount >= 10)     Award(BadgeType.LongRunner10);
+        if (weekendRunDays >= 20)    Award(BadgeType.WeekendWarrior);
+        if (weekendRunDays >= 50)    Award(BadgeType.WeekendWarrior50);
+        if (weekendRunDays >= 100)   Award(BadgeType.WeekendWarrior100);
+        if (maxRunDaysInWeek >= 5)   Award(BadgeType.FiveDayWeek);
+        if (maxRunDaysInWeek >= 6)   Award(BadgeType.SixDayWeek);
+        if (maxRunsInDay >= 2)       Award(BadgeType.DailyDouble);
+        if (longRunCount >= 10)      Award(BadgeType.LongRunner10);
+        if (longRunCount >= 25)      Award(BadgeType.LongRunner25);
+        if (longRunCount >= 50)      Award(BadgeType.LongRunner50);
+        if (longRunCount >= 100)     Award(BadgeType.LongRunner100);
+        if (morningRunCount >= 1)    Award(BadgeType.EarlyBird,   runsOrdered.FirstOrDefault(a => a.StartDate.Hour < 7)?.Id,  runsOrdered.FirstOrDefault(a => a.StartDate.Hour < 7)?.StartDate);
+        if (morningRunCount >= 10)   Award(BadgeType.EarlyBird10);
+        if (eveningRunCount >= 1)    Award(BadgeType.NightOwl,    runsOrdered.FirstOrDefault(a => a.StartDate.Hour >= 21)?.Id, runsOrdered.FirstOrDefault(a => a.StartDate.Hour >= 21)?.StartDate);
+        if (eveningRunCount >= 10)   Award(BadgeType.NightOwl10);
 
         // ---- More single-run elevation milestones ----
         foreach (var a in runsOrdered)
@@ -373,6 +417,172 @@ public class BadgeService : IBadgeService
             if (a.TotalElevationGain >= 3000) Award(BadgeType.HighPeaks,      a.Id, a.StartDate);
         }
         // Note: ElevationSprint50 and ElevationSprint100 are handled in the first run loop above
+
+        // ---- Extended streaks ----
+        if (streak200Date.HasValue)  Award(BadgeType.Streak200,  null, streak200Date);
+        if (streak365Date.HasValue)  Award(BadgeType.Streak365,  null, streak365Date);
+
+        // ---- Extended cadence ----
+        foreach (var a in runsOrdered)
+        {
+            if (a.AverageCadence == null || a.Distance < 5000) continue;
+            var spm = a.AverageCadence.Value * 2;
+            if (spm >= 190) Award(BadgeType.StrideLegend, a.Id, a.StartDate);
+        }
+
+        // ---- Monthly volume additions ----
+        if (maxMonthlyDistM >= 150_000) Award(BadgeType.Month150km);
+        if (maxMonthlyDistM >= 400_000) Award(BadgeType.Month400km);
+        if (maxMonthlyDistM >= 500_000) Award(BadgeType.Month500km);
+
+        // ---- Yearly volume ----
+        if (maxYearlyDistM >= 500_000)   Award(BadgeType.Year500km);
+        if (maxYearlyDistM >= 1_000_000) Award(BadgeType.Year1000km);
+        if (maxYearlyDistM >= 2_000_000) Award(BadgeType.Year2000km);
+        if (maxYearlyDistM >= 3_000_000) Award(BadgeType.Year3000km);
+
+        // ---- Total moving time ----
+        if (totalMovingTimeSec >= 360_000)   Award(BadgeType.TotalHours100);
+        if (totalMovingTimeSec >= 900_000)   Award(BadgeType.TotalHours250);
+        if (totalMovingTimeSec >= 1_800_000) Award(BadgeType.TotalHours500);
+        if (totalMovingTimeSec >= 3_600_000) Award(BadgeType.TotalHours1000);
+
+        // ---- Total calorie additions ----
+        if (totalCalories >= 200_000) Award(BadgeType.TotalCal200K);
+        if (totalCalories >= 500_000) Award(BadgeType.TotalCal500K);
+
+        // ---- Marathon & half-marathon counts ----
+        if (marathonCount >= 3)  { var (id, dt) = NthRun(3,  42195); Award(BadgeType.MarathonFinisher3,  id, dt); }
+        if (marathonCount >= 5)  { var (id, dt) = NthRun(5,  42195); Award(BadgeType.MarathonFinisher5,  id, dt); }
+        if (marathonCount >= 10) { var (id, dt) = NthRun(10, 42195); Award(BadgeType.MarathonFinisher10, id, dt); }
+        if (marathonCount >= 20) { var (id, dt) = NthRun(20, 42195); Award(BadgeType.MarathonFinisher20, id, dt); }
+        if (marathonCount >= 50) { var (id, dt) = NthRun(50, 42195); Award(BadgeType.MarathonFinisher50, id, dt); }
+        if (longRunCount >= 5)   { var (id, dt) = NthRun(5,  21097); Award(BadgeType.HalfMarathonCount5,  id, dt); }
+        if (longRunCount >= 10)  { var (id, dt) = NthRun(10, 21097); Award(BadgeType.HalfMarathonCount10, id, dt); }
+        if (longRunCount >= 25)  { var (id, dt) = NthRun(25, 21097); Award(BadgeType.HalfMarathonCount25, id, dt); }
+
+        // ---- Time-based single run milestones ----
+        foreach (var a in runsOrdered)
+        {
+            if (a.MovingTime >= 3600)  Award(BadgeType.Run1Hour,  a.Id, a.StartDate);
+            if (a.MovingTime >= 7200)  Award(BadgeType.Run2Hours, a.Id, a.StartDate);
+            if (a.MovingTime >= 10800) Award(BadgeType.Run3Hours, a.Id, a.StartDate);
+            if (a.MovingTime >= 21600) Award(BadgeType.Run6Hours, a.Id, a.StartDate);
+        }
+
+        // ---- Beginner pace ----
+        { var (id, dt) = FirstAtPace(5000, 8.0); if (id.HasValue) Award(BadgeType.Sub85K, id, dt); }
+
+        // ---- Short-distance pace additions ----
+        { var (id, dt) = FirstAtPace(1000, 5.0); if (id.HasValue) Award(BadgeType.Sub5Per1K,  id, dt); }
+        { var (id, dt) = FirstAtPace(1000, 4.5); if (id.HasValue) Award(BadgeType.Sub45Per1K, id, dt); }
+
+        // ---- More total running distance ----
+        if (totalRunDistanceM >= 4_000_000)  Award(BadgeType.Total4000km, null, RunDistanceTip(4_000_000));
+        if (totalRunDistanceM >= 6_000_000)  Award(BadgeType.Total6000km, null, RunDistanceTip(6_000_000));
+        if (totalRunDistanceM >= 7_500_000)  Award(BadgeType.Total7500km, null, RunDistanceTip(7_500_000));
+
+        // ---- More run count milestones ----
+        if (runCount >= 3000) Award(BadgeType.Runs3000, runsOrdered.ElementAtOrDefault(2999)?.Id, runsOrdered.ElementAtOrDefault(2999)?.StartDate);
+        if (runCount >= 4000) Award(BadgeType.Runs4000, runsOrdered.ElementAtOrDefault(3999)?.Id, runsOrdered.ElementAtOrDefault(3999)?.StartDate);
+        if (runCount >= 5000) Award(BadgeType.Runs5000, runsOrdered.ElementAtOrDefault(4999)?.Id, runsOrdered.ElementAtOrDefault(4999)?.StartDate);
+
+        // ---- Exploration additions ----
+        if (tileCount >= 2500)  Award(BadgeType.Tiles2500);
+        if (tileCount >= 10000) Award(BadgeType.Tiles10000);
+
+        // ---- Cycling: single-ride distance milestones ----
+        foreach (var a in ridesOrdered)
+        {
+            if (a.Distance >= 20_000)  Award(BadgeType.FirstRide20K,  a.Id, a.StartDate);
+            if (a.Distance >= 50_000)  Award(BadgeType.FirstRide50K,  a.Id, a.StartDate);
+            if (a.Distance >= 100_000) Award(BadgeType.FirstRide100K, a.Id, a.StartDate);
+            if (a.Distance >= 200_000) Award(BadgeType.FirstRide200K, a.Id, a.StartDate);
+        }
+
+        // ---- Cycling: ride count ----
+        var rideCount2 = rides.Count;
+        if (rideCount2 >= 25)  Award(BadgeType.Rides25,  ridesOrdered.ElementAtOrDefault(24)?.Id,  ridesOrdered.ElementAtOrDefault(24)?.StartDate);
+        if (rideCount2 >= 100) Award(BadgeType.Rides100, ridesOrdered.ElementAtOrDefault(99)?.Id,  ridesOrdered.ElementAtOrDefault(99)?.StartDate);
+        if (rideCount2 >= 200) Award(BadgeType.Rides200, ridesOrdered.ElementAtOrDefault(199)?.Id, ridesOrdered.ElementAtOrDefault(199)?.StartDate);
+        if (rideCount2 >= 500) Award(BadgeType.Rides500, ridesOrdered.ElementAtOrDefault(499)?.Id, ridesOrdered.ElementAtOrDefault(499)?.StartDate);
+
+        // ---- Cycling: total distance additions ----
+        if (totalRideDistanceM >= 2_000_000)  Award(BadgeType.CyclingTotal2000km,  null, RideDistanceTip(2_000_000));
+        if (totalRideDistanceM >= 5_000_000)  Award(BadgeType.CyclingTotal5000km,  null, RideDistanceTip(5_000_000));
+        if (totalRideDistanceM >= 10_000_000) Award(BadgeType.CyclingTotal10000km, null, RideDistanceTip(10_000_000));
+
+        // ---- Cycling: single-ride elevation ----
+        foreach (var a in ridesOrdered)
+        {
+            if (a.TotalElevationGain >= 500)  Award(BadgeType.CyclingElevation500,  a.Id, a.StartDate);
+            if (a.TotalElevationGain >= 1000) Award(BadgeType.CyclingElevation1000, a.Id, a.StartDate);
+            if (a.TotalElevationGain >= 2000) Award(BadgeType.CyclingElevation2000, a.Id, a.StartDate);
+        }
+
+        // ---- Cycling: cumulative elevation ----
+        if (totalRideElevationM >= 5_000)  Award(BadgeType.CyclingCumElev5000,  null, RideElevationTip(5_000));
+        if (totalRideElevationM >= 10_000) Award(BadgeType.CyclingCumElev10000, null, RideElevationTip(10_000));
+        if (totalRideElevationM >= 50_000) Award(BadgeType.CyclingCumElev50000, null, RideElevationTip(50_000));
+
+        // ---- Cycling: speed badges (compute from distance / moving time) ----
+        foreach (var a in ridesOrdered)
+        {
+            if (a.Distance < 20_000 || a.MovingTime <= 0) continue;
+            var speedKmh = a.Distance / 1000.0 / (a.MovingTime / 3600.0);
+            if (speedKmh >= 30) Award(BadgeType.CyclingSpeed30, a.Id, a.StartDate);
+            if (speedKmh >= 35) Award(BadgeType.CyclingSpeed35, a.Id, a.StartDate);
+            if (speedKmh >= 40) Award(BadgeType.CyclingSpeed40, a.Id, a.StartDate);
+        }
+
+        // ---- Cycling: monthly volume ----
+        if (maxRideMonthlyDistM >= 500_000)   Award(BadgeType.CyclingMonth500km);
+        if (maxRideMonthlyDistM >= 1_000_000) Award(BadgeType.CyclingMonth1000km);
+
+        // ---- Swimming: single-swim distance ----
+        foreach (var a in swimsOrdered)
+        {
+            if (a.Distance >= 500)  Award(BadgeType.FirstSwim500m, a.Id, a.StartDate);
+            if (a.Distance >= 1000) Award(BadgeType.FirstSwim1K,   a.Id, a.StartDate);
+            if (a.Distance >= 2000) Award(BadgeType.FirstSwim2K,   a.Id, a.StartDate);
+            if (a.Distance >= 5000) Award(BadgeType.FirstSwim5K,   a.Id, a.StartDate);
+        }
+
+        // ---- Swimming: count additions ----
+        var swimCount2 = swims.Count;
+        if (swimCount2 >= 25)  Award(BadgeType.Swims25,  swimsOrdered.ElementAtOrDefault(24)?.Id,  swimsOrdered.ElementAtOrDefault(24)?.StartDate);
+        if (swimCount2 >= 50)  Award(BadgeType.Swims50,  swimsOrdered.ElementAtOrDefault(49)?.Id,  swimsOrdered.ElementAtOrDefault(49)?.StartDate);
+        if (swimCount2 >= 100) Award(BadgeType.Swims100, swimsOrdered.ElementAtOrDefault(99)?.Id,  swimsOrdered.ElementAtOrDefault(99)?.StartDate);
+
+        // ---- Swimming: total distance additions ----
+        if (totalSwimDistanceM >= 25_000)  Award(BadgeType.SwimTotal25km,  null, SwimDistanceTip(25_000));
+        if (totalSwimDistanceM >= 100_000) Award(BadgeType.SwimTotal100km, null, SwimDistanceTip(100_000));
+        if (totalSwimDistanceM >= 200_000) Award(BadgeType.SwimTotal200km, null, SwimDistanceTip(200_000));
+
+        // ---- Walking & Hiking: single-activity distance ----
+        foreach (var a in walksOrdered)
+        {
+            if (a.Distance >= 10_000) Award(BadgeType.FirstHike10K, a.Id, a.StartDate);
+            if (a.Distance >= 20_000) Award(BadgeType.FirstHike20K, a.Id, a.StartDate);
+        }
+
+        // ---- Walking & Hiking: count additions ----
+        var walkCount2 = walks.Count;
+        if (walkCount2 >= 25)  Award(BadgeType.Walks25,  walksOrdered.ElementAtOrDefault(24)?.Id,  walksOrdered.ElementAtOrDefault(24)?.StartDate);
+        if (walkCount2 >= 50)  Award(BadgeType.Walks50,  walksOrdered.ElementAtOrDefault(49)?.Id,  walksOrdered.ElementAtOrDefault(49)?.StartDate);
+        if (walkCount2 >= 100) Award(BadgeType.Walks100, walksOrdered.ElementAtOrDefault(99)?.Id,  walksOrdered.ElementAtOrDefault(99)?.StartDate);
+
+        // ---- Walking & Hiking: total distance additions ----
+        if (totalWalkDistanceM >= 250_000)   Award(BadgeType.WalkingTotal250km,  null, WalkDistanceTip(250_000));
+        if (totalWalkDistanceM >= 500_000)   Award(BadgeType.WalkingTotal500km,  null, WalkDistanceTip(500_000));
+        if (totalWalkDistanceM >= 1_000_000) Award(BadgeType.WalkingTotal1000km, null, WalkDistanceTip(1_000_000));
+
+        // ---- Walking & Hiking: single-activity elevation ----
+        foreach (var a in walksOrdered)
+        {
+            if (a.TotalElevationGain >= 500)  Award(BadgeType.HikingElevation500,  a.Id, a.StartDate);
+            if (a.TotalElevationGain >= 1000) Award(BadgeType.HikingElevation1000, a.Id, a.StartDate);
+        }
 
         if (newBadges.Count > 0)
         {
