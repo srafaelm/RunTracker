@@ -209,7 +209,7 @@ public class GetAllTimeStatsQueryHandler : IRequestHandler<GetAllTimeStatsQuery,
 }
 
 // --- GetPaceTrend ---
-public record GetPaceTrendQuery(string UserId, string Period = "monthly", SportType? SportType = null, List<Guid>? TagIds = null) : IRequest<PaceTrendDto>;
+public record GetPaceTrendQuery(string UserId, string Period = "monthly", SportType? SportType = null, List<Guid>? TagIds = null, int? Year = null) : IRequest<PaceTrendDto>;
 
 public class GetPaceTrendQueryHandler : IRequestHandler<GetPaceTrendQuery, PaceTrendDto>
 {
@@ -220,6 +220,7 @@ public class GetPaceTrendQueryHandler : IRequestHandler<GetPaceTrendQuery, PaceT
     {
         var q = _db.Activities
             .Where(a => a.UserId == request.UserId && a.Distance > 0 && a.MovingTime > 0);
+        if (request.Year.HasValue && request.Year.Value > 0) q = q.Where(a => a.StartDate.Year == request.Year.Value);
         if (request.SportType.HasValue) q = q.Where(a => a.SportType == request.SportType.Value);
         if (request.TagIds != null && request.TagIds.Count > 0)
             q = q.Where(a => a.ActivityTags.Any(t => request.TagIds.Contains(t.TagId)));

@@ -43,12 +43,12 @@ public static class StatisticsEndpoints
             return Results.Ok(await mediator.Send(new GetPersonalRecordsQuery(userId, year)));
         });
 
-        group.MapGet("/pace-trend", async (ISender mediator, ClaimsPrincipal user, string? period, int? sportType, string? tagIds) =>
+        group.MapGet("/pace-trend", async (ISender mediator, ClaimsPrincipal user, string? period, int? sportType, string? tagIds, int? year) =>
         {
             var userId = user.FindFirstValue(ClaimTypes.NameIdentifier)!;
             SportType? st = sportType.HasValue ? (SportType)sportType.Value : null;
             var tags = ParseTagIds(tagIds);
-            return Results.Ok(await mediator.Send(new GetPaceTrendQuery(userId, period ?? "monthly", st, tags)));
+            return Results.Ok(await mediator.Send(new GetPaceTrendQuery(userId, period ?? "monthly", st, tags, year)));
         });
 
         group.MapGet("/multi-year", async (ISender mediator, ClaimsPrincipal user, int? sportType, string? tagIds) =>

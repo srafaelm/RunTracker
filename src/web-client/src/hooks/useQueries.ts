@@ -56,10 +56,10 @@ export function usePersonalRecords(year?: number) {
   });
 }
 
-export function usePaceTrend(period?: string, sportType?: SportType, tagIds?: string[]) {
+export function usePaceTrend(period?: string, sportType?: SportType, tagIds?: string[], year?: number) {
   return useQuery({
-    queryKey: ['stats', 'pace-trend', period, sportType, tagIds],
-    queryFn: () => statisticsApi.getPaceTrend(period, sportType, tagIds).then((r) => r.data),
+    queryKey: ['stats', 'pace-trend', period, sportType, tagIds, year],
+    queryFn: () => statisticsApi.getPaceTrend(period, sportType, tagIds, year).then((r) => r.data),
   });
 }
 

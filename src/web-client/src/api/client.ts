@@ -158,8 +158,8 @@ export const statisticsApi = {
     api.get<AllTimeStats>('/statistics/alltime', { params: { ...(sportType != null ? { sportType } : {}), ...(tagIds && tagIds.length > 0 ? { tagIds: tagIds.join(',') } : {}) } }),
   getPersonalRecords: (year?: number) =>
     api.get<PersonalRecord[]>('/statistics/personal-records', { params: year != null ? { year } : undefined }),
-  getPaceTrend: (period?: string, sportType?: number, tagIds?: string[]) =>
-    api.get<PaceTrend>('/statistics/pace-trend', { params: { period, ...(sportType != null ? { sportType } : {}), ...(tagIds && tagIds.length > 0 ? { tagIds: tagIds.join(',') } : {}) } }),
+  getPaceTrend: (period?: string, sportType?: number, tagIds?: string[], year?: number) =>
+    api.get<PaceTrend>('/statistics/pace-trend', { params: { period, ...(sportType != null ? { sportType } : {}), ...(tagIds && tagIds.length > 0 ? { tagIds: tagIds.join(',') } : {}), ...(year != null ? { year } : {}) } }),
   getMultiYear: (sportType?: number, tagIds?: string[]) =>
     api.get<MultiYearStats[]>('/statistics/multi-year', { params: { ...(sportType != null ? { sportType } : {}), ...(tagIds && tagIds.length > 0 ? { tagIds: tagIds.join(',') } : {}) } }),
   getActivityDays: (sportType?: number) =>

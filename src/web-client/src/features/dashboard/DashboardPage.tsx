@@ -140,7 +140,7 @@ export default function DashboardPage() {
   const { data: upcomingWorkouts } = useScheduledWorkouts(todayStr, nextWeekStr);
   const { data: allRaces } = useRaces();
   const nextRace = (allRaces ?? []).filter((r) => r.date >= todayStr).sort((a, b) => a.date.localeCompare(b.date))[0];
-  const { data: paceTrend } = usePaceTrend('monthly', globalSportType, tagIds);
+  const { data: paceTrend } = usePaceTrend('monthly', globalSportType, tagIds, isAllTime ? undefined : year);
   const { data: recentActivities } = useActivities({ page: 1, pageSize: 5, sportType: globalSportType });
   const { data: multiYear } = useMultiYearStats(globalSportType, tagIds);
   const { data: activityDays } = useActivityDays(globalSportType);
