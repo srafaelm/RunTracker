@@ -208,7 +208,12 @@ export default function DashboardPage() {
 
   async function handleDeleteTemplate() {
     if (!activeTemplate) return;
+    if (templates.length <= 1) return;
     if (!confirm(`Delete template "${activeTemplate.name}"?`)) return;
+    if (activeTemplate.isDefault) {
+      const other = templates.find((t) => t.id !== activeTemplate.id);
+      if (other) await activateTemplate.mutateAsync(other.id);
+    }
     await deleteTemplate.mutateAsync(activeTemplate.id);
     setEditMode(false);
   }
@@ -292,9 +297,6 @@ export default function DashboardPage() {
                 <option key={t.id} value={t.id}>{t.name}</option>
               ))}
             </select>
-          )}
-          {templates.length === 1 && activeTemplate && (
-            <span className="text-sm text-gray-400 dark:text-gray-500">{activeTemplate.name}</span>
           )}
         </div>
         <div className="flex items-center gap-2">
@@ -398,10 +400,10 @@ export default function DashboardPage() {
             >
               Reset widgets
             </button>
-            {!activeTemplate.isDefault && (
+            {templates.length > 1 && (
               <button
                 onClick={handleDeleteTemplate}
-                disabled={deleteTemplate.isPending}
+                disabled={deleteTemplate.isPending || activateTemplate.isPending}
                 className="ml-auto px-4 py-2 text-sm text-red-500 hover:text-red-700 dark:hover:text-red-400"
               >
                 Delete template
