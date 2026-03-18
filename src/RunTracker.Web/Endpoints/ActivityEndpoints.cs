@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RunTracker.Application.Activities.Commands;
 using RunTracker.Application.Activities.Queries;
+using RunTracker.Application.Common;
 using RunTracker.Application.Common.Interfaces;
 using RunTracker.Domain.Entities;
 using RunTracker.Domain.Enums;
@@ -133,6 +134,7 @@ public static class ActivityEndpoints
         group.MapGet("/export", async (
             ISender mediator,
             ClaimsPrincipal user,
+            UserManager<User> userManager,
             int? count,
             string? fields,
             DateTime? from,
@@ -141,14 +143,31 @@ public static class ActivityEndpoints
             var userId = user.FindFirstValue(ClaimTypes.NameIdentifier)!;
             var fieldList = fields?.Split(',', StringSplitOptions.RemoveEmptyEntries)
                 .Select(f => f.Trim()).Where(f => f.Length > 0).ToList();
-            var csv = await mediator.Send(new GetActivitiesExportQuery(userId, count ?? 50, fieldList, from, to));
+
+            ZoneBoundary[]? hrZones = null;
+            if (fieldList?.Contains("hrzones", StringComparer.OrdinalIgnoreCase) == true)
+            {
+                var appUser = await userManager.FindByIdAsync(userId);
+                if (appUser?.MaxHeartRate is > 0)
+                    hrZones = HrZoneCalculator.GetZones(appUser.HrZoneAlgorithm, appUser.MaxHeartRate.Value,
+                        appUser.RestingHeartRate ?? 60, appUser.CustomHrZones);
+            }
+
+            var csv = await mediator.Send(new GetActivitiesExportQuery(userId, count ?? 50, fieldList, from, to, hrZones));
             return Results.Text(csv, "text/csv", System.Text.Encoding.UTF8);
         });
 
-        group.MapGet("/export/full", async (ISender mediator, ClaimsPrincipal user) =>
+        group.MapGet("/export/full", async (ISender mediator, ClaimsPrincipal user, UserManager<User> userManager) =>
         {
             var userId = user.FindFirstValue(ClaimTypes.NameIdentifier)!;
-            var zipBytes = await mediator.Send(new GetFullExportQuery(userId));
+
+            ZoneBoundary[]? hrZones = null;
+            var appUser = await userManager.FindByIdAsync(userId);
+            if (appUser?.MaxHeartRate is > 0)
+                hrZones = HrZoneCalculator.GetZones(appUser.HrZoneAlgorithm, appUser.MaxHeartRate.Value,
+                    appUser.RestingHeartRate ?? 60, appUser.CustomHrZones);
+
+            var zipBytes = await mediator.Send(new GetFullExportQuery(userId, hrZones));
             return Results.File(zipBytes, "application/zip", "runtracker-export.zip");
         });
 

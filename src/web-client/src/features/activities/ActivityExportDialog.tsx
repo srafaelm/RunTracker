@@ -26,6 +26,7 @@ const FIELD_GROUPS = [
     fields: [
       { id: 'avghr', label: 'Avg Heart Rate' },
       { id: 'maxhr', label: 'Max Heart Rate' },
+      { id: 'hrzones', label: 'HR Zone Time' },
     ],
   },
   {

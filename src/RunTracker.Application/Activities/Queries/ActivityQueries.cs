@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RunTracker.Application.Activities.DTOs;
+using RunTracker.Application.Common;
 using RunTracker.Application.Common.Interfaces;
 using RunTracker.Application.Common.Models;
 using RunTracker.Application.Tags;
@@ -134,7 +135,8 @@ public record GetActivitiesExportQuery(
     int Count = 50,
     List<string>? Fields = null,
     DateTime? From = null,
-    DateTime? To = null
+    DateTime? To = null,
+    ZoneBoundary[]? HrZones = null
 ) : IRequest<string>;
 
 /// <summary>Available optional export field names.</summary>
@@ -148,6 +150,7 @@ public static class ExportField
     public const string Cadence = "cadence";
     public const string Tags = "tags";
     public const string Gear = "gear";
+    public const string HrZones = "hrzones";
 }
 
 public class GetActivitiesExportQueryHandler : IRequestHandler<GetActivitiesExportQuery, string>
@@ -172,6 +175,8 @@ public class GetActivitiesExportQueryHandler : IRequestHandler<GetActivitiesExpo
         bool incCadence = fields.Contains(ExportField.Cadence, StringComparer.OrdinalIgnoreCase);
         bool incTags = fields.Contains(ExportField.Tags, StringComparer.OrdinalIgnoreCase);
         bool incGear = fields.Contains(ExportField.Gear, StringComparer.OrdinalIgnoreCase);
+        bool incHrZones = fields.Contains(ExportField.HrZones, StringComparer.OrdinalIgnoreCase)
+                          && request.HrZones is { Length: > 0 };
 
         var query = _db.Activities.Where(a => a.UserId == request.UserId);
         if (request.From.HasValue) query = query.Where(a => a.StartDate >= request.From.Value);
@@ -182,6 +187,7 @@ public class GetActivitiesExportQueryHandler : IRequestHandler<GetActivitiesExpo
             .Take(count)
             .Select(a => new
             {
+                a.Id,
                 a.StartDate,
                 a.Name,
                 a.SportType,
@@ -197,6 +203,24 @@ public class GetActivitiesExportQueryHandler : IRequestHandler<GetActivitiesExpo
             })
             .ToListAsync(ct);
 
+        // Compute HR zone times if requested
+        var zoneTimesMap = new Dictionary<Guid, List<HrZoneTimeCalculator.ZoneTimeResult>>();
+        if (incHrZones)
+        {
+            var activityIds = items.Select(a => a.Id).ToList();
+            var allStreams = await _db.ActivityStreams
+                .Where(s => activityIds.Contains(s.ActivityId))
+                .OrderBy(s => s.ActivityId).ThenBy(s => s.PointIndex)
+                .ToListAsync(ct);
+
+            foreach (var group in allStreams.GroupBy(s => s.ActivityId))
+            {
+                var streams = group.ToList();
+                if (streams.Any(s => s.HeartRate.HasValue))
+                    zoneTimesMap[group.Key] = HrZoneTimeCalculator.Calculate(request.HrZones!, streams);
+            }
+        }
+
         var sb = new System.Text.StringBuilder();
 
         var headers = new List<string> { "Date", "Name", "Type", "Distance(km)", "Duration(hh:mm:ss)" };
@@ -208,6 +232,8 @@ public class GetActivitiesExportQueryHandler : IRequestHandler<GetActivitiesExpo
         if (incCadence) headers.Add("Cadence(spm)");
         if (incTags) headers.Add("Tags");
         if (incGear) headers.Add("Gear");
+        if (incHrZones)
+            headers.AddRange(request.HrZones!.Select(z => $"Zone{z.Zone}_{z.Label}(sec)"));
         sb.AppendLine(string.Join(',', headers));
 
         foreach (var a in items)
@@ -238,6 +264,15 @@ public class GetActivitiesExportQueryHandler : IRequestHandler<GetActivitiesExpo
             if (incCadence) row.Add(a.AverageCadence.HasValue ? Math.Round(a.AverageCadence.Value).ToString() : "");
             if (incTags) row.Add(EscapeCsv(string.Join("|", a.Tags ?? [])));
             if (incGear) row.Add(EscapeCsv(a.GearName ?? ""));
+            if (incHrZones)
+            {
+                zoneTimesMap.TryGetValue(a.Id, out var zoneTimes);
+                foreach (var zone in request.HrZones!)
+                {
+                    var time = zoneTimes?.FirstOrDefault(z => z.Zone == zone.Zone)?.TimeSeconds ?? 0;
+                    row.Add(time.ToString());
+                }
+            }
 
             sb.AppendLine(string.Join(',', row));
         }
