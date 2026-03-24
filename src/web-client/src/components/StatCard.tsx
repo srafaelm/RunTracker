@@ -3,22 +3,44 @@ interface StatCardProps {
   value: string;
   subtitle?: string;
   icon?: string;
+  accent?: 'primary' | 'secondary' | 'tertiary' | 'outline';
   className?: string;
 }
 
-export default function StatCard({ title, value, subtitle, icon, className = '' }: StatCardProps) {
+const ACCENT_BORDER: Record<string, string> = {
+  primary: 'border-[#cffc00]',
+  secondary: 'border-[#ff734a]',
+  tertiary: 'border-[#81ecff]',
+  outline: 'border-[#484847]',
+};
+
+const ACCENT_VALUE: Record<string, string> = {
+  primary: 'text-[#cffc00]',
+  secondary: 'text-[#ff734a]',
+  tertiary: 'text-[#81ecff]',
+  outline: 'text-white',
+};
+
+export default function StatCard({ title, value, subtitle, icon, accent = 'outline', className = '' }: StatCardProps) {
+  const borderClass = ACCENT_BORDER[accent] ?? ACCENT_BORDER.outline;
+  const valueClass = ACCENT_VALUE[accent] ?? ACCENT_VALUE.outline;
+
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 sm:p-6 border border-gray-200 dark:border-gray-700 ${className}`}>
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{title}</p>
-          <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mt-1">{value}</p>
-          {subtitle && (
-            <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">{subtitle}</p>
-          )}
+    <div className={`bg-[#20201f] border-l-2 ${borderClass} p-6 relative overflow-hidden ${className}`}>
+      {/* Faint background icon */}
+      {icon && (
+        <div className="absolute top-0 right-0 p-4 opacity-10 select-none pointer-events-none">
+          <span className="text-6xl leading-none">{icon}</span>
         </div>
-        {icon && <span className="text-2xl sm:text-3xl">{icon}</span>}
+      )}
+      <p className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa] mb-4">{title}</p>
+      <div className="flex items-baseline gap-1">
+        <span className={`font-headline text-4xl font-bold ${valueClass}`}>{value}</span>
       </div>
+      {subtitle && (
+        <p className="font-label text-xs text-[#767575] mt-2">{subtitle}</p>
+      )}
     </div>
   );
 }
+

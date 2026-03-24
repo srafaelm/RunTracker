@@ -26,7 +26,7 @@ export default function ActivityFilters({
     <div className="flex flex-wrap items-end gap-4">
       {/* Sport type */}
       <div>
-        <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+        <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">
           Sport Type
         </label>
         <select
@@ -36,7 +36,7 @@ export default function ActivityFilters({
               e.target.value !== '' ? (Number(e.target.value) as SportType) : undefined
             )
           }
-          className="rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 px-3 py-1.5 text-sm focus:border-primary-500 focus:outline-none"
+          className="bg-[#131313] border border-[#484847] text-white px-3 py-2 font-label text-xs focus:border-[#cffc00] focus:outline-none transition-colors"
         >
           <option value="">All types</option>
           {sportTypeOptions.map((st) => (
@@ -51,7 +51,7 @@ export default function ActivityFilters({
       {showDateRange && onDateChange && (
         <>
           <div>
-            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+            <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">
               From
             </label>
             <input
@@ -60,11 +60,11 @@ export default function ActivityFilters({
               onChange={(e) =>
                 onDateChange(e.target.value || undefined, to)
               }
-              className="rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 px-3 py-1.5 text-sm focus:border-primary-500 focus:outline-none"
+              className="bg-[#131313] border border-[#484847] text-white px-3 py-2 font-label text-xs focus:border-[#cffc00] focus:outline-none transition-colors"
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+            <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">
               To
             </label>
             <input
@@ -73,7 +73,7 @@ export default function ActivityFilters({
               onChange={(e) =>
                 onDateChange(from, e.target.value || undefined)
               }
-              className="rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 px-3 py-1.5 text-sm focus:border-primary-500 focus:outline-none"
+              className="bg-[#131313] border border-[#484847] text-white px-3 py-2 font-label text-xs focus:border-[#cffc00] focus:outline-none transition-colors"
             />
           </div>
         </>

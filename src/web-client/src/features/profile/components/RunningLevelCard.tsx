@@ -3,7 +3,7 @@ import { useRunningLevel, useProfile } from '../../../hooks/useQueries';
 import type { RunningLevelDistance } from '../../../types';
 
 const LEVEL_COLORS: Record<string, string> = {
-  Beginner:     'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300',
+  Beginner:     'bg-gray-100 dark:bg-[#131313] text-gray-600 dark:text-gray-300',
   Novice:       'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300',
   Intermediate: 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300',
   Advanced:     'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300',
@@ -21,9 +21,9 @@ export default function RunningLevelCard() {
 
   if (!profile?.birthYear) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Running Level</h2>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+      <div className="bg-[#20201f]-sm border border-[#484847]/30 p-6 mb-8">
+        <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white mb-2">Running Level</h2>
+        <p className="font-label text-xs text-[#767575]">
           Set your birth year in profile settings to see where your times rank against age-group standards.
         </p>
       </div>
@@ -33,13 +33,13 @@ export default function RunningLevelCard() {
   if (!level?.hasData) return null;
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
+    <div className="bg-[#20201f]-sm border border-[#484847]/30 p-6 mb-8">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Running Level</h2>
-          <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{level.userAgeGroup}</p>
+          <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white">Running Level</h2>
+          <p className="text-xs text-[#767575] dark:text-[#767575] mt-0.5">{level.userAgeGroup}</p>
         </div>
-        <Link to="/running-level" className="text-sm text-primary-600 hover:text-primary-700 font-medium">
+        <Link to="/running-level" className="text-sm font-label text-xs text-[#cffc00] hover:text-white transition-colors">
           Full breakdown →
         </Link>
       </div>
@@ -47,8 +47,8 @@ export default function RunningLevelCard() {
         {level.distances.map((d) => {
           const achieved = getAchievedLevel(d);
           return (
-            <div key={d.distance} className="border border-gray-200 dark:border-gray-700 rounded-lg p-3">
-              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">{d.distance}</p>
+            <div key={d.distance} className="border border-[#484847]/30 rounded-lg p-3">
+              <p className="text-xs text-[#767575] dark:text-[#767575] font-medium">{d.distance}</p>
               {d.userTimeDisplay ? (
                 <>
                   <p className="text-sm font-bold text-gray-900 dark:text-white mt-1 tabular-nums">{d.userTimeDisplay}</p>
@@ -59,7 +59,7 @@ export default function RunningLevelCard() {
                   )}
                 </>
               ) : (
-                <p className="text-sm font-bold text-gray-300 dark:text-gray-600 mt-1">—</p>
+                <p className="text-sm font-bold text-[#adaaaa] dark:text-gray-600 mt-1">—</p>
               )}
             </div>
           );
@@ -68,3 +68,6 @@ export default function RunningLevelCard() {
     </div>
   );
 }
+
+
+

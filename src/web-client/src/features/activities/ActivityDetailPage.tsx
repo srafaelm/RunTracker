@@ -242,61 +242,84 @@ export default function ActivityDetailPage() {
   if (isLoading) return <LoadingSpinner size="lg" />;
   if (!activity)
     return (
-      <div className="p-8 text-center text-gray-500 dark:text-gray-400">Activity not found</div>
+      <div className="p-8 text-center text-[#767575]">Activity not found</div>
     );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="p-6 sm:p-8 min-h-screen bg-[#0e0e0e] text-white">
+
+      {/* PRs banner */}
       {activityPrs.length > 0 && (
-        <div className="mb-5 flex flex-wrap gap-2">
+        <div className="mb-6 flex flex-wrap gap-2">
           {activityPrs.map((pr) => (
             <div
               key={pr.recordType}
-              className="flex items-center gap-2 px-4 py-2 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-300 dark:border-yellow-700 rounded-xl text-sm font-semibold text-yellow-800 dark:text-yellow-300"
+              className="flex items-center gap-2 px-4 py-2 bg-[#20201f] border-l-2 border-[#cffc00] font-label text-xs uppercase tracking-widest text-[#cffc00]"
             >
               <span>🏆</span>
-              <span>Personal Record — {recordTypeName(pr.recordType)}: {pr.displayValue}</span>
+              <span>PR — {recordTypeName(pr.recordType)}: {pr.displayValue}</span>
             </div>
           ))}
         </div>
       )}
-      <div className="flex items-start justify-between gap-4 mb-6">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{activity.name}</h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">
-            {formatDateTime(activity.startDate)} ·{' '}
-            {sportTypeName(activity.sportType)}
-          </p>
-        </div>
-        <Link
-          to={`/activities/compare?with=${activity.id}`}
-          className="shrink-0 mt-1 px-3 py-1.5 text-sm font-medium border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-1.5"
-        >
-          <span>⇄</span> Compare
-        </Link>
-      </div>
 
-      {/* Tags + Gear */}
-      <div className="flex flex-wrap items-center gap-2 mb-6">
+      {/* ── Hero header ── */}
+      <section className="grid grid-cols-12 gap-8 mb-10">
+        <div className="col-span-12 md:col-span-8">
+          <div className="flex items-baseline gap-4 mb-2 flex-wrap">
+            <h1 className="font-headline text-4xl sm:text-5xl font-bold tracking-tighter uppercase text-white leading-none">{activity.name}</h1>
+            <span className="font-label text-[#ff734a] uppercase tracking-widest text-xs font-bold">{sportTypeName(activity.sportType)}</span>
+          </div>
+          <div className="flex flex-wrap gap-5 font-label text-[#adaaaa] text-sm mt-3">
+            <div className="flex items-center gap-2">
+              <span className="material-symbols-outlined" style={{ fontSize: 16 }}>calendar_today</span>
+              {formatDateTime(activity.startDate)}
+            </div>
+            {activity.locationCity && (
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined" style={{ fontSize: 16 }}>location_on</span>
+                {activity.locationCity}
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="col-span-12 md:col-span-4 flex justify-start md:justify-end items-end gap-2 flex-wrap">
+          <button
+            onClick={() => exportGpx(activity)}
+            className="bg-[#20201f] px-4 py-2 text-xs font-label uppercase tracking-widest hover:bg-[#262626] transition-colors"
+          >
+            ↓ GPX
+          </button>
+          <button
+            onClick={() => exportTcx(activity)}
+            className="bg-[#20201f] px-4 py-2 text-xs font-label uppercase tracking-widest hover:bg-[#262626] transition-colors"
+          >
+            ↓ TCX
+          </button>
+          <Link
+            to={`/activities/compare?with=${activity.id}`}
+            className="bg-[#20201f] px-4 py-2 text-xs font-label uppercase tracking-widest hover:bg-[#262626] transition-colors"
+          >
+            ⇄ Compare
+          </Link>
+        </div>
+      </section>
+
+      {/* ── Tags + Gear ── */}
+      <div className="flex flex-wrap items-center gap-2 mb-8">
         {activityTags.map((tag: Tag) => (
           <span
             key={tag.id}
-            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium"
-            style={{ backgroundColor: tag.color ?? '#6b7280', color: '#fff' }}
+            className="inline-flex items-center gap-1 px-3 py-1 font-label text-xs uppercase tracking-widest font-medium"
+            style={{ backgroundColor: (tag.color ?? '#6b7280') + '30', color: tag.color ?? '#adaaaa', borderLeft: `2px solid ${tag.color ?? '#6b7280'}` }}
           >
             {tag.name}
-            <button
-              onClick={() => removeTag.mutate(tag.id)}
-              className="ml-0.5 hover:opacity-70"
-              aria-label={`Remove tag ${tag.name}`}
-            >
-              ×
-            </button>
+            <button onClick={() => removeTag.mutate(tag.id)} className="ml-0.5 hover:opacity-70" aria-label={`Remove tag ${tag.name}`}>×</button>
           </span>
         ))}
         <button
           onClick={() => setShowTagPicker((p) => !p)}
-          className="px-2.5 py-1 rounded-full text-xs font-medium border border-dashed border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:border-primary-500 hover:text-primary-600"
+          className="px-3 py-1 font-label text-xs uppercase tracking-widest border border-dashed border-[#484847] text-[#767575] hover:border-[#cffc00] hover:text-[#cffc00] transition-colors"
         >
           + Tag
         </button>
@@ -310,20 +333,14 @@ export default function ActivityDetailPage() {
           />
         )}
 
-        {/* Gear pill / button */}
+        {/* Gear */}
         {(() => {
           const assignedGear = allGear.find((g) => g.id === activity.gearId);
           if (assignedGear) {
             return (
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+              <span className="inline-flex items-center gap-1 px-3 py-1 font-label text-xs uppercase tracking-widest border-l-2 border-[#484847] bg-[#20201f] text-[#adaaaa]">
                 👟 {assignedGear.name}
-                <button
-                  onClick={() => assignGear.mutate({ activityId: id!, gearId: null })}
-                  className="ml-0.5 hover:opacity-70"
-                  aria-label="Remove gear"
-                >
-                  ×
-                </button>
+                <button onClick={() => assignGear.mutate({ activityId: id!, gearId: null })} className="ml-0.5 hover:opacity-70">×</button>
               </span>
             );
           }
@@ -331,28 +348,28 @@ export default function ActivityDetailPage() {
             <div className="relative">
               <button
                 onClick={() => { setShowGearPicker((p) => !p); setNewGearName(''); }}
-                className="px-2.5 py-1 rounded-full text-xs font-medium border border-dashed border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:border-primary-500 hover:text-primary-600"
+                className="px-3 py-1 font-label text-xs uppercase tracking-widest border border-dashed border-[#484847] text-[#767575] hover:border-[#cffc00] hover:text-[#cffc00] transition-colors"
               >
                 + Gear
               </button>
               {showGearPicker && (
-                <div className="absolute z-20 top-8 left-0 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg py-1 min-w-[200px]">
+                <div className="absolute z-20 top-8 left-0 bg-[#1a1a1a] border border-[#484847] shadow-2xl py-1 min-w-[200px]">
                   {allGear.length > 0 && (
                     <>
                       {allGear.map((g) => (
                         <button
                           key={g.id}
                           onClick={() => { assignGear.mutate({ activityId: id!, gearId: g.id }); setShowGearPicker(false); }}
-                          className="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                          className="w-full text-left px-3 py-2 text-sm font-label text-[#adaaaa] hover:bg-[#262626] hover:text-white transition-colors"
                         >
                           👟 {g.name}{g.brand ? ` · ${g.brand}` : ''}
                         </button>
                       ))}
-                      <div className="border-t border-gray-100 dark:border-gray-700 my-1" />
+                      <div className="border-t border-[#484847]/40 my-1" />
                     </>
                   )}
                   <div className="px-3 py-2">
-                    <p className="text-xs text-gray-400 dark:text-gray-500 mb-1.5">Create new gear</p>
+                    <p className="font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Create new gear</p>
                     <input
                       autoFocus
                       type="text"
@@ -363,18 +380,12 @@ export default function ActivityDetailPage() {
                         if (e.key === 'Enter' && newGearName.trim()) {
                           createGear.mutate(
                             { name: newGearName.trim(), type: GearType.Shoes, startingDistanceM: 0 },
-                            {
-                              onSuccess: (gear) => {
-                                assignGear.mutate({ activityId: id!, gearId: gear.id });
-                                setShowGearPicker(false);
-                                setNewGearName('');
-                              },
-                            }
+                            { onSuccess: (gear) => { assignGear.mutate({ activityId: id!, gearId: gear.id }); setShowGearPicker(false); setNewGearName(''); } }
                           );
                         }
                         if (e.key === 'Escape') setShowGearPicker(false);
                       }}
-                      className="w-full text-sm px-2 py-1 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-primary-500 mb-1.5"
+                      className="w-full text-sm px-2 py-1 bg-[#0e0e0e] border border-[#484847] text-white font-body focus:outline-none focus:border-[#cffc00] mb-1.5"
                     />
                     <button
                       disabled={!newGearName.trim() || createGear.isPending}
@@ -382,16 +393,10 @@ export default function ActivityDetailPage() {
                         if (!newGearName.trim()) return;
                         createGear.mutate(
                           { name: newGearName.trim(), type: GearType.Shoes, startingDistanceM: 0 },
-                          {
-                            onSuccess: (gear) => {
-                              assignGear.mutate({ activityId: id!, gearId: gear.id });
-                              setShowGearPicker(false);
-                              setNewGearName('');
-                            },
-                          }
+                          { onSuccess: (gear) => { assignGear.mutate({ activityId: id!, gearId: gear.id }); setShowGearPicker(false); setNewGearName(''); } }
                         );
                       }}
-                      className="w-full text-xs px-2 py-1 rounded bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-40"
+                      className="w-full text-xs px-2 py-1 bg-[#cffc00] text-[#3b4a00] font-label font-bold uppercase tracking-widest hover:bg-[#c2ed00] disabled:opacity-40"
                     >
                       {createGear.isPending ? 'Creating…' : 'Create & assign'}
                     </button>
@@ -403,305 +408,247 @@ export default function ActivityDetailPage() {
         })()}
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-8">
-        <StatCard title="Distance" value={formatDistance(activity.distance)} />
-        <StatCard title="Duration" value={formatDuration(activity.movingTime)} />
-        <StatCard
-          title="Pace"
-          value={`${formatPace(activity.averagePaceMinPerKm)} /km`}
-        />
-        {minHeartRate != null && (
-          <StatCard title="Min HR" value={`${minHeartRate} bpm`} />
-        )}
-        {activity.averageHeartRate && (
-          <StatCard
-            title="Avg HR"
-            value={`${Math.round(activity.averageHeartRate)} bpm`}
-          />
-        )}
-        {activity.maxHeartRate && (
-          <StatCard title="Max HR" value={`${activity.maxHeartRate} bpm`} />
-        )}
-        <StatCard
-          title="Elevation"
-          value={`${Math.round(activity.totalElevationGain)} m`}
-        />
-        {activity.averageCadence != null && (
-          <StatCard
-            title="Cadence"
-            value={`${Math.round(activity.averageCadence * 2)} spm`}
-          />
-        )}
-        {activity.calories && (
-          <StatCard title="Calories" value={`${activity.calories} kcal`} />
-        )}
-        {/* Weather card */}
+      {/* ── Bento stat cards ── */}
+      <section className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-8">
+        <StatCard title="Distance" value={formatDistance(activity.distance)} accent="primary" />
+        <StatCard title="Duration" value={formatDuration(activity.movingTime)} accent="tertiary" />
+        <StatCard title="Pace" value={`${formatPace(activity.averagePaceMinPerKm)} /km`} accent="outline" />
+        {minHeartRate != null && <StatCard title="Min HR" value={`${minHeartRate} bpm`} accent="outline" />}
+        {activity.averageHeartRate && <StatCard title="Avg HR" value={`${Math.round(activity.averageHeartRate)} bpm`} accent="secondary" />}
+        {activity.maxHeartRate && <StatCard title="Max HR" value={`${activity.maxHeartRate} bpm`} accent="secondary" />}
+        <StatCard title="Elevation" value={`${Math.round(activity.totalElevationGain)} m`} accent="tertiary" />
+        {activity.averageCadence != null && <StatCard title="Cadence" value={`${Math.round(activity.averageCadence * 2)} spm`} accent="outline" />}
+        {activity.calories && <StatCard title="Calories" value={`${activity.calories} kcal`} accent="primary" />}
+        {/* Weather */}
         {activity.weatherTempC != null ? (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
-            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Weather</p>
-            <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mt-1">
-              🌡 {activity.weatherTempC.toFixed(1)} °C
-            </p>
-            <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
-              {[
-                activity.weatherCondition,
-                activity.weatherHumidityPct != null ? `💧 ${activity.weatherHumidityPct}%` : null,
-                activity.weatherWindSpeedKmh != null ? `💨 ${activity.weatherWindSpeedKmh.toFixed(1)} km/h` : null,
-              ].filter(Boolean).join(' · ')}
+          <div className="bg-[#20201f] border-l-2 border-[#81ecff] p-6 relative overflow-hidden">
+            <p className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa] mb-4">Weather</p>
+            <p className="font-headline text-2xl font-bold text-[#81ecff]">{activity.weatherTempC.toFixed(1)} °C</p>
+            <p className="font-label text-xs text-[#767575] mt-2">
+              {[activity.weatherCondition, activity.weatherHumidityPct != null ? `💧 ${activity.weatherHumidityPct}%` : null, activity.weatherWindSpeedKmh != null ? `💨 ${activity.weatherWindSpeedKmh.toFixed(1)} km/h` : null].filter(Boolean).join(' · ')}
             </p>
           </div>
         ) : (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 sm:p-6 border border-gray-200 dark:border-gray-700 flex flex-col justify-between">
-            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Weather</p>
-            <p className="text-sm text-gray-400 dark:text-gray-500 italic mt-1">
-              {fetchWeather.isError ? 'No GPS data' : 'No data'}
-            </p>
+          <div className="bg-[#20201f] border-l-2 border-[#484847] p-6 flex flex-col justify-between">
+            <p className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa] mb-4">Weather</p>
+            <p className="font-label text-xs text-[#767575] italic">{fetchWeather.isError ? 'No GPS data' : 'No data'}</p>
             <button
               onClick={() => fetchWeather.mutate()}
               disabled={fetchWeather.isPending}
-              className="mt-2 px-2.5 py-1 text-xs font-medium rounded-md bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 transition-colors self-start"
+              className="mt-3 px-3 py-1.5 text-xs font-label font-bold uppercase tracking-widest bg-[#cffc00] text-[#3b4a00] hover:bg-[#c2ed00] disabled:opacity-50 transition-colors self-start"
             >
               {fetchWeather.isPending ? 'Fetching…' : 'Fetch'}
             </button>
           </div>
         )}
-        {activity.newStreetsDiscovered > 0 && (
-          <StatCard title="New Streets" value={`${activity.newStreetsDiscovered}`} />
+        {activity.newStreetsDiscovered > 0 && <StatCard title="New Streets" value={`${activity.newStreetsDiscovered}`} accent="tertiary" />}
+      </section>
+
+      {/* ── Map ── */}
+      {routeGeoJson && bounds && (
+        <section className="grid grid-cols-12 gap-6 mb-8">
+          <div className="col-span-12 lg:col-span-8">
+            <div className="bg-[#131313] overflow-hidden relative" style={{ height: 460 }}>
+              <Map
+                initialViewState={{ bounds, fitBoundsOptions: { padding: 50 } }}
+                style={{ width: '100%', height: '100%' }}
+                mapStyle="https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
+              >
+                <Source id="route" type="geojson" data={routeGeoJson}>
+                  <Layer
+                    id="route-line"
+                    type="line"
+                    paint={{ 'line-color': '#cffc00', 'line-width': 5, 'line-opacity': 1 }}
+                  />
+                </Source>
+              </Map>
+            </div>
+          </div>
+
+          {/* HR zone panel beside map */}
+          {hrZoneBreakdown && (
+            <div className="col-span-12 lg:col-span-4">
+              <div className="bg-[#20201f] p-6 h-full flex flex-col">
+                <h3 className="font-headline text-lg font-bold tracking-tight uppercase border-b border-[#484847]/20 pb-2 mb-6">Heart Rate Intensity</h3>
+                <div className="space-y-4 flex-1 flex flex-col justify-center">
+                  {[...hrZoneBreakdown].reverse().map((z) => {
+                    const ZONE_COLORS = ['#81ecff','#cffc00','#facc15','#ff734a','#ff7351'];
+                    const color = ZONE_COLORS[z.zone - 1] ?? '#9ca3af';
+                    const mm = Math.floor(z.secs / 60);
+                    const ss = String(z.secs % 60).padStart(2, '0');
+                    const timeStr = z.secs > 0 ? `${mm}:${ss}` : '--:--';
+                    return (
+                      <div key={z.zone} className="space-y-1">
+                        <div className="flex justify-between font-label text-[10px] uppercase tracking-tighter">
+                          <span style={{ color }}>Zone {z.zone} {z.label}</span>
+                          <span className="text-[#adaaaa]">{z.pct}% · {timeStr}</span>
+                        </div>
+                        <div className="h-2 bg-[#262626]">
+                          <div className="h-full transition-all" style={{ width: `${z.pct}%`, backgroundColor: color }} />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+        </section>
+      )}
+
+      {/* HR + altitude chart */}
+      {hrChartData.length > 0 && (
+        <section className="bg-[#20201f] p-8 mb-8">
+          <div className="flex justify-between items-center mb-8">
+            <h3 className="font-headline text-xl font-bold tracking-tight uppercase">Heart Rate &amp; Altitude Telemetry</h3>
+            <div className="flex gap-4">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3" style={{ backgroundColor: '#ff734a' }} />
+                <span className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa]">Heart Rate</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-[#767575]" />
+                <span className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa]">Altitude</span>
+              </div>
+            </div>
+          </div>
+          <ResponsiveContainer width="100%" height={260}>
+            <LineChart data={hrChartData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#484847" strokeOpacity={0.4} />
+              <XAxis dataKey="distance" stroke="#767575" tick={{ fill: '#767575', fontSize: 10, fontFamily: 'Lexend' }} label={{ value: 'km', position: 'insideBottomRight', offset: -5, fill: '#767575' }} />
+              <YAxis yAxisId="hr" stroke="#767575" tick={{ fill: '#767575', fontSize: 10 }} label={{ value: 'bpm', angle: -90, position: 'insideLeft', fill: '#767575' }} />
+              <YAxis yAxisId="alt" orientation="right" stroke="#767575" tick={{ fill: '#767575', fontSize: 10 }} label={{ value: 'm', angle: 90, position: 'insideRight', fill: '#767575' }} />
+              <Tooltip contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #484847', borderRadius: 2, fontFamily: 'Lexend', fontSize: 12 }} labelStyle={{ color: '#adaaaa' }} itemStyle={{ color: '#ffffff' }} />
+              <Line yAxisId="hr" type="monotone" dataKey="hr" stroke="#ff734a" strokeWidth={1.5} dot={false} name="Heart Rate" />
+              <Line yAxisId="alt" type="monotone" dataKey="altitude" stroke="#767575" strokeWidth={1} dot={false} name="Altitude" />
+            </LineChart>
+          </ResponsiveContainer>
+        </section>
+      )}
+
+      {/* Pace chart */}
+      {paceChartData.length > 0 && (
+        <section className="bg-[#20201f] p-8 mb-8">
+          <div className="flex justify-between items-center mb-8">
+            <h3 className="font-headline text-xl font-bold tracking-tight uppercase">Pace Telemetry</h3>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3" style={{ backgroundColor: '#cffc00' }} />
+              <span className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa]">Pace</span>
+            </div>
+          </div>
+          <ResponsiveContainer width="100%" height={220}>
+            <LineChart data={paceChartData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#484847" strokeOpacity={0.4} />
+              <XAxis dataKey="distance" stroke="#767575" tick={{ fill: '#767575', fontSize: 10, fontFamily: 'Lexend' }} label={{ value: 'km', position: 'insideBottomRight', offset: -5, fill: '#767575' }} />
+              <YAxis reversed tickFormatter={(v: number) => formatPace(v)} domain={['auto', 'auto']} width={50} stroke="#767575" tick={{ fill: '#767575', fontSize: 10 }} />
+              <Tooltip contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #484847', borderRadius: 2, fontFamily: 'Lexend', fontSize: 12 }} formatter={(v: number) => [`${formatPace(v)} /km`, 'Pace']} itemStyle={{ color: '#cffc00' }} />
+              <Line type="monotone" dataKey="pace" stroke="#cffc00" strokeWidth={2} dot={false} name="Pace" />
+            </LineChart>
+          </ResponsiveContainer>
+        </section>
+      )}
+
+      {/* ── Splits & HR zones side-by-side ── */}
+      <div className={`${hasSplits && !hrZoneBreakdown ? '' : hasSplits ? 'grid grid-cols-1 lg:grid-cols-2 gap-6' : ''} mb-8`}>
+
+        {/* Splits table */}
+        {hasSplits && (
+          <div className="bg-[#20201f] overflow-hidden">
+            <div className="px-8 py-5 border-b border-[#484847]/10">
+              <h3 className="font-headline text-xl font-bold tracking-tight uppercase">Lap Telemetry</h3>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left font-label text-sm">
+                <thead className="bg-[#262626]/50">
+                  <tr>
+                    <th className="px-8 py-4 uppercase tracking-widest text-[10px] text-[#adaaaa]">km</th>
+                    <th className="px-8 py-4 uppercase tracking-widest text-[10px] text-[#adaaaa] text-right">Pace</th>
+                    {hasHrInSplits && <th className="px-8 py-4 uppercase tracking-widest text-[10px] text-[#adaaaa] text-right">Avg HR</th>}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#484847]/10">
+                  {splits.map((split) => {
+                    const isFastest = split.km === fastestKm;
+                    const isSlowest = split.km === slowestKm;
+                    return (
+                      <tr key={split.km} className="hover:bg-zinc-800/20 transition-colors">
+                        <td className="px-8 py-4">
+                          <span className={`font-headline font-bold ${isFastest ? 'text-[#cffc00]' : isSlowest ? 'text-[#ff734a]' : 'text-white'}`}>
+                            {String(split.km).padStart(2, '0')}
+                          </span>
+                          {isFastest && <span className="ml-2 font-label text-[10px] uppercase tracking-widest text-[#cffc00] bg-[#cffc00]/10 px-1.5 py-0.5">fastest</span>}
+                          {isSlowest && <span className="ml-2 font-label text-[10px] uppercase tracking-widest text-[#ff734a] bg-[#ff734a]/10 px-1.5 py-0.5">slowest</span>}
+                        </td>
+                        <td className={`px-8 py-4 text-right ${isFastest ? 'text-[#cffc00] font-bold' : 'text-[#adaaaa]'}`}>
+                          {formatPace(split.pace)} /km
+                        </td>
+                        {hasHrInSplits && (
+                          <td className="px-8 py-4 text-right text-[#adaaaa]">
+                            {split.avgHr != null ? `${split.avgHr} bpm` : '—'}
+                          </td>
+                        )}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* HR zones (shown beside splits only if map is not shown, otherwise shown next to map above) */}
+        {hrZoneBreakdown && !routeGeoJson && (
+          <div className="bg-[#20201f] p-6">
+            <h3 className="font-headline text-lg font-bold tracking-tight uppercase border-b border-[#484847]/20 pb-2 mb-6">Heart Rate Intensity</h3>
+            <div className="space-y-4">
+              {[...hrZoneBreakdown].reverse().map((z) => {
+                const ZONE_COLORS = ['#81ecff','#cffc00','#facc15','#ff734a','#ff7351'];
+                const color = ZONE_COLORS[z.zone - 1] ?? '#9ca3af';
+                const mm = Math.floor(z.secs / 60);
+                const ss = String(z.secs % 60).padStart(2, '0');
+                const timeStr = z.secs > 0 ? `${mm}:${ss}` : '--:--';
+                return (
+                  <div key={z.zone} className="space-y-1">
+                    <div className="flex justify-between font-label text-[10px] uppercase tracking-tighter">
+                      <span style={{ color }}>Zone {z.zone} {z.label}</span>
+                      <span className="text-[#adaaaa]">{z.pct}% · {timeStr}</span>
+                    </div>
+                    <div className="h-2 bg-[#262626]">
+                      <div className="h-full transition-all" style={{ width: `${z.pct}%`, backgroundColor: color }} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         )}
       </div>
 
-      {/* Map */}
-      {routeGeoJson && bounds && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden mb-8">
-          <div className="flex items-center justify-between px-4 py-2 border-b border-gray-100 dark:border-gray-700">
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Route</span>
-            <div className="flex gap-2">
-              <button
-                onClick={() => exportGpx(activity)}
-                className="px-3 py-1 text-xs font-medium rounded border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-              >
-                ↓ GPX
-              </button>
-              <button
-                onClick={() => exportTcx(activity)}
-                className="px-3 py-1 text-xs font-medium rounded border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-              >
-                ↓ TCX
-              </button>
-            </div>
-          </div>
-          <Map
-            initialViewState={{
-              bounds,
-              fitBoundsOptions: { padding: 50 },
-            }}
-            style={{ width: '100%', height: 400 }}
-            mapStyle="https://tiles.openfreemap.org/styles/liberty"
-          >
-            <Source id="route" type="geojson" data={routeGeoJson}>
-              <Layer
-                id="route-line"
-                type="line"
-                paint={{
-                  'line-color': '#2563eb',
-                  'line-width': 3,
-                }}
-              />
-            </Source>
-          </Map>
-        </div>
-      )}
-
-      {/* Splits + HR Zones — side by side on large screens */}
-      <div className={`${hasSplits && hrZoneBreakdown ? 'grid grid-cols-1 lg:grid-cols-2 gap-6' : ''} mb-8`}>
-
-      {/* Splits table */}
-      {hasSplits && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Splits per km
-            </h2>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-gray-50 dark:bg-gray-700">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    km
-                  </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Pace
-                  </th>
-                  {hasHrInSplits && (
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                      Avg HR
-                    </th>
-                  )}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
-                {splits.map((split) => {
-                  const isFastest = split.km === fastestKm;
-                  const isSlowest = split.km === slowestKm;
-                  const rowClass = isFastest
-                    ? 'bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/30'
-                    : isSlowest
-                      ? 'bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30'
-                      : 'hover:bg-gray-50 dark:hover:bg-gray-700';
-                  return (
-                    <tr key={split.km} className={rowClass}>
-                      <td className="px-6 py-3 font-medium text-gray-900 dark:text-white">
-                        {split.km}
-                        {isFastest && (
-                          <span className="ml-2 text-xs font-semibold text-green-700 dark:text-green-400 bg-green-100 dark:bg-green-900/40 px-1.5 py-0.5 rounded">
-                            fastest
-                          </span>
-                        )}
-                        {isSlowest && (
-                          <span className="ml-2 text-xs font-semibold text-red-700 dark:text-red-400 bg-red-100 dark:bg-red-900/40 px-1.5 py-0.5 rounded">
-                            slowest
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-6 py-3 text-right text-gray-700 dark:text-gray-300">
-                        {formatPace(split.pace)} /km
-                      </td>
-                      {hasHrInSplits && (
-                        <td className="px-6 py-3 text-right text-gray-700 dark:text-gray-300">
-                          {split.avgHr != null ? `${split.avgHr} bpm` : '—'}
-                        </td>
-                      )}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-
-      {/* HR zone breakdown */}
-      {hrZoneBreakdown && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-5">Time in Heart Rate Zones</h2>
-          <div className="space-y-4">
-            {[...hrZoneBreakdown].reverse().map((z) => {
-              const ZONE_COLORS = [
-                '#60a5fa', // Z1 blue
-                '#4ade80', // Z2 green
-                '#facc15', // Z3 yellow
-                '#f97316', // Z4 orange
-                '#ef4444', // Z5 red
-              ];
-              const color = ZONE_COLORS[z.zone - 1] ?? '#9ca3af';
-              const mm = Math.floor(z.secs / 60);
-              const ss = String(z.secs % 60).padStart(2, '0');
-              const timeStr = z.secs > 0 ? `${mm}:${ss}` : '--:--';
-              const rangeStr = z.zone === 5
-                ? `> ${z.lower} bpm`
-                : `${z.lower} – ${z.upper} bpm`;
-              return (
-                <div key={z.zone}>
-                  <div className="flex items-baseline gap-2 mb-1.5">
-                    <span className="text-base font-bold text-gray-900 dark:text-white">Zone {z.zone}</span>
-                    <span className="text-sm text-gray-400 dark:text-gray-500">{rangeStr} · {z.label}</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="flex-1 h-2.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                      <div
-                        className="h-full rounded-full transition-all"
-                        style={{ width: `${z.pct}%`, backgroundColor: color }}
-                      />
-                    </div>
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 w-12 text-right tabular-nums">{timeStr}</span>
-                    <span className="text-sm text-gray-400 dark:text-gray-500 w-8 text-right tabular-nums">{z.pct}%</span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      </div>{/* end splits+zones grid */}
-
-      {/* Heart rate / altitude chart — full width below splits and zones */}
-      {hrChartData.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700 mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-            Heart Rate & Altitude
-          </h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={hrChartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis
-                dataKey="distance"
-                label={{
-                  value: 'km',
-                  position: 'insideBottomRight',
-                  offset: -5,
-                }}
-              />
-              <YAxis
-                yAxisId="hr"
-                label={{ value: 'bpm', angle: -90, position: 'insideLeft' }}
-              />
-              <YAxis
-                yAxisId="alt"
-                orientation="right"
-                label={{ value: 'm', angle: 90, position: 'insideRight' }}
-              />
-              <Tooltip />
-              <Line
-                yAxisId="hr"
-                type="monotone"
-                dataKey="hr"
-                stroke="#ef4444"
-                strokeWidth={1.5}
-                dot={false}
-                name="Heart Rate"
-              />
-              <Line
-                yAxisId="alt"
-                type="monotone"
-                dataKey="altitude"
-                stroke="#6b7280"
-                strokeWidth={1}
-                dot={false}
-                name="Altitude"
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      )}
-
       {/* Interval Analysis */}
       {intervalData?.hasIntervals && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700 mt-8">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Interval Analysis</h2>
+        <div className="bg-[#20201f] p-8 mt-8">
+          <div className="flex items-center justify-between border-b border-[#484847]/10 pb-4 mb-6">
+            <h3 className="font-headline text-xl font-bold tracking-tight uppercase">Interval Analysis</h3>
             <div className="flex items-center gap-3">
-              <span className="text-sm font-medium text-gray-600 dark:text-gray-300">{intervalData.structure}</span>
-              <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300">
+              <span className="font-label text-xs uppercase tracking-widest text-[#adaaaa]">{intervalData.structure}</span>
+              <span className="font-label text-[10px] px-2 py-0.5 uppercase tracking-widest text-[#cffc00] bg-[#cffc00]/10">
                 {intervalData.consistencyPct.toFixed(0)}% consistent
               </span>
             </div>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="text-xs text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-700">
-                  <th className="text-left py-2 pr-4">Rep</th>
-                  <th className="text-right py-2 pr-4">Distance</th>
-                  <th className="text-right py-2 pr-4">Time</th>
-                  <th className="text-right py-2 pr-4">Pace</th>
-                  <th className="text-right py-2 pr-4">Avg HR</th>
-                  <th className="text-right py-2">Recovery</th>
+            <table className="w-full text-left font-label text-sm">
+              <thead className="bg-[#262626]/50">
+                <tr>
+                  <th className="px-6 py-3 uppercase tracking-widest text-[10px] text-[#adaaaa]">Rep</th>
+                  <th className="px-6 py-3 uppercase tracking-widest text-[10px] text-[#adaaaa] text-right">Distance</th>
+                  <th className="px-6 py-3 uppercase tracking-widest text-[10px] text-[#adaaaa] text-right">Time</th>
+                  <th className="px-6 py-3 uppercase tracking-widest text-[10px] text-[#adaaaa] text-right">Pace</th>
+                  <th className="px-6 py-3 uppercase tracking-widest text-[10px] text-[#adaaaa] text-right">Avg HR</th>
+                  <th className="px-6 py-3 uppercase tracking-widest text-[10px] text-[#adaaaa] text-right">Recovery</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50 dark:divide-gray-700">
+              <tbody className="divide-y divide-[#484847]/10">
                 {intervalData.reps.map((rep) => {
                   const mins = Math.floor(rep.durationSec / 60);
                   const secs = String(Math.round(rep.durationSec % 60)).padStart(2, '0');
@@ -709,17 +656,17 @@ export default function ActivityDetailPage() {
                   const recSecs = String(Math.round(rep.recoveryDurationSec % 60)).padStart(2, '0');
                   const isFastest = rep.paceMinPerKm === Math.min(...intervalData.reps.map(r => r.paceMinPerKm));
                   return (
-                    <tr key={rep.repNumber} className={`hover:bg-gray-50 dark:hover:bg-gray-700/40 ${isFastest ? 'font-medium' : ''}`}>
-                      <td className="py-2 pr-4 text-gray-700 dark:text-gray-300">{rep.repNumber}</td>
-                      <td className="py-2 pr-4 text-right tabular-nums text-gray-900 dark:text-white">{Math.round(rep.distanceM)}m</td>
-                      <td className="py-2 pr-4 text-right tabular-nums text-gray-900 dark:text-white">{mins}:{secs}</td>
-                      <td className={`py-2 pr-4 text-right tabular-nums ${isFastest ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-white'}`}>
+                    <tr key={rep.repNumber} className="hover:bg-zinc-800/20 transition-colors">
+                      <td className="px-6 py-3 font-headline font-bold">{String(rep.repNumber).padStart(2, '0')}</td>
+                      <td className="px-6 py-3 text-right tabular-nums text-white">{Math.round(rep.distanceM)}m</td>
+                      <td className="px-6 py-3 text-right tabular-nums text-white">{mins}:{secs}</td>
+                      <td className={`px-6 py-3 text-right tabular-nums ${isFastest ? 'text-[#cffc00] font-bold' : 'text-white'}`}>
                         {formatPace(rep.paceMinPerKm)} /km
                       </td>
-                      <td className="py-2 pr-4 text-right tabular-nums text-gray-500 dark:text-gray-400">
+                      <td className="px-6 py-3 text-right tabular-nums text-[#adaaaa]">
                         {rep.avgHr != null ? `${Math.round(rep.avgHr)} bpm` : '—'}
                       </td>
-                      <td className="py-2 text-right tabular-nums text-gray-400 dark:text-gray-500">
+                      <td className="px-6 py-3 text-right tabular-nums text-[#767575]">
                         {rep.recoveryDurationSec > 0 ? `${recMins}:${recSecs}` : '—'}
                         {rep.recoveryPaceMinPerKm != null ? ` · ${formatPace(rep.recoveryPaceMinPerKm)}/km` : ''}
                       </td>
@@ -730,7 +677,6 @@ export default function ActivityDetailPage() {
             </table>
           </div>
           {intervalData.previousSessions.length > 0 && (() => {
-            // Build sparkline data: sessions oldest→newest plus current
             const sessionsOldToNew = [...intervalData.previousSessions].reverse();
             const sparkData = [
               ...sessionsOldToNew.map(s => ({ date: s.date, pace: s.avgRepPace })),
@@ -738,49 +684,34 @@ export default function ActivityDetailPage() {
             ];
             const first = sparkData[0]?.pace;
             const last = sparkData[sparkData.length - 1]?.pace;
-            // Pace: lower is faster; improving = pace decreasing
-            const trend = first && last
-              ? last < first * 0.98 ? 'improving' : last > first * 1.02 ? 'declining' : 'stable'
-              : 'stable';
+            const trend = first && last ? last < first * 0.98 ? 'improving' : last > first * 1.02 ? 'declining' : 'stable' : 'stable';
             const trendConfig = {
-              improving: { label: '↑ Improving', color: 'text-green-600 dark:text-green-400' },
-              declining: { label: '↓ Declining', color: 'text-red-500 dark:text-red-400' },
-              stable:    { label: '→ Stable',    color: 'text-gray-500 dark:text-gray-400' },
+              improving: { label: '↑ Improving', color: 'text-[#cffc00]' },
+              declining: { label: '↓ Declining', color: 'text-[#ff734a]' },
+              stable:    { label: '→ Stable',    color: 'text-[#767575]' },
             }[trend];
-
             return (
-              <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
+              <div className="mt-4 pt-4 border-t border-[#484847]/20">
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-xs font-medium text-gray-500 dark:text-gray-400">
-                    Recent similar sessions ({intervalData.previousSessions.length})
-                  </p>
-                  <span className={`text-xs font-semibold ${trendConfig.color}`}>{trendConfig.label}</span>
+                  <p className="font-label text-[10px] uppercase tracking-widest text-[#767575]">Recent similar sessions ({intervalData.previousSessions.length})</p>
+                  <span className={`font-label text-xs uppercase tracking-widest font-bold ${trendConfig.color}`}>{trendConfig.label}</span>
                 </div>
-                {/* Sparkline */}
                 <ResponsiveContainer width="100%" height={40}>
                   <LineChart data={sparkData} margin={{ top: 2, right: 4, bottom: 2, left: 4 }}>
-                    <Line type="monotone" dataKey="pace" stroke="#6366f1" strokeWidth={2} dot={{ r: 3, fill: '#6366f1' }} />
+                    <Line type="monotone" dataKey="pace" stroke="#cffc00" strokeWidth={2} dot={{ r: 3, fill: '#cffc00' }} />
                     <YAxis domain={['auto', 'auto']} hide reversed />
-                    <Tooltip
-                      formatter={(v: number) => [`${formatPace(v)} /km`, 'Avg Pace']}
-                      labelFormatter={l => l}
-                    />
+                    <Tooltip formatter={(v: number) => [`${formatPace(v)} /km`, 'Avg Pace']} labelFormatter={l => l} contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #484847' }} />
                   </LineChart>
                 </ResponsiveContainer>
-                <div className="flex flex-col gap-1 mt-2">
+                <div className="flex flex-col gap-1 mt-3">
                   {intervalData.previousSessions.map(s => (
                     <div key={s.activityId} className="flex items-center justify-between gap-2">
-                      <Link to={`/activities/${s.activityId}`}
-                        className="text-xs text-primary-600 hover:underline truncate flex-1 min-w-0">
+                      <Link to={`/activities/${s.activityId}`} className="font-label text-xs text-[#cffc00] hover:underline truncate flex-1 min-w-0">
                         {s.date} · {s.activityName}
                       </Link>
                       <div className="flex items-center gap-2 shrink-0">
-                        <span className="text-xs tabular-nums text-gray-700 dark:text-gray-300">
-                          {formatPace(s.avgRepPace)}/km
-                        </span>
-                        {s.consistencyPct > 0 && (
-                          <span className="text-xs text-gray-400 tabular-nums">{s.consistencyPct}%</span>
-                        )}
+                        <span className="font-label text-xs tabular-nums text-[#adaaaa]">{formatPace(s.avgRepPace)}/km</span>
+                        {s.consistencyPct > 0 && <span className="font-label text-xs text-[#767575] tabular-nums">{s.consistencyPct}%</span>}
                       </div>
                     </div>
                   ))}
@@ -790,42 +721,10 @@ export default function ActivityDetailPage() {
           })()}
         </div>
       )}
-
-      {/* Pace chart */}
-      {paceChartData.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700 mt-8">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-            Pace
-          </h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={paceChartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis
-                dataKey="distance"
-                label={{ value: 'km', position: 'insideBottomRight', offset: -5 }}
-              />
-              <YAxis
-                reversed
-                tickFormatter={(v: number) => formatPace(v)}
-                domain={['auto', 'auto']}
-                width={50}
-                label={{ value: 'min/km', angle: -90, position: 'insideLeft' }}
-              />
-              <Tooltip
-                formatter={(v: number) => [`${formatPace(v)} /km`, 'Pace']}
-              />
-              <Line
-                type="monotone"
-                dataKey="pace"
-                stroke="#2563eb"
-                strokeWidth={1.5}
-                dot={false}
-                name="Pace"
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      )}
     </div>
+
   );
 }
+
+
+

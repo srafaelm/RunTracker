@@ -142,14 +142,14 @@ export default function ActivityComparisonPage() {
     activity: typeof actA
   ) => (
     <div className="flex-1 min-w-0">
-      <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">{label}</p>
+      <p className="font-label text-[10px] uppercase tracking-widest text-[#767575] mb-2">{label}</p>
       {activity ? (
-        <div className="bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-700 rounded-lg p-3 flex items-start justify-between gap-2">
+        <div className="bg-[#20201f] border-l-2 border-[#cffc00] p-4 flex items-start justify-between gap-2">
           <div>
-            <p className="font-medium text-gray-900 dark:text-white text-sm">{activity.name}</p>
-            <p className="text-xs text-gray-500">{formatDate(activity.startDate)} · {formatDistance(activity.distance)}</p>
+            <p className="font-headline text-sm font-bold text-white uppercase tracking-tight">{activity.name}</p>
+            <p className="font-label text-xs text-[#adaaaa] mt-1">{formatDate(activity.startDate)} · {formatDistance(activity.distance)}</p>
           </div>
-          <button onClick={() => onSelect('')} className="text-xs text-gray-400 hover:text-red-500 shrink-0">✕</button>
+          <button onClick={() => onSelect('')} className="font-label text-xs text-[#767575] hover:text-[#ff734a] shrink-0">✕</button>
         </div>
       ) : (
         <div className="relative">
@@ -158,20 +158,20 @@ export default function ActivityComparisonPage() {
             placeholder="Search activities…"
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500"
+            className="w-full px-3 py-2 bg-[#131313] border border-[#484847] text-white font-label text-xs placeholder-[#767575] focus:border-[#cffc00] focus:outline-none transition-colors"
           />
           {list && list.items.length > 0 && (
-            <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-10 max-h-56 overflow-y-auto">
+            <div className="absolute top-full left-0 right-0 mt-1 bg-[#1a1a1a] border border-[#484847] shadow-2xl z-10 max-h-56 overflow-y-auto">
               {list.items.map(a => (
                 <button
                   key={a.id}
                   onClick={() => { onSelect(a.id); setSearch(''); }}
-                  className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700 last:border-0"
+                  className="w-full text-left px-3 py-2.5 hover:bg-[#262626] border-b border-[#484847]/20 last:border-0 transition-colors"
                 >
-                  <div className="font-medium text-gray-900 dark:text-white">{a.name}</div>
-                  <div className="text-xs text-gray-500 mt-0.5">
+                  <div className="font-headline text-sm font-bold text-white uppercase tracking-tight">{a.name}</div>
+                  <div className="font-label text-xs text-[#adaaaa] mt-0.5">
                     {formatDate(a.startDate)} · {formatDistance(a.distance)} · {formatPace(a.averagePaceMinPerKm)} /km
-                    {a.sportType !== undefined && <span className="ml-1 text-gray-400">· {sportTypeName(a.sportType)}</span>}
+                    {a.sportType !== undefined && <span className="ml-1 text-[#767575]">· {sportTypeName(a.sportType)}</span>}
                   </div>
                 </button>
               ))}
@@ -185,16 +185,16 @@ export default function ActivityComparisonPage() {
   const isLoading = (idA && loadA) || (idB && loadB);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-6 sm:py-8">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Activity Comparison</h1>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">Select two activities to compare side by side</p>
+    <div className="p-6 sm:p-8 min-h-screen bg-[#0e0e0e] text-white">
+      <h1 className="font-headline text-4xl sm:text-5xl font-bold tracking-tighter uppercase mb-1">Activity Comparison</h1>
+      <p className="font-label text-xs uppercase tracking-widest text-[#767575] mb-8">Select two activities to compare side by side</p>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-3 mb-4">
+      <div className="flex flex-wrap gap-3 mb-6">
         <select
           value={filterSport ?? ''}
           onChange={e => setFilterSport(e.target.value === '' ? undefined : Number(e.target.value) as SportType)}
-          className="text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary-500"
+          className="bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors"
         >
           {SPORT_TYPE_OPTIONS.map(o => (
             <option key={o.label} value={o.value ?? ''}>{o.label}</option>
@@ -204,20 +204,20 @@ export default function ActivityComparisonPage() {
           type="date"
           value={filterFrom}
           onChange={e => setFilterFrom(e.target.value)}
-          className="text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary-500"
+          className="bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors"
           title="From date"
         />
         <input
           type="date"
           value={filterTo}
           onChange={e => setFilterTo(e.target.value)}
-          className="text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary-500"
+          className="bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors"
           title="To date"
         />
         {(filterSport !== undefined || filterFrom || filterTo) && (
           <button
             onClick={() => { setFilterSport(undefined); setFilterFrom(''); setFilterTo(''); }}
-            className="text-xs text-gray-400 hover:text-red-500 px-2"
+            className="font-label text-xs uppercase tracking-widest text-[#767575] hover:text-[#ff734a] px-2 transition-colors"
           >
             Clear filters
           </button>
@@ -225,9 +225,9 @@ export default function ActivityComparisonPage() {
       </div>
 
       {/* Activity pickers */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row gap-4 mb-8">
         {renderPicker('Activity A', searchA, setSearchA, listA, idA, setIdA, actA)}
-        <div className="flex items-center justify-center text-gray-400 font-bold">vs</div>
+        <div className="flex items-center justify-center font-headline text-xl font-bold text-[#484847]">vs</div>
         {renderPicker('Activity B', searchB, setSearchB, listB, idB, setIdB, actB)}
       </div>
 
@@ -236,26 +236,26 @@ export default function ActivityComparisonPage() {
       {actA && actB && !isLoading && (
         <>
           {similarRoute && (
-            <div className="flex items-center gap-2 mb-4 px-4 py-2 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg text-sm text-green-700 dark:text-green-300">
-              <span>Similar route detected</span>
+            <div className="flex items-center gap-2 mb-6 px-4 py-3 bg-[#20201f] border-l-2 border-[#81ecff]">
+              <span className="font-label text-xs uppercase tracking-widest text-[#81ecff]">Similar route detected</span>
             </div>
           )}
 
           {/* Stats diff table */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-6">
-            <div className="px-5 py-3 border-b border-gray-100 dark:border-gray-700 flex items-center gap-4">
-              <p className="flex-1 text-sm font-semibold text-primary-600">A: {actA.name}</p>
-              <p className="w-20 text-center text-xs text-gray-400 uppercase">Diff</p>
-              <p className="flex-1 text-sm font-semibold text-orange-500 text-right">B: {actB.name}</p>
+          <div className="bg-[#20201f] overflow-hidden mb-6">
+            <div className="px-5 py-4 border-b border-[#484847]/20 flex items-center gap-4">
+              <p className="flex-1 font-headline text-sm font-bold text-[#cffc00] uppercase tracking-tight">A: {actA.name}</p>
+              <p className="w-20 text-center font-label text-[10px] uppercase tracking-widest text-[#767575]">Diff</p>
+              <p className="flex-1 font-headline text-sm font-bold text-[#ff734a] uppercase tracking-tight text-right">B: {actB.name}</p>
             </div>
-            <table className="w-full text-sm">
-              <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
+            <table className="w-full">
+              <tbody className="divide-y divide-[#484847]/10">
                 {metrics.map(m => (
-                  <tr key={m.label} className="hover:bg-gray-50 dark:hover:bg-gray-700/40">
-                    <td className="px-5 py-2.5 text-gray-500 dark:text-gray-400 w-24">{m.label}</td>
-                    <td className={`px-3 py-2.5 font-medium ${m.better === 'a' ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-white'}`}>{m.a}</td>
-                    <td className="px-3 py-2.5 text-center text-xs text-gray-400">{m.delta ?? ''}</td>
-                    <td className={`px-5 py-2.5 font-medium text-right ${m.better === 'b' ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-white'}`}>{m.b}</td>
+                  <tr key={m.label} className="hover:bg-zinc-800/20 transition-colors">
+                    <td className="px-5 py-3 font-label text-[10px] uppercase tracking-widest text-[#767575] w-24">{m.label}</td>
+                    <td className={`px-3 py-3 font-headline text-sm font-bold ${m.better === 'a' ? 'text-[#cffc00]' : 'text-white'}`}>{m.a}</td>
+                    <td className="px-3 py-3 text-center font-label text-xs text-[#484847]">{m.delta ?? ''}</td>
+                    <td className={`px-5 py-3 font-headline text-sm font-bold text-right ${m.better === 'b' ? 'text-[#cffc00]' : 'text-white'}`}>{m.b}</td>
                   </tr>
                 ))}
               </tbody>
@@ -266,34 +266,34 @@ export default function ActivityComparisonPage() {
           {chartData.length > 0 && (
             <>
               {chartData.some(d => d.altA != null || d.altB != null) && (
-                <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 mb-5">
-                  <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Elevation Profile</h2>
+                <div className="bg-[#20201f] p-6 mb-4">
+                  <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white mb-4">Elevation Profile</h2>
                   <ResponsiveContainer width="100%" height={180}>
                     <LineChart data={chartData}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                      <XAxis dataKey="dist" tick={{ fontSize: 10 }} tickFormatter={v => `${v}km`} />
-                      <YAxis tick={{ fontSize: 10 }} unit="m" />
-                      <Tooltip formatter={(v: number, n: string) => [v != null ? `${v.toFixed(0)}m` : '—', n === 'altA' ? 'Activity A' : 'Activity B']} labelFormatter={l => `${l}km`} />
-                      <Legend formatter={v => v === 'altA' ? 'Activity A' : 'Activity B'} />
-                      <Line type="monotone" dataKey="altA" stroke="#3b82f6" strokeWidth={2} dot={false} />
-                      <Line type="monotone" dataKey="altB" stroke="#f97316" strokeWidth={2} dot={false} />
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#484847" />
+                      <XAxis dataKey="dist" tick={{ fontSize: 10, fill: '#adaaaa' }} tickFormatter={v => `${v}km`} axisLine={false} tickLine={false} />
+                      <YAxis tick={{ fontSize: 10, fill: '#adaaaa' }} unit="m" axisLine={false} tickLine={false} />
+                      <Tooltip contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #484847', borderRadius: 0 }} labelStyle={{ color: '#adaaaa' }} itemStyle={{ color: '#fff' }} formatter={(v: number, n: string) => [v != null ? `${v.toFixed(0)}m` : '—', n === 'altA' ? 'Activity A' : 'Activity B']} labelFormatter={l => `${l}km`} />
+                      <Legend formatter={v => v === 'altA' ? 'Activity A' : 'Activity B'} wrapperStyle={{ fontSize: 10, color: '#adaaaa' }} />
+                      <Line type="monotone" dataKey="altA" stroke="#cffc00" strokeWidth={2} dot={false} />
+                      <Line type="monotone" dataKey="altB" stroke="#ff734a" strokeWidth={2} dot={false} />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
               )}
 
               {chartData.some(d => d.hrA != null || d.hrB != null) && (
-                <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5">
-                  <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Heart Rate</h2>
+                <div className="bg-[#20201f] p-6">
+                  <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white mb-4">Heart Rate</h2>
                   <ResponsiveContainer width="100%" height={180}>
                     <LineChart data={chartData}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                      <XAxis dataKey="dist" tick={{ fontSize: 10 }} tickFormatter={v => `${v}km`} />
-                      <YAxis tick={{ fontSize: 10 }} unit=" bpm" />
-                      <Tooltip formatter={(v: number, n: string) => [v != null ? `${v} bpm` : '—', n === 'hrA' ? 'Activity A' : 'Activity B']} labelFormatter={l => `${l}km`} />
-                      <Legend formatter={v => v === 'hrA' ? 'Activity A' : 'Activity B'} />
-                      <Line type="monotone" dataKey="hrA" stroke="#3b82f6" strokeWidth={2} dot={false} />
-                      <Line type="monotone" dataKey="hrB" stroke="#f97316" strokeWidth={2} dot={false} />
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#484847" />
+                      <XAxis dataKey="dist" tick={{ fontSize: 10, fill: '#adaaaa' }} tickFormatter={v => `${v}km`} axisLine={false} tickLine={false} />
+                      <YAxis tick={{ fontSize: 10, fill: '#adaaaa' }} unit=" bpm" axisLine={false} tickLine={false} />
+                      <Tooltip contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #484847', borderRadius: 0 }} labelStyle={{ color: '#adaaaa' }} itemStyle={{ color: '#fff' }} formatter={(v: number, n: string) => [v != null ? `${v} bpm` : '—', n === 'hrA' ? 'Activity A' : 'Activity B']} labelFormatter={l => `${l}km`} />
+                      <Legend formatter={v => v === 'hrA' ? 'Activity A' : 'Activity B'} wrapperStyle={{ fontSize: 10, color: '#adaaaa' }} />
+                      <Line type="monotone" dataKey="hrA" stroke="#cffc00" strokeWidth={2} dot={false} />
+                      <Line type="monotone" dataKey="hrB" stroke="#ff734a" strokeWidth={2} dot={false} />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>

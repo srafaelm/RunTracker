@@ -50,21 +50,21 @@ export default function ExportDialog({ currentYear, currentMonth, onExport, onCl
 
   const radioClass = 'flex items-center gap-2 cursor-pointer text-sm text-gray-700 dark:text-gray-300';
   const selectedBorder = 'border-primary-500 bg-primary-50 dark:bg-primary-900/20';
-  const normalBorder = 'border-gray-200 dark:border-gray-600';
+  const normalBorder = 'border-[#484847]/30';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-sm">
+      <div className="bg-[#20201f]-xl w-full max-w-sm">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-700">
-          <h2 className="text-base font-semibold text-gray-900 dark:text-white">Export Training Plan</h2>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[#484847]/20">
+          <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white">Export Training Plan</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl leading-none">×</button>
         </div>
 
         <div className="px-5 py-4 space-y-5">
           {/* Scope */}
           <div>
-            <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Scope</p>
+            <p className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa] mb-2">Scope</p>
             <div className="space-y-2">
               {([
                 ['month', `Current month (${currentYear}-${pad(currentMonth + 1)})`],
@@ -88,21 +88,21 @@ export default function ExportDialog({ currentYear, currentMonth, onExport, onCl
             {scope === 'range' && (
               <div className="mt-3 grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">From</label>
+                  <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">From</label>
                   <input
                     type="date"
                     value={rangeFrom}
                     onChange={(e) => setRangeFrom(e.target.value)}
-                    className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-2 py-1.5 text-sm focus:border-primary-500 focus:outline-none"
+                    className="w-full rounded-md border border-[#484847]/30 dark:bg-gray-700 dark:text-gray-100 px-2 py-1.5 text-sm focus:border-primary-500 focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">To</label>
+                  <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">To</label>
                   <input
                     type="date"
                     value={rangeTo}
                     onChange={(e) => setRangeTo(e.target.value)}
-                    className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-2 py-1.5 text-sm focus:border-primary-500 focus:outline-none"
+                    className="w-full rounded-md border border-[#484847]/30 dark:bg-gray-700 dark:text-gray-100 px-2 py-1.5 text-sm focus:border-primary-500 focus:outline-none"
                   />
                 </div>
               </div>
@@ -111,7 +111,7 @@ export default function ExportDialog({ currentYear, currentMonth, onExport, onCl
 
           {/* Format */}
           <div>
-            <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Format</p>
+            <p className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa] mb-2">Format</p>
             <div className="space-y-2">
               {([
                 ['vertical', 'Vertical — one workout per row', 'Best for importing or viewing in spreadsheets'],
@@ -137,17 +137,17 @@ export default function ExportDialog({ currentYear, currentMonth, onExport, onCl
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end gap-2 px-5 py-4 border-t border-gray-100 dark:border-gray-700">
+        <div className="flex justify-end gap-2 px-5 py-4 border-t border-[#484847]/20">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700"
+            className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 border border-[#484847]/30 rounded-md hover:bg-[#20201f] transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleExport}
             disabled={exporting}
-            className="px-4 py-2 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-md disabled:opacity-50"
+            className="px-4 py-2 text-sm font-medium text-[#3b4a00] bg-[#cffc00] hover:bg-[#c2ed00] rounded-md disabled:opacity-50"
           >
             {exporting ? 'Exporting…' : 'Download CSV'}
           </button>
@@ -156,3 +156,5 @@ export default function ExportDialog({ currentYear, currentMonth, onExport, onCl
     </div>
   );
 }
+
+

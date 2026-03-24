@@ -32,7 +32,7 @@ export default function HrZoneDisplay({ zones, algorithm }: HrZoneDisplayProps) 
 
   return (
     <div className="mt-4 max-w-lg">
-      <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3">
+      <p className="text-xs font-semibold text-[#767575] dark:text-[#767575] uppercase tracking-wider mb-3">
         HR Zones — {ALGORITHM_NAMES[algorithm]}
       </p>
       <div className="space-y-1.5">
@@ -64,3 +64,5 @@ export default function HrZoneDisplay({ zones, algorithm }: HrZoneDisplayProps) 
     </div>
   );
 }
+
+

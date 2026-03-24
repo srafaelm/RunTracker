@@ -30,58 +30,55 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4">
-      <div className="max-w-md w-full space-y-8">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-primary-600">🏃 RunTracker</h1>
-          <h2 className="mt-4 text-2xl font-semibold text-gray-900 dark:text-white">
-            Sign in to your account
-          </h2>
+    <div className="min-h-screen flex items-center justify-center bg-[#0e0e0e] py-12 px-4">
+      <div className="w-full max-w-md">
+        <div className="text-center mb-10">
+          <h1 className="font-headline text-4xl font-bold tracking-tighter text-[#cffc00] uppercase">RunTracker</h1>
+          <p className="font-label text-[10px] tracking-[0.2em] text-zinc-600 mt-1 uppercase">Elite Performance Lab</p>
+          <p className="font-label text-sm text-zinc-400 mt-6">Sign in to your account</p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="space-y-5" onSubmit={handleSubmit}>
           {error && (
-            <div className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded">
+            <div className="border border-[#ff734a]/30 bg-[#ff734a]/10 text-[#ff734a] px-4 py-3 font-label text-sm">
               {error}
             </div>
           )}
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-              />
-            </div>
+          <div>
+            <label htmlFor="email" className="font-label text-[10px] uppercase tracking-widest text-zinc-500 block mb-2">
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full bg-[#131313] border border-[#484847] text-white px-4 py-3 font-body text-sm focus:outline-none focus:border-[#cffc00] transition-colors"
+            />
+          </div>
+          <div>
+            <label htmlFor="password" className="font-label text-[10px] uppercase tracking-widest text-zinc-500 block mb-2">
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full bg-[#131313] border border-[#484847] text-white px-4 py-3 font-body text-sm focus:outline-none focus:border-[#cffc00] transition-colors"
+            />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:opacity-50"
+            className="w-full py-3 px-4 bg-[#cffc00] text-[#3b4a00] font-label font-bold uppercase tracking-widest text-sm hover:bg-[#c2ed00] active:scale-[0.98] transition-all disabled:opacity-50"
           >
             {loading ? 'Signing in...' : 'Sign in'}
           </button>
-          <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+          <p className="text-center font-label text-sm text-zinc-600">
             Don't have an account?{' '}
-            <Link to="/register" className="text-primary-600 hover:text-primary-500 font-medium">
+            <Link to="/register" className="text-[#cffc00] hover:text-[#c2ed00] font-medium transition-colors">
               Sign up
             </Link>
           </p>

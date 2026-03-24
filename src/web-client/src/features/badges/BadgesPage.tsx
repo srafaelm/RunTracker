@@ -45,7 +45,7 @@ function BadgeModal({ badge, onClose }: { badge: BadgeWithStatus; onClose: () =>
       onClick={onClose}
     >
       <div
-        className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-sm p-8 flex flex-col items-center text-center"
+        className="bg-[#20201f] rounded-2xl shadow-2xl w-full max-w-sm p-8 flex flex-col items-center text-center"
         onClick={(e) => e.stopPropagation()}
       >
         <div
@@ -53,13 +53,13 @@ function BadgeModal({ badge, onClose }: { badge: BadgeWithStatus; onClose: () =>
         >
           {badge.icon}
         </div>
-        <div className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-1">
+        <div className="text-xs font-semibold uppercase tracking-widest text-[#767575] dark:text-[#767575] mb-1">
           {badge.category}
         </div>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+        <h2 className="font-headline text-4xl sm:text-5xl font-bold tracking-tighter uppercase mb-8">
           {badge.name}
         </h2>
-        <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">
+        <p className="text-[#767575] dark:text-[#767575] text-sm mb-4">
           {badge.description}
         </p>
         {badge.isEarned ? (
@@ -74,14 +74,14 @@ function BadgeModal({ badge, onClose }: { badge: BadgeWithStatus; onClose: () =>
               <Link
                 to={`/activities/${badge.activityId}`}
                 onClick={onClose}
-                className="text-xs text-primary-600 dark:text-primary-400 hover:underline"
+                className="text-xs text-[#cffc00] hover:text-white transition-colors"
               >
                 View activity →
               </Link>
             )}
           </div>
         ) : (
-          <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 rounded-full px-4 py-1.5 text-sm font-semibold">
+          <div className="flex items-center gap-2 bg-gray-100 dark:bg-[#131313] text-[#767575] dark:text-[#767575] rounded-full px-4 py-1.5 text-sm font-semibold">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
@@ -90,7 +90,7 @@ function BadgeModal({ badge, onClose }: { badge: BadgeWithStatus; onClose: () =>
         )}
         <button
           onClick={onClose}
-          className="mt-6 text-sm text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+          className="mt-6 text-sm text-[#767575] hover:text-gray-600 dark:hover:text-gray-200"
         >
           Close
         </button>
@@ -106,7 +106,7 @@ function BadgeCard({ badge, onClick }: { badge: BadgeWithStatus; onClick: () => 
       className={`relative flex flex-col items-center text-center p-4 rounded-xl border transition-all cursor-pointer group
         ${badge.isEarned
           ? 'border-amber-200 dark:border-amber-700 bg-gradient-to-b from-amber-50 to-white dark:from-amber-900/20 dark:to-gray-800 hover:shadow-md hover:border-amber-300 dark:hover:border-amber-600'
-          : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-700/50'
+          : 'border-[#484847]/30 bg-gray-50 dark:bg-[#20201f]/50 hover:bg-[#20201f] transition-colors/50'
         }`}
     >
       {/* Earned ribbon */}
@@ -124,7 +124,7 @@ function BadgeCard({ badge, onClick }: { badge: BadgeWithStatus; onClick: () => 
       </div>
 
       {/* Name */}
-      <p className={`text-xs font-semibold leading-tight mb-1 ${badge.isEarned ? 'text-gray-800 dark:text-gray-100' : 'text-gray-400 dark:text-gray-500'}`}>
+      <p className={`text-xs font-semibold leading-tight mb-1 ${badge.isEarned ? 'text-gray-800 dark:text-gray-100' : 'text-[#767575] dark:text-gray-500'}`}>
         {badge.name}
       </p>
 
@@ -134,7 +134,7 @@ function BadgeCard({ badge, onClick }: { badge: BadgeWithStatus; onClick: () => 
           {formatDate(badge.earnedAt)}
         </p>
       ) : (
-        <svg className="w-3 h-3 text-gray-300 dark:text-gray-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg className="w-3 h-3 text-[#adaaaa] dark:text-gray-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>
       )}
@@ -178,13 +178,13 @@ export default function BadgesPage() {
     : [{ category: activeCategory, items: filtered }];
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-6 sm:py-8">
+    <div className="p-6 sm:p-8 min-h-screen bg-[#0e0e0e] text-white sm:py-8">
       {/* Header */}
       <div className="flex flex-wrap items-end justify-between gap-4 mb-6">
         <div className="flex items-center gap-3">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Badges</h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            <p className="text-sm text-[#767575] dark:text-[#767575] mt-1">
               {earnedCount} of {totalCount} earned
             </p>
           </div>
@@ -192,7 +192,7 @@ export default function BadgesPage() {
             onClick={() => recalculate.mutate()}
             disabled={recalculate.isPending}
             title="Recalculate badges"
-            className="p-1.5 rounded-lg text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            className="p-1.5 rounded-lg text-[#767575] dark:text-[#767575] hover:text-gray-600 dark:hover:text-[#adaaaa] hover:bg-[#20201f] transition-colors disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           >
             {recalculate.isPending ? (
               <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -209,13 +209,13 @@ export default function BadgesPage() {
 
         {/* Progress bar */}
         <div className="flex items-center gap-3 min-w-48">
-          <div className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+          <div className="flex-1 h-2 bg-gray-200 dark:bg-[#131313] rounded-full overflow-hidden">
             <div
               className="h-full bg-amber-400 rounded-full transition-all"
               style={{ width: `${totalCount > 0 ? (earnedCount / totalCount) * 100 : 0}%` }}
             />
           </div>
-          <span className="text-sm font-semibold text-gray-600 dark:text-gray-300 shrink-0">
+          <span className="text-sm font-semibold text-gray-600 dark:text-[#adaaaa] shrink-0">
             {totalCount > 0 ? Math.round((earnedCount / totalCount) * 100) : 0}%
           </span>
         </div>
@@ -232,12 +232,12 @@ export default function BadgesPage() {
               onClick={() => setActiveCategory(cat)}
               className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                 activeCategory === cat
-                  ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  ? 'bg-[#0e0e0e] dark:bg-[#20201f] text-white dark:text-gray-900'
+                  : 'bg-gray-100 dark:bg-[#131313] text-gray-600 dark:text-[#adaaaa] hover:bg-gray-200 dark:hover:bg-gray-600'
               }`}
             >
               {cat}
-              <span className={`ml-1.5 text-xs ${activeCategory === cat ? 'text-gray-300 dark:text-gray-600' : 'text-gray-400 dark:text-gray-500'}`}>
+              <span className={`ml-1.5 text-xs ${activeCategory === cat ? 'text-[#adaaaa] dark:text-gray-600' : 'text-[#767575] dark:text-gray-500'}`}>
                 {count}/{total}
               </span>
             </button>
@@ -249,7 +249,7 @@ export default function BadgesPage() {
       {groups.map(({ category, items }) => (
         <div key={category} className="mb-8">
           {activeCategory === 'All' && (
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-3">
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-[#767575] dark:text-[#767575] mb-3">
               {category}
             </h2>
           )}
@@ -272,3 +272,5 @@ export default function BadgesPage() {
     </div>
   );
 }
+
+

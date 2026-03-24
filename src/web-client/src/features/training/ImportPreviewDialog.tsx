@@ -30,15 +30,15 @@ export default function ImportPreviewDialog({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-lg max-h-[80vh] flex flex-col">
+      <div className="bg-[#20201f]-xl w-full max-w-lg max-h-[80vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-700 shrink-0">
-          <h2 className="text-base font-semibold text-gray-900 dark:text-white">Import Preview</h2>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[#484847]/20 shrink-0">
+          <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white">Import Preview</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl leading-none">×</button>
         </div>
 
         {/* Summary */}
-        <div className="px-5 py-3 border-b border-gray-100 dark:border-gray-700 shrink-0">
+        <div className="px-5 py-3 border-b border-[#484847]/20 shrink-0">
           <p className="text-sm text-gray-600 dark:text-gray-300">
             Found <span className="font-semibold">{parsed.length}</span> workouts in CSV.
             {duplicateCount > 0 && (
@@ -63,7 +63,7 @@ export default function ImportPreviewDialog({
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
+            <tbody className="divide-y divide-[#484847]/10">
               {rows.map(({ workout: w, isDuplicate }, i) => (
                 <tr key={i} className={isDuplicate ? 'bg-amber-50 dark:bg-amber-900/10' : ''}>
                   <td className="px-4 py-2 text-gray-700 dark:text-gray-300 tabular-nums">{w.date}</td>
@@ -87,10 +87,10 @@ export default function ImportPreviewDialog({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between px-5 py-4 border-t border-gray-100 dark:border-gray-700 gap-2 shrink-0">
+        <div className="flex items-center justify-between px-5 py-4 border-t border-[#484847]/20 gap-2 shrink-0">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700"
+            className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 border border-[#484847]/30 rounded-md hover:bg-[#20201f] transition-colors"
           >
             Cancel
           </button>
@@ -105,7 +105,7 @@ export default function ImportPreviewDialog({
             )}
             <button
               onClick={handleConfirmAll}
-              className="px-4 py-2 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-md"
+              className="px-4 py-2 text-sm font-medium text-[#3b4a00] bg-[#cffc00] hover:bg-[#c2ed00] rounded-md"
             >
               Import all {parsed.length}
             </button>
@@ -115,3 +115,5 @@ export default function ImportPreviewDialog({
     </div>
   );
 }
+
+

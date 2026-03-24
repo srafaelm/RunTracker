@@ -112,15 +112,15 @@ export default function TilesPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Tile Explorer</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+          <h1 className="font-headline text-xl font-bold uppercase tracking-tight text-white">Tile Explorer</h1>
+          <p className="text-sm text-[#767575] dark:text-[#767575] mt-1">
             Each tile is ~1.2km². Blue squares mark areas you've visited.
           </p>
         </div>
         <button
           onClick={handleReprocess}
           disabled={reprocessing}
-          className="px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 disabled:opacity-50"
+          className="px-4 py-2 bg-[#cffc00] text-[#3b4a00] font-label font-bold text-xs uppercase tracking-widest hover:bg-[#c2ed00] transition-colors"
         >
           {reprocessing ? 'Reprocessing…' : 'Reprocess All'}
         </button>
@@ -128,67 +128,67 @@ export default function TilesPage() {
 
       {/* Basic stats row */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-          <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Tiles Visited</p>
-          <p className="text-3xl font-bold text-primary-600 mt-1">
+        <div className="bg-[#20201f] p-4">
+          <p className="text-xs text-[#767575] dark:text-[#767575] uppercase tracking-wide">Tiles Visited</p>
+          <p className="text-3xl font-bold text-[#cffc00] mt-1">
             {stats?.visitedCount.toLocaleString() ?? 0}
           </p>
         </div>
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-          <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Area Covered</p>
-          <p className="text-3xl font-bold text-primary-600 mt-1">
+        <div className="bg-[#20201f] p-4">
+          <p className="text-xs text-[#767575] dark:text-[#767575] uppercase tracking-wide">Area Covered</p>
+          <p className="text-3xl font-bold text-[#cffc00] mt-1">
             ~{visitedKm2.toLocaleString()} km²
           </p>
         </div>
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-          <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Max Square</p>
+        <div className="bg-[#20201f] p-4">
+          <p className="text-xs text-[#767575] dark:text-[#767575] uppercase tracking-wide">Max Square</p>
           <p className="text-3xl font-bold text-purple-600 mt-1">
             {advanced?.maxSquareSize ?? 0}×{advanced?.maxSquareSize ?? 0}
           </p>
-          <p className="text-xs text-gray-400 mt-0.5">tiles</p>
+          <p className="text-xs text-[#767575] mt-0.5">tiles</p>
         </div>
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-          <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Explorer Score</p>
+        <div className="bg-[#20201f] p-4">
+          <p className="text-xs text-[#767575] dark:text-[#767575] uppercase tracking-wide">Explorer Score</p>
           <p className="text-2xl font-bold text-amber-600 mt-1">
             {(advanced?.explorerScore ?? 0).toLocaleString()}
           </p>
-          <p className="text-xs text-gray-400 mt-0.5">{scoreLabel(advanced?.explorerScore ?? 0)}</p>
+          <p className="text-xs text-[#767575] mt-0.5">{scoreLabel(advanced?.explorerScore ?? 0)}</p>
         </div>
       </div>
 
       {/* Advanced exploration cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Explorer rank */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-5">
-          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Explorer Ranking</h3>
+        <div className="bg-[#20201f] p-5">
+          <h3 className="text-sm font-semibold text-gray-700 dark:text-[#adaaaa] mb-3">Explorer Ranking</h3>
           <div className="flex items-end gap-3">
             <div>
               <p className="text-4xl font-bold text-amber-500">{advanced?.explorerPercentile ?? 0}%</p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              <p className="text-sm text-[#767575] dark:text-[#767575] mt-1">
                 Percentile — you explore more than{' '}
                 <strong>{advanced?.explorerPercentile ?? 0}%</strong> of users
               </p>
             </div>
           </div>
-          <div className="mt-3 h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+          <div className="mt-3 h-2 bg-gray-100 dark:bg-[#131313] rounded-full overflow-hidden">
             <div
               className="h-full bg-amber-400 rounded-full transition-all"
               style={{ width: `${advanced?.explorerPercentile ?? 0}%` }}
             />
           </div>
-          <p className="text-xs text-gray-400 mt-1.5">
+          <p className="text-xs text-[#767575] mt-1.5">
             Score based on tiles visited, streets completed, and cities explored
           </p>
         </div>
 
         {/* Weekly challenge */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-5">
+        <div className="bg-[#20201f] p-5">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Weekly Challenge Tile</h3>
             {advanced?.challengeTile && (
               <button
                 onClick={() => setShowChallenge((s) => !s)}
-                className="text-xs text-primary-600 dark:text-primary-400 hover:underline"
+                className="text-xs text-[#cffc00] hover:text-white transition-colors"
               >
                 {showChallenge ? 'Hide on map' : 'Show on map'}
               </button>
@@ -198,21 +198,21 @@ export default function TilesPage() {
             <>
               <p className="text-sm text-gray-600 dark:text-gray-300">
                 This week's target: tile{' '}
-                <span className="font-mono text-xs bg-gray-100 dark:bg-gray-700 px-1 rounded">
+                <span className="font-mono text-xs bg-gray-100 dark:bg-[#131313] px-1 rounded">
                   ({advanced.challengeTile.tileX}, {advanced.challengeTile.tileY})
                 </span>
               </p>
-              <p className="text-xs text-gray-400 mt-2">
+              <p className="text-xs text-[#767575] mt-2">
                 An unvisited tile adjacent to your explored area. A new challenge is set each week.
               </p>
               {challengeCenter && (
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-[#767575] mt-1">
                   ~{challengeCenter.lat.toFixed(4)}°N, {challengeCenter.lon.toFixed(4)}°E
                 </p>
               )}
             </>
           ) : (
-            <p className="text-sm text-gray-400">Start exploring to unlock weekly challenges!</p>
+            <p className="font-label text-xs text-[#767575]">Start exploring to unlock weekly challenges!</p>
           )}
         </div>
       </div>
@@ -226,7 +226,7 @@ export default function TilesPage() {
           >
             {showMaxSquare ? 'Hide max square on map' : 'Show max square on map'}
           </button>
-          <span className="text-xs text-gray-400">
+          <span className="font-label text-[10px] text-[#767575]">
             Your largest contiguous square: {advanced.maxSquareSize}×{advanced.maxSquareSize} ={' '}
             {(advanced.maxSquareSize * advanced.maxSquareSize * 1.44).toFixed(0)} km²
           </span>
@@ -234,9 +234,9 @@ export default function TilesPage() {
       )}
 
       {/* Map */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden" style={{ height: 560 }}>
+      <div className="bg-[#20201f]-sm border border-[#484847]/30 overflow-hidden" style={{ height: 560 }}>
         {geoJson?.features?.length === 0 ? (
-          <div className="h-full flex items-center justify-center text-gray-400 dark:text-gray-500">
+          <div className="h-full flex items-center justify-center text-[#767575] dark:text-gray-500">
             <div className="text-center">
               <p className="text-lg font-medium">No tiles yet</p>
               <p className="text-sm mt-1">Sync your activities to see explored tiles appear here.</p>
@@ -250,7 +250,7 @@ export default function TilesPage() {
                 : { latitude: 51.5, longitude: 4.5, zoom: 9 }
             }
             style={{ width: '100%', height: '100%' }}
-            mapStyle="https://tiles.openfreemap.org/styles/liberty"
+            mapStyle="https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
           >
             {/* Visited tiles */}
             {geoJson && (
@@ -313,7 +313,7 @@ export default function TilesPage() {
       </div>
 
       {/* Legend */}
-      <div className="flex gap-6 text-xs text-gray-500 dark:text-gray-400">
+      <div className="flex gap-6 text-xs text-[#767575] dark:text-gray-400">
         <span className="flex items-center gap-1.5">
           <span className="w-3 h-3 rounded-sm bg-blue-500 opacity-60 inline-block" /> Visited tiles
         </span>
@@ -331,3 +331,9 @@ export default function TilesPage() {
     </div>
   );
 }
+
+
+
+
+
+

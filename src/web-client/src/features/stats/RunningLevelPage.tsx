@@ -6,46 +6,45 @@ import type { RunningLevelDistance } from '../../types';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine, ReferenceArea, ComposedChart, Line, Area } from 'recharts';
 
 const LEVEL_COLORS: Record<string, string> = {
-  Beginner:     'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300',
-  Novice:       'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300',
-  Intermediate: 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300',
-  Advanced:     'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300',
-  Elite:        'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300',
-  WR:           'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300',
+  Beginner:     'bg-[#20201f] text-[#adaaaa]',
+  Novice:       'bg-[#81ecff]/10 text-[#81ecff]',
+  Intermediate: 'bg-[#cffc00]/10 text-[#cffc00]',
+  Advanced:     'bg-yellow-400/10 text-yellow-300',
+  Elite:        'bg-[#ff734a]/10 text-[#ff734a]',
+  WR:           'bg-red-500/10 text-red-400',
 };
 
 function DistanceTable({ dist }: { dist: RunningLevelDistance }) {
-  // Find the user's level (highest standard they meet or beat)
   const achievedLevel = dist.standards.reduce<string | null>((best, s) => {
     return s.userMeetsOrBeats ? s.level : best;
   }, null);
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-        <h2 className="font-semibold text-gray-900 dark:text-white">{dist.distance}</h2>
+    <div className="bg-[#20201f] overflow-hidden">
+      <div className="px-6 py-4 border-b border-[#484847]/20 flex items-center justify-between">
+        <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white">{dist.distance}</h2>
         {dist.userTimeDisplay ? (
-          <div className="text-sm">
-            <span className="text-gray-500 dark:text-gray-400">Your PR: </span>
-            <span className="font-semibold text-gray-900 dark:text-white tabular-nums">{dist.userTimeDisplay}</span>
+          <div className="flex items-center gap-2">
+            <span className="font-label text-[10px] uppercase tracking-widest text-[#767575]">Your PR:</span>
+            <span className="font-headline text-sm font-bold text-[#cffc00] tabular-nums">{dist.userTimeDisplay}</span>
             {achievedLevel && (
-              <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-medium ${LEVEL_COLORS[achievedLevel]}`}>
+              <span className={`px-2 py-0.5 font-label text-[10px] uppercase tracking-widest ${LEVEL_COLORS[achievedLevel]}`}>
                 {achievedLevel}
               </span>
             )}
           </div>
         ) : (
-          <span className="text-sm text-gray-400 dark:text-gray-500">No PR recorded</span>
+          <span className="font-label text-[10px] uppercase tracking-widest text-[#767575]">No PR recorded</span>
         )}
       </div>
       <div className="overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead className="bg-gray-50 dark:bg-gray-700/50">
+        <table className="w-full">
+          <thead>
             <tr>
               {dist.standards.map((s) => (
                 <th
                   key={s.level}
-                  className="px-4 py-2 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider text-center"
+                  className="px-4 py-2 font-label text-[10px] uppercase tracking-widest text-[#adaaaa] text-center"
                 >
                   {s.level}
                 </th>
@@ -57,15 +56,15 @@ function DistanceTable({ dist }: { dist: RunningLevelDistance }) {
               {dist.standards.map((s) => (
                 <td
                   key={s.level}
-                  className={`px-4 py-3 text-center tabular-nums font-medium ${
+                  className={`px-4 py-3 text-center tabular-nums font-headline text-sm font-bold ${
                     s.userMeetsOrBeats
                       ? LEVEL_COLORS[s.level]
-                      : 'text-gray-700 dark:text-gray-300'
+                      : 'text-[#adaaaa]'
                   }`}
                 >
                   {s.timeDisplay}
                   {s.userMeetsOrBeats && (
-                    <span className="block text-xs mt-0.5">✓</span>
+                    <span className="block text-[10px] mt-0.5 text-[#cffc00]">&#10003;</span>
                   )}
                 </td>
               ))}
@@ -78,11 +77,11 @@ function DistanceTable({ dist }: { dist: RunningLevelDistance }) {
 }
 
 const VO2MAX_CLASSIFICATIONS: Record<string, string> = {
-  Superior:     'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300',
-  Excellent:    'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300',
-  Good:         'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300',
-  Fair:         'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300',
-  Poor:         'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300',
+  Superior:     'bg-red-500/10 text-red-400',
+  Excellent:    'bg-[#ff734a]/10 text-[#ff734a]',
+  Good:         'bg-[#cffc00]/10 text-[#cffc00]',
+  Fair:         'bg-[#81ecff]/10 text-[#81ecff]',
+  Poor:         'bg-[#20201f] text-[#adaaaa]',
 };
 
 type Vo2maxFormula = 'daniels' | 'uth';
@@ -141,13 +140,13 @@ function Vo2maxCard() {
   const cls = VO2MAX_CLASSIFICATIONS[displayClassification] ?? VO2MAX_CLASSIFICATIONS.Poor;
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 mb-6">
+    <div className="bg-[#20201f] p-5 mb-6">
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-sm font-semibold text-gray-900 dark:text-white">Estimated VO2max</h2>
+        <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white">Estimated VO2max</h2>
         <select
           value={formula}
           onChange={e => handleFormulaChange(e.target.value as Vo2maxFormula)}
-          className="text-xs rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 focus:outline-none"
+          className="bg-[#131313] border border-[#484847] text-white font-label text-xs px-2 py-1 focus:border-[#cffc00] focus:outline-none transition-colors"
         >
           <option value="daniels">Daniels VDOT</option>
           <option value="uth">Uth-Sørensen (HR)</option>
@@ -156,35 +155,35 @@ function Vo2maxCard() {
       <div className="flex items-baseline gap-3 mb-1">
         {displayVo2max != null ? (
           <>
-            <span className="text-3xl font-bold text-gray-900 dark:text-white tabular-nums">{displayVo2max.toFixed(1)}</span>
-            <span className="text-sm text-gray-500">mL/kg/min</span>
-            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${cls}`}>{displayClassification}</span>
-            <span className="text-xs text-gray-400 ml-1">({displayLevel})</span>
+            <span className="font-headline text-5xl font-bold text-white tabular-nums">{displayVo2max.toFixed(1)}</span>
+            <span className="font-label text-xs text-[#767575]">mL/kg/min</span>
+            <span className={`px-2 py-0.5 font-label text-[10px] uppercase tracking-widest ${cls}`}>{displayClassification}</span>
+            <span className="font-label text-[10px] text-[#767575]">{displayLevel}</span>
           </>
         ) : (
-          <span className="text-sm text-gray-400">
+          <span className="font-label text-xs text-[#767575]">
             {formula === 'uth' ? 'Set Max HR and Resting HR in your profile' : 'No data — log some races or efforts to get an estimate'}
           </span>
         )}
       </div>
-      {displayBasedOn && <p className="text-xs text-gray-400 mb-3">Based on {displayBasedOn}</p>}
+      {displayBasedOn && <p className="font-label text-[10px] uppercase tracking-widest text-[#767575] mb-3">Based on {displayBasedOn}</p>}
       {formula === 'daniels' && (data.trend.length > 1 || historyData.length > 1) && (
         <div>
           <div className="flex items-center justify-between mb-2">
-            <p className="text-xs text-gray-500 dark:text-gray-400">
+            <p className="font-label text-[10px] uppercase tracking-widest text-[#767575]">
               {chartView === 'monthly' ? 'Monthly trend (last 12 months)' : 'All-time history (per activity)'}
             </p>
             {historyData.length > 0 && (
               <div className="flex gap-1">
                 <button
                   onClick={() => setChartView('monthly')}
-                  className={`text-xs px-2 py-0.5 rounded ${chartView === 'monthly' ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:text-gray-600'}`}
+                  className={`font-label text-[10px] uppercase tracking-widest px-2 py-0.5 transition-colors ${chartView === 'monthly' ? 'bg-[#cffc00] text-[#3b4a00]' : 'text-[#767575] hover:text-white'}`}
                 >
                   12M
                 </button>
                 <button
                   onClick={() => setChartView('history')}
-                  className={`text-xs px-2 py-0.5 rounded ${chartView === 'history' ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:text-gray-600'}`}
+                  className={`font-label text-[10px] uppercase tracking-widest px-2 py-0.5 transition-colors ${chartView === 'history' ? 'bg-[#cffc00] text-[#3b4a00]' : 'text-[#767575] hover:text-white'}`}
                 >
                   All
                 </button>
@@ -194,38 +193,38 @@ function Vo2maxCard() {
           {chartView === 'monthly' && data.trend.length > 1 && (
             <ResponsiveContainer width="100%" height={120}>
               <BarChart data={data.trend} margin={{ top: 0, right: 0, bottom: 0, left: -20 }}>
-                <XAxis dataKey="monthLabel" tick={{ fontSize: 9 }} tickFormatter={v => v.slice(5)} />
-                <YAxis tick={{ fontSize: 9 }} domain={[20, 75]} />
-                <Tooltip formatter={(v: number) => [`${v.toFixed(1)} mL/kg/min`, 'VO2max']} labelFormatter={l => l} />
-                <ReferenceArea y1={20} y2={35} fill="#9ca3af" fillOpacity={0.15} label={{ value: 'Poor', position: 'insideLeft', fontSize: 8, fill: '#9ca3af' }} />
-                <ReferenceArea y1={35} y2={42} fill="#3b82f6" fillOpacity={0.15} label={{ value: 'Fair', position: 'insideLeft', fontSize: 8, fill: '#3b82f6' }} />
-                <ReferenceArea y1={42} y2={50} fill="#22c55e" fillOpacity={0.15} label={{ value: 'Good', position: 'insideLeft', fontSize: 8, fill: '#22c55e' }} />
-                <ReferenceArea y1={50} y2={57} fill="#f97316" fillOpacity={0.15} label={{ value: 'Excellent', position: 'insideLeft', fontSize: 8, fill: '#f97316' }} />
-                <ReferenceArea y1={57} y2={75} fill="#ef4444" fillOpacity={0.15} label={{ value: 'Superior', position: 'insideLeft', fontSize: 8, fill: '#ef4444' }} />
-                {data.vo2max != null && <ReferenceLine y={data.vo2max} stroke="#6366f1" strokeDasharray="3 3" />}
-                <Bar dataKey="vo2max" fill="#6366f1" radius={[2, 2, 0, 0]} />
+                <XAxis dataKey="monthLabel" tick={{ fontSize: 9, fill: '#adaaaa' }} tickFormatter={v => v.slice(5)} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fontSize: 9, fill: '#adaaaa' }} domain={[20, 75]} axisLine={false} tickLine={false} />
+                <Tooltip contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #484847', borderRadius: 0 }} labelStyle={{ color: '#adaaaa' }} itemStyle={{ color: '#fff' }} formatter={(v: number) => [`${v.toFixed(1)} mL/kg/min`, 'VO2max']} labelFormatter={l => l} />
+                <ReferenceArea y1={20} y2={35} fill="#9ca3af" fillOpacity={0.08} />
+                <ReferenceArea y1={35} y2={42} fill="#81ecff" fillOpacity={0.08} />
+                <ReferenceArea y1={42} y2={50} fill="#cffc00" fillOpacity={0.08} />
+                <ReferenceArea y1={50} y2={57} fill="#ff734a" fillOpacity={0.08} />
+                <ReferenceArea y1={57} y2={75} fill="#ef4444" fillOpacity={0.08} />
+                {data.vo2max != null && <ReferenceLine y={data.vo2max} stroke="#cffc00" strokeDasharray="3 3" />}
+                <Bar dataKey="vo2max" fill="#cffc00" radius={[2, 2, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           )}
           {chartView === 'history' && historyData.length > 1 && (
             <ResponsiveContainer width="100%" height={120}>
               <ComposedChart data={historyData} margin={{ top: 0, right: 0, bottom: 0, left: -20 }}>
-                <XAxis dataKey="month" tick={{ fontSize: 9 }} tickFormatter={v => v.slice(5)} />
-                <YAxis tick={{ fontSize: 9 }} domain={[20, 75]} />
-                <Tooltip formatter={(v: number) => [`${v.toFixed(1)} mL/kg/min`, 'VO2max']} labelFormatter={l => l} />
-                <ReferenceArea y1={20} y2={35} fill="#9ca3af" fillOpacity={0.15} />
-                <ReferenceArea y1={35} y2={42} fill="#3b82f6" fillOpacity={0.15} />
-                <ReferenceArea y1={42} y2={50} fill="#22c55e" fillOpacity={0.15} />
-                <ReferenceArea y1={50} y2={57} fill="#f97316" fillOpacity={0.15} />
-                <ReferenceArea y1={57} y2={75} fill="#ef4444" fillOpacity={0.15} />
-                <Area type="monotone" dataKey="value" fill="#6366f1" fillOpacity={0.1} stroke="none" />
-                <Line type="monotone" dataKey="value" stroke="#6366f1" dot={false} strokeWidth={2} />
+                <XAxis dataKey="month" tick={{ fontSize: 9, fill: '#adaaaa' }} tickFormatter={v => v.slice(5)} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fontSize: 9, fill: '#adaaaa' }} domain={[20, 75]} axisLine={false} tickLine={false} />
+                <Tooltip contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #484847', borderRadius: 0 }} labelStyle={{ color: '#adaaaa' }} itemStyle={{ color: '#fff' }} formatter={(v: number) => [`${v.toFixed(1)} mL/kg/min`, 'VO2max']} labelFormatter={l => l} />
+                <ReferenceArea y1={20} y2={35} fill="#9ca3af" fillOpacity={0.08} />
+                <ReferenceArea y1={35} y2={42} fill="#81ecff" fillOpacity={0.08} />
+                <ReferenceArea y1={42} y2={50} fill="#cffc00" fillOpacity={0.08} />
+                <ReferenceArea y1={50} y2={57} fill="#ff734a" fillOpacity={0.08} />
+                <ReferenceArea y1={57} y2={75} fill="#ef4444" fillOpacity={0.08} />
+                <Area type="monotone" dataKey="value" fill="#cffc00" fillOpacity={0.08} stroke="none" />
+                <Line type="monotone" dataKey="value" stroke="#cffc00" dot={false} strokeWidth={2} />
               </ComposedChart>
             </ResponsiveContainer>
           )}
         </div>
       )}
-      <p className="text-xs text-gray-400 mt-2">
+      <p className="font-label text-[10px] uppercase tracking-widest text-[#767575] mt-2">
         {formula === 'daniels'
           ? "Estimated using Jack Daniels' VDOT formula from your PRs and recent runs."
           : 'Uth-Sørensen: 15 × (MaxHR / RestingHR). Set both values in your Profile.'}
@@ -242,44 +241,46 @@ export default function RunningLevelPage() {
 
   if (!profile?.birthYear) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-16 text-center">
-        <p className="text-4xl mb-4">📊</p>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Birth Year Required</h2>
-        <p className="text-gray-500 dark:text-gray-400 mb-6">
-          Set your birth year on your profile to see where your times rank against age-group standards.
-        </p>
-        <Link
-          to="/profile"
-          className="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700"
-        >
-          Go to Profile
-        </Link>
+      <div className="p-6 sm:p-8 min-h-screen bg-[#0e0e0e] text-white flex items-center justify-center">
+        <div className="text-center">
+          <p className="font-headline text-5xl mb-4">📊</p>
+          <h2 className="font-headline text-2xl font-bold uppercase tracking-tight text-white mb-2">Birth Year Required</h2>
+          <p className="font-label text-xs uppercase tracking-widest text-[#767575] mb-6">
+            Set your birth year on your profile to see where your times rank against age-group standards.
+          </p>
+          <Link
+            to="/profile"
+            className="inline-flex items-center px-6 py-3 bg-[#cffc00] text-[#3b4a00] font-label font-bold text-xs uppercase tracking-widest hover:bg-[#c2ed00] transition-colors"
+          >
+            Go to Profile
+          </Link>
+        </div>
       </div>
     );
   }
 
   if (!level?.hasData) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-16 text-center">
-        <p className="text-gray-500 dark:text-gray-400">No data available.</p>
+      <div className="p-6 sm:p-8 min-h-screen bg-[#0e0e0e] text-white flex items-center justify-center">
+        <p className="font-label text-xs uppercase tracking-widest text-[#767575]">No data available.</p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="flex items-center justify-between mb-6">
+    <div className="p-6 sm:p-8 min-h-screen bg-[#0e0e0e] text-white">
+      <div className="flex items-start justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Running Level</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            How your PRs compare to age-group standards · {level.userAgeGroup} · {profile.gender === 1 ? 'Male' : profile.gender === 2 ? 'Female' : 'Open'}
+          <h1 className="font-headline text-4xl sm:text-5xl font-bold tracking-tighter uppercase">Running Level</h1>
+          <p className="font-label text-xs uppercase tracking-widest text-[#767575] mt-2">
+            How your PRs compare to age-group standards &middot; {level.userAgeGroup} &middot; {profile.gender === 1 ? 'Male' : profile.gender === 2 ? 'Female' : 'Open'}
           </p>
         </div>
         <Link
           to="/race-predictor"
-          className="text-sm text-primary-600 hover:text-primary-700 font-medium"
+          className="font-label text-xs uppercase tracking-widest text-[#cffc00] hover:text-white transition-colors"
         >
-          Race Predictor →
+          Race Predictor &rarr;
         </Link>
       </div>
 
@@ -288,14 +289,14 @@ export default function RunningLevelPage() {
       {/* Level legend */}
       <div className="flex flex-wrap gap-2 mb-6">
         {['Beginner', 'Novice', 'Intermediate', 'Advanced', 'Elite', 'WR'].map((lvl) => (
-          <span key={lvl} className={`px-2 py-1 rounded text-xs font-medium ${LEVEL_COLORS[lvl]}`}>
+          <span key={lvl} className={`px-2 py-1 font-label text-[10px] uppercase tracking-widest ${LEVEL_COLORS[lvl]}`}>
             {lvl}
           </span>
         ))}
-        <span className="text-xs text-gray-400 dark:text-gray-500 self-center ml-2">✓ = your PR meets this standard</span>
+        <span className="font-label text-[10px] uppercase tracking-widest text-[#767575] self-center ml-2">&#10003; = your PR meets this standard</span>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {level.distances.map((d) => (
           <DistanceTable key={d.distance} dist={d} />
         ))}

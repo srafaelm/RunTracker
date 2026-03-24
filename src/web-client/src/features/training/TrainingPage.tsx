@@ -24,11 +24,11 @@ import {
 // ── Absence type config ────────────────────────────────────────────────────────
 
 const ABSENCE_TYPES: { value: AbsenceType; label: string; emoji: string; color: string }[] = [
-  { value: AbsenceType.Sick,     label: 'Sick',     emoji: '🤒', color: 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 border-red-300 dark:border-red-700' },
-  { value: AbsenceType.Rest,     label: 'Rest',     emoji: '😴', color: 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600' },
-  { value: AbsenceType.Vacation, label: 'Vacation', emoji: '🏖️', color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-300 dark:border-blue-700' },
-  { value: AbsenceType.Injury,   label: 'Injury',   emoji: '🤕', color: 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 border-orange-300 dark:border-orange-700' },
-  { value: AbsenceType.Other,    label: 'Other',    emoji: '📌', color: 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 border-purple-300 dark:border-purple-700' },
+  { value: AbsenceType.Sick,     label: 'Sick',     emoji: '🤒', color: 'bg-red-400/10 text-red-400 border-red-400/30' },
+  { value: AbsenceType.Rest,     label: 'Rest',     emoji: '😴', color: 'bg-[#484847]/20 text-[#adaaaa] border-[#484847]/50' },
+  { value: AbsenceType.Vacation, label: 'Vacation', emoji: '🏖️', color: 'bg-[#81ecff]/10 text-[#81ecff] border-[#81ecff]/30' },
+  { value: AbsenceType.Injury,   label: 'Injury',   emoji: '🤕', color: 'bg-[#ff734a]/10 text-[#ff734a] border-[#ff734a]/30' },
+  { value: AbsenceType.Other,    label: 'Other',    emoji: '📌', color: 'bg-purple-400/10 text-purple-400 border-purple-400/30' },
 ];
 
 function absenceTypeConfig(type: AbsenceType) {
@@ -38,14 +38,14 @@ function absenceTypeConfig(type: AbsenceType) {
 // ── Workout type config ────────────────────────────────────────────────────────
 
 const WORKOUT_TYPES: { value: WorkoutType; label: string; classes: string }[] = [
-  { value: WorkoutType.Easy,      label: 'Easy',      classes: 'bg-green-100 text-green-800 border-green-300' },
-  { value: WorkoutType.Tempo,     label: 'Tempo',     classes: 'bg-orange-100 text-orange-800 border-orange-300' },
-  { value: WorkoutType.Long,      label: 'Long',      classes: 'bg-blue-100 text-blue-800 border-blue-300' },
-  { value: WorkoutType.Intervals, label: 'Intervals', classes: 'bg-red-100 text-red-800 border-red-300' },
-  { value: WorkoutType.Recovery,  label: 'Recovery',  classes: 'bg-teal-100 text-teal-800 border-teal-300' },
-  { value: WorkoutType.Rest,      label: 'Rest',      classes: 'bg-gray-100 text-gray-600 border-gray-300' },
-  { value: WorkoutType.Race,      label: 'Race',      classes: 'bg-purple-100 text-purple-800 border-purple-300' },
-  { value: WorkoutType.Other,     label: 'Other',     classes: 'bg-gray-100 text-gray-500 border-gray-200' },
+  { value: WorkoutType.Easy,      label: 'Easy',      classes: 'bg-[#cffc00]/10 text-[#cffc00] border-[#cffc00]/30' },
+  { value: WorkoutType.Tempo,     label: 'Tempo',     classes: 'bg-[#ff734a]/10 text-[#ff734a] border-[#ff734a]/30' },
+  { value: WorkoutType.Long,      label: 'Long',      classes: 'bg-[#81ecff]/10 text-[#81ecff] border-[#81ecff]/30' },
+  { value: WorkoutType.Intervals, label: 'Intervals', classes: 'bg-red-400/10 text-red-400 border-red-400/30' },
+  { value: WorkoutType.Recovery,  label: 'Recovery',  classes: 'bg-teal-400/10 text-teal-400 border-teal-400/30' },
+  { value: WorkoutType.Rest,      label: 'Rest',      classes: 'bg-[#484847]/20 text-[#adaaaa] border-[#484847]/50' },
+  { value: WorkoutType.Race,      label: 'Race',      classes: 'bg-purple-400/10 text-purple-400 border-purple-400/30' },
+  { value: WorkoutType.Other,     label: 'Other',     classes: 'bg-[#484847]/10 text-[#767575] border-[#484847]/20' },
 ];
 
 function workoutTypeConfig(type: WorkoutType) {
@@ -225,7 +225,7 @@ const DAY_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 function ComparisonPanel({ workoutId }: { workoutId: string }) {
   const { data: cmp, isLoading } = useWorkoutComparison(workoutId);
 
-  if (isLoading) return <p className="text-xs text-gray-400 py-2">Loading comparison…</p>;
+  if (isLoading) return <p className="text-xs text-[#767575] py-2">Loading comparison…</p>;
   if (!cmp) return null;
 
   const hasActivity = !!cmp.activityId;
@@ -262,33 +262,33 @@ function ComparisonPanel({ workoutId }: { workoutId: string }) {
 
   if (rows.length === 0 && !hasActivity) {
     return (
-      <p className="text-xs text-gray-400 py-1">No planned targets set and no run found on this date.</p>
+      <p className="text-xs text-[#767575] py-1">No planned targets set and no run found on this date.</p>
     );
   }
 
   return (
-    <div className="mt-3 border-t border-gray-100 dark:border-gray-700 pt-3">
+    <div className="mt-3 border-t border-[#484847]/20 pt-3">
       <div className="flex items-center justify-between mb-2">
-        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+        <p className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa]">
           vs Actual {hasActivity ? `· ${cmp.activityName}` : ''}
         </p>
         {hasActivity && (
           <Link
             to={`/activities/${cmp.activityId}`}
-            className="text-xs text-primary-600 dark:text-primary-400 hover:underline"
+            className="text-xs text-[#cffc00] hover:text-white transition-colors"
           >
             View activity →
           </Link>
         )}
       </div>
       {!hasActivity ? (
-        <p className="text-xs text-gray-400 dark:text-gray-500">No run activity found on this date.</p>
+        <p className="text-xs text-[#767575] dark:text-gray-500">No run activity found on this date.</p>
       ) : rows.length === 0 ? (
-        <p className="text-xs text-gray-400 dark:text-gray-500">Add planned targets above to compare.</p>
+        <p className="text-xs text-[#767575] dark:text-gray-500">Add planned targets above to compare.</p>
       ) : (
         <table className="w-full text-xs">
           <thead>
-            <tr className="text-gray-400 dark:text-gray-500">
+            <tr className="text-[#767575] dark:text-gray-500">
               <th className="text-left pb-1 font-medium"></th>
               <th className="text-right pb-1 font-medium">Planned</th>
               <th className="text-right pb-1 font-medium">Actual</th>
@@ -298,7 +298,7 @@ function ComparisonPanel({ workoutId }: { workoutId: string }) {
             {rows.map((r) => (
               <tr key={r.label}>
                 <td className="py-1 text-gray-600 dark:text-gray-400">{r.label}</td>
-                <td className="py-1 text-right text-gray-500 dark:text-gray-400">{r.planned}</td>
+                <td className="py-1 text-right text-[#767575] dark:text-gray-400">{r.planned}</td>
                 <td className={`py-1 text-right font-medium ${
                   r.good === true ? 'text-green-600 dark:text-green-400' : r.good === false ? 'text-red-500 dark:text-red-400' : 'text-gray-700 dark:text-gray-300'
                 }`}>
@@ -434,43 +434,43 @@ function WorkoutModal({ modal, onClose, onSaved }: WorkoutModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+      <div className="bg-[#20201f]-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-700 sticky top-0 bg-white dark:bg-gray-800 z-10">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[#484847]/20 sticky top-0 bg-[#20201f] z-10">
+          <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white">
             {modal.mode === 'create' ? 'New Workout' : 'Edit Workout'}
           </h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl leading-none">×</button>
+          <button onClick={onClose} className="text-[#767575] hover:text-gray-600 dark:hover:text-[#adaaaa] text-xl leading-none">×</button>
         </div>
 
         {/* Form */}
         <div className="px-5 py-4 space-y-4">
           {/* Date */}
           <div>
-            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Date *</label>
+            <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Date *</label>
             <input
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+              className="w-full rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
             />
           </div>
 
           {/* Title */}
           <div>
-            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Title *</label>
+            <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Title *</label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Easy 10km"
-              className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+              className="w-full rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
             />
           </div>
 
           {/* Sport type */}
           <div>
-            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Sport</label>
+            <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Sport</label>
             <div className="flex flex-wrap gap-2">
               {SPORT_TYPES.map((s) => (
                 <button
@@ -480,7 +480,7 @@ function WorkoutModal({ modal, onClose, onSaved }: WorkoutModalProps) {
                   className={`px-3 py-1 rounded-full text-xs font-medium border transition-all ${
                     sportType === s.value
                       ? 'bg-primary-100 text-primary-800 border-primary-400 ring-2 ring-offset-1 ring-primary-400'
-                      : 'bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-600 hover:border-gray-400'
+                      : 'bg-white dark:bg-[#131313] text-[#767575] dark:text-[#767575] border-[#484847]/30 hover:border-gray-400'
                   }`}
                 >
                   {s.emoji} {s.label}
@@ -491,7 +491,7 @@ function WorkoutModal({ modal, onClose, onSaved }: WorkoutModalProps) {
 
           {/* Workout type */}
           <div>
-            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Type</label>
+            <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Type</label>
             <div className="flex flex-wrap gap-2">
               {WORKOUT_TYPES.map((t) => (
                 <button
@@ -501,7 +501,7 @@ function WorkoutModal({ modal, onClose, onSaved }: WorkoutModalProps) {
                   className={`px-3 py-1 rounded-full text-xs font-medium border transition-all ${
                     workoutType === t.value
                       ? t.classes + ' ring-2 ring-offset-1 ring-primary-400'
-                      : 'bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-600 hover:border-gray-400'
+                      : 'bg-white dark:bg-[#131313] text-[#767575] dark:text-[#767575] border-[#484847]/30 hover:border-gray-400'
                   }`}
                 >
                   {t.label}
@@ -513,23 +513,23 @@ function WorkoutModal({ modal, onClose, onSaved }: WorkoutModalProps) {
           {/* Distance + Duration */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Distance (km)</label>
+              <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Distance (km)</label>
               <input
                 type="number" min="0" step="0.1"
                 value={distKm}
                 onChange={(e) => setDistKm(e.target.value)}
                 placeholder="10.0"
-                className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                className="w-full rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Duration (h:mm)</label>
+              <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Duration (h:mm)</label>
               <input
                 type="text"
                 value={duration}
                 onChange={(e) => setDuration(e.target.value)}
                 placeholder="1:00"
-                className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                className="w-full rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
               />
             </div>
           </div>
@@ -537,31 +537,31 @@ function WorkoutModal({ modal, onClose, onSaved }: WorkoutModalProps) {
           {/* Pace + HR Zone */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Pace Min (mm:ss/km)</label>
+              <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Pace Min (mm:ss/km)</label>
               <div className="flex gap-1 items-center">
                 <input
                   type="text"
                   value={pace}
                   onChange={(e) => setPace(e.target.value)}
                   placeholder="5:00"
-                  className="flex-1 min-w-0 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                  className="flex-1 min-w-0 rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
                 />
-                <span className="text-gray-400 text-xs shrink-0">–</span>
+                <span className="text-[#767575] text-xs shrink-0">–</span>
                 <input
                   type="text"
                   value={paceMax}
                   onChange={(e) => setPaceMax(e.target.value)}
                   placeholder="5:30"
-                  className="flex-1 min-w-0 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                  className="flex-1 min-w-0 rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
                 />
               </div>
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Target HR Zone (1–5)</label>
+              <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Target HR Zone (1–5)</label>
               <select
                 value={hrZone}
                 onChange={(e) => setHrZone(e.target.value)}
-                className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                className="w-full rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
               >
                 <option value="">Any</option>
                 <option value="1">Zone 1 — Recovery (&lt;60%)</option>
@@ -576,13 +576,13 @@ function WorkoutModal({ modal, onClose, onSaved }: WorkoutModalProps) {
           {/* Intervals */}
           {workoutType === WorkoutType.Intervals && (
             <div>
-              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Intervals (e.g. 8×400m @ 4:30/km)</label>
+              <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Intervals (e.g. 8×400m @ 4:30/km)</label>
               <input
                 type="text"
                 value={intervals}
                 onChange={(e) => setIntervals(e.target.value)}
                 placeholder="8×400m @ 4:30/km"
-                className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                className="w-full rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
               />
             </div>
           )}
@@ -592,45 +592,45 @@ function WorkoutModal({ modal, onClose, onSaved }: WorkoutModalProps) {
             <div className="space-y-3 rounded-lg border border-purple-200 dark:border-purple-800 bg-purple-50 dark:bg-purple-900/20 p-3">
               <p className="text-xs font-semibold text-purple-700 dark:text-purple-300 uppercase tracking-wide">Race details</p>
               <div>
-                <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Location</label>
+                <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Location</label>
                 <input
                   type="text"
                   value={raceLocation}
                   onChange={(e) => setRaceLocation(e.target.value)}
                   placeholder="e.g. Amsterdam, NL"
-                  className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                  className="w-full rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Race Distance (km)</label>
+                  <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Race Distance (km)</label>
                   <input
                     type="number" min="0" step="0.001"
                     value={raceDistKm}
                     onChange={(e) => setRaceDistKm(e.target.value)}
                     placeholder="42.195"
-                    className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                    className="w-full rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Goal Time (h:mm:ss)</label>
+                  <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Goal Time (h:mm:ss)</label>
                   <input
                     type="text"
                     value={goalTime}
                     onChange={(e) => setGoalTime(e.target.value)}
                     placeholder="3:30:00"
-                    className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                    className="w-full rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Result Time (h:mm:ss)</label>
+                <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Result Time (h:mm:ss)</label>
                 <input
                   type="text"
                   value={resultTime}
                   onChange={(e) => setResultTime(e.target.value)}
                   placeholder="3:28:45"
-                  className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+                  className="w-full rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
                 />
               </div>
             </div>
@@ -638,25 +638,25 @@ function WorkoutModal({ modal, onClose, onSaved }: WorkoutModalProps) {
 
           {/* Notes */}
           <div>
-            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Notes</label>
+            <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Notes</label>
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               rows={2}
               placeholder="Keep HR under 140…"
-              className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none resize-none"
+              className="w-full rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none resize-none"
             />
           </div>
 
           {/* Duplicate section */}
           {modal.mode === 'edit' && showDuplicate && (
-            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3 flex items-center gap-2">
-              <label className="text-xs font-medium text-gray-500 dark:text-gray-400 shrink-0">Duplicate to:</label>
+            <div className="bg-[#131313] border border-[#484847]/20 p-3 flex items-center gap-2">
+              <label className="text-xs font-medium text-[#767575] dark:text-[#767575] shrink-0">Duplicate to:</label>
               <input
                 type="date"
                 value={duplicateDate}
                 onChange={(e) => setDuplicateDate(e.target.value)}
-                className="flex-1 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-600 dark:text-gray-100 px-2 py-1 text-sm focus:border-primary-500 focus:outline-none"
+                className="flex-1 rounded-md border border-[#484847]/30 dark:bg-gray-600 dark:text-gray-100 px-2 py-1 text-sm focus:border-primary-500 focus:outline-none"
               />
               <button
                 onClick={handleDuplicate}
@@ -675,13 +675,13 @@ function WorkoutModal({ modal, onClose, onSaved }: WorkoutModalProps) {
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between px-5 py-4 border-t border-gray-100 dark:border-gray-700 gap-2 sticky bottom-0 bg-white dark:bg-gray-800">
+        <div className="flex items-center justify-between px-5 py-4 border-t border-[#484847]/20 gap-2 sticky bottom-0 bg-[#20201f]">
           <div className="flex gap-2">
             {modal.mode === 'edit' && (
               <>
                 <button
                   onClick={() => setShowDuplicate(!showDuplicate)}
-                  className="px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-md"
+                  className="px-3 py-2 text-sm font-medium text-gray-600 dark:text-[#adaaaa] bg-gray-100 dark:bg-[#131313] hover:bg-gray-200 dark:hover:bg-gray-600 rounded-md"
                 >
                   Duplicate
                 </button>
@@ -698,14 +698,14 @@ function WorkoutModal({ modal, onClose, onSaved }: WorkoutModalProps) {
           <div className="flex gap-2">
             <button
               onClick={onClose}
-              className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700"
+              className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-[#adaaaa] border border-[#484847]/30 rounded-md hover:bg-[#20201f] transition-colors"
             >
               Cancel
             </button>
             <button
               onClick={handleSave}
               disabled={saving || !date || !title.trim()}
-              className="px-4 py-2 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-md disabled:opacity-50"
+              className="px-4 py-2 text-sm font-medium text-[#3b4a00] bg-[#cffc00] hover:bg-[#c2ed00] rounded-md disabled:opacity-50"
             >
               {saving ? 'Saving…' : 'Save'}
             </button>
@@ -881,7 +881,7 @@ export default function TrainingPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-3 sm:py-4">
+    <div className="p-6 sm:p-8 min-h-screen bg-[#0e0e0e] text-white sm:py-4">
       {/* Header */}
       <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Training Schedule</h1>
@@ -889,37 +889,37 @@ export default function TrainingPage() {
         <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={() => setAbsenceDialogDate(new Date().toISOString().slice(0, 10))}
-            className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600"
+            className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-[#adaaaa] bg-white dark:bg-[#131313] border border-[#484847]/30 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600"
           >
             + Absence
           </button>
           <button
             onClick={() => setShowClearRange(true)}
-            className="px-3 py-2 text-sm font-medium text-red-600 dark:text-red-400 bg-white dark:bg-gray-700 border border-red-300 dark:border-red-600 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20"
+            className="px-3 py-2 text-sm font-medium text-red-600 dark:text-red-400 bg-white dark:bg-[#131313] border border-red-300 dark:border-red-600 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20"
           >
             Clear Range
           </button>
           <button
             onClick={() => setShowExportDialog(true)}
-            className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600"
+            className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-[#adaaaa] bg-white dark:bg-[#131313] border border-[#484847]/30 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600"
           >
             Export Plan
           </button>
           <button
             onClick={() => importRef.current?.click()}
-            className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600"
+            className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-[#adaaaa] bg-white dark:bg-[#131313] border border-[#484847]/30 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600"
           >
             Import CSV
           </button>
           <button
             onClick={() => setShowPlanDialog(true)}
-            className="px-3 py-2 text-sm font-medium text-primary-600 dark:text-primary-400 bg-white dark:bg-gray-700 border border-primary-300 dark:border-primary-600 rounded-md hover:bg-primary-50 dark:hover:bg-primary-900/20"
+            className="px-3 py-2 text-sm font-medium text-[#cffc00] dark:text-primary-400 bg-white dark:bg-[#131313] border border-primary-300 dark:border-primary-600 rounded-md hover:bg-primary-50 dark:hover:bg-primary-900/20"
           >
             Load Training Plan
           </button>
           <button
             onClick={() => setShowMyTemplates(true)}
-            className="px-3 py-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-white dark:bg-gray-700 border border-indigo-300 dark:border-indigo-600 rounded-md hover:bg-indigo-50 dark:hover:bg-indigo-900/20"
+            className="px-3 py-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-white dark:bg-[#131313] border border-indigo-300 dark:border-indigo-600 rounded-md hover:bg-indigo-50 dark:hover:bg-indigo-900/20"
           >
             My Templates
           </button>
@@ -928,7 +928,7 @@ export default function TrainingPage() {
             <select
               value={exportCount}
               onChange={(e) => setExportCount(Number(e.target.value))}
-              className="rounded-l-md border border-r-0 border-gray-300 dark:border-gray-600 px-2 py-2 text-sm focus:border-primary-500 focus:outline-none bg-white dark:bg-gray-700 dark:text-gray-200"
+              className="rounded-l-md border border-r-0 border-[#484847]/30 px-2 py-2 text-sm focus:border-primary-500 focus:outline-none bg-white dark:bg-[#131313] dark:text-gray-200"
             >
               {[10, 20, 50, 100, 200].map((n) => (
                 <option key={n} value={n}>{n}</option>
@@ -936,7 +936,7 @@ export default function TrainingPage() {
             </select>
             <button
               onClick={handleExportActivities}
-              className="px-3 py-2 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-r-md border border-primary-600"
+              className="px-3 py-2 text-sm font-medium text-[#3b4a00] bg-[#cffc00] hover:bg-[#c2ed00] rounded-r-md border border-primary-600"
               title="Download last N activities as CSV for AI"
             >
               Export Activities
@@ -946,17 +946,17 @@ export default function TrainingPage() {
       </div>
 
       {/* Month navigator */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-        <div className="flex items-center justify-between px-4 sm:px-6 py-2.5 border-b border-gray-100 dark:border-gray-700">
-          <button onClick={prevMonth} className="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700" aria-label="Previous month">←</button>
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{MONTH_NAMES[month]} {year}</h2>
-          <button onClick={nextMonth} className="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700" aria-label="Next month">→</button>
+      <div className="bg-[#20201f]-sm border border-[#484847]/30 overflow-hidden">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-2.5 border-b border-[#484847]/20">
+          <button onClick={prevMonth} className="p-2 rounded-md text-[#767575] dark:text-[#767575] hover:bg-[#20201f] transition-colors" aria-label="Previous month">←</button>
+          <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white">{MONTH_NAMES[month]} {year}</h2>
+          <button onClick={nextMonth} className="p-2 rounded-md text-[#767575] dark:text-[#767575] hover:bg-[#20201f] transition-colors" aria-label="Next month">→</button>
         </div>
 
         {/* Day-of-week header */}
-        <div className="grid grid-cols-7 border-b border-gray-100 dark:border-gray-700">
+        <div className="grid grid-cols-7 border-b border-[#484847]/20">
           {DAY_NAMES.map((d) => (
-            <div key={d} className="py-1 text-center text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide">{d}</div>
+            <div key={d} className="py-1 text-center text-xs font-medium text-[#767575] dark:text-[#767575] uppercase tracking-wide">{d}</div>
           ))}
         </div>
 
@@ -965,7 +965,7 @@ export default function TrainingPage() {
           <div className="grid grid-cols-7">
             {days.map((day, idx) => {
               if (!day) {
-                return <div key={`empty-${idx}`} className="h-[100px] sm:h-[115px] border-b border-r border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/30" />;
+                return <div key={`empty-${idx}`} className="h-[100px] sm:h-[115px] border-b border-r border-gray-100 dark:border-[#484847]/30 bg-gray-50/50 dark:bg-[#0e0e0e]/30" />;
               }
               const dateStr = toDateStr(day);
               const dayWorkouts = workoutMap[dateStr] ?? [];
@@ -982,10 +982,10 @@ export default function TrainingPage() {
                 <DroppableDay key={dateStr} dateStr={dateStr}>
                   <div
                     onClick={() => setModal({ mode: 'create', initialDate: dateStr })}
-                    className={`group h-[100px] sm:h-[115px] overflow-hidden border-b border-r border-gray-100 dark:border-gray-700 p-1.5 cursor-pointer hover:bg-blue-50/40 dark:hover:bg-blue-900/20 transition-colors ${isToday ? 'bg-primary-50/50 dark:bg-primary-900/20' : ''}`}
+                    className={`group h-[100px] sm:h-[115px] overflow-hidden border-b border-r border-gray-100 dark:border-[#484847]/30 p-1.5 cursor-pointer hover:bg-blue-50/40 dark:hover:bg-blue-900/20 transition-colors ${isToday ? 'bg-primary-50/50 dark:bg-primary-900/20' : ''}`}
                   >
                     <div className={`text-xs font-medium mb-1 w-6 h-6 flex items-center justify-center rounded-full ${
-                      isToday ? 'bg-primary-600 text-white' : 'text-gray-500 dark:text-gray-400'
+                      isToday ? 'bg-primary-600 text-white' : 'text-[#767575] dark:text-gray-400'
                     }`}>
                       {day.getDate()}
                     </div>
@@ -1035,7 +1035,7 @@ export default function TrainingPage() {
                                         const act = (activitiesPage?.items ?? []).find((a) => a.id === cmp.activityId);
                                         if (act) setActivityPreview({ id: act.id, name: act.name });
                                       }}
-                                      className="block w-full text-left text-xs text-gray-500 dark:text-gray-400 px-1 mt-0.5 truncate hover:text-primary-600 dark:hover:text-primary-400"
+                                      className="block w-full text-left text-xs text-[#767575] dark:text-[#767575] px-1 mt-0.5 truncate hover:text-[#cffc00] dark:hover:text-primary-400"
                                     >
                                       ✓ {formatDistKm(cmp.actualDistanceM)}
                                       {cmp.actualPaceSecPerKm != null && (
@@ -1051,7 +1051,7 @@ export default function TrainingPage() {
                             <button
                               key={a.id}
                               onClick={(e) => { e.stopPropagation(); setActivityPreview({ id: a.id, name: a.name }); }}
-                              className="block w-full text-left text-xs px-1.5 py-0.5 rounded border truncate bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-primary-600 dark:hover:text-primary-400"
+                              className="block w-full text-left text-xs px-1.5 py-0.5 rounded border truncate bg-gray-100 dark:bg-[#131313] text-gray-600 dark:text-[#adaaaa] border-[#484847]/30 hover:bg-gray-200 dark:hover:bg-gray-600 hover:text-[#cffc00] dark:hover:text-primary-400"
                               title={a.name}
                             >
                               <span className="hidden sm:inline">{formatDistKm(a.distance)} · </span>
@@ -1075,7 +1075,7 @@ export default function TrainingPage() {
                           {hiddenCount > 0 && (
                             <button
                               onClick={(e) => { e.stopPropagation(); setDayDetail(dateStr); }}
-                              className="text-xs text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 w-full text-left px-1 font-medium leading-5"
+                              className="text-xs text-[#cffc00] dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 w-full text-left px-1 font-medium leading-5"
                             >
                               +{hiddenCount} more
                             </button>
@@ -1096,19 +1096,19 @@ export default function TrainingPage() {
         {WORKOUT_TYPES.map((t) => (
           <span key={t.value} className={`text-xs px-2 py-1 rounded-full border ${t.classes}`}>{t.label}</span>
         ))}
-        <span className="text-xs text-gray-300 dark:text-gray-600 mx-1">|</span>
+        <span className="text-xs text-[#adaaaa] dark:text-gray-600 mx-1">|</span>
         {ABSENCE_TYPES.map((t) => (
           <span key={t.value} className={`text-xs px-2 py-1 rounded-full border ${t.color}`}>{t.emoji} {t.label}</span>
         ))}
       </div>
 
       {/* CSV format hint */}
-      <details className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-        <summary className="cursor-pointer hover:text-gray-700 dark:hover:text-gray-200 font-medium">CSV format reference</summary>
-        <div className="mt-2 bg-gray-50 dark:bg-gray-700 rounded-lg p-4 font-mono text-xs overflow-x-auto">
-          <p className="text-gray-700 dark:text-gray-200 font-sans font-medium mb-2">Training Plan CSV (import/export)</p>
+      <details className="mt-4 text-sm text-[#767575] dark:text-gray-400">
+        <summary className="cursor-pointer hover:text-gray-700 dark:hover:text-[#adaaaa] font-medium">CSV format reference</summary>
+        <div className="mt-2 bg-[#131313] border border-[#484847]/20 p-4 font-mono text-xs overflow-x-auto">
+          <p className="text-gray-700 dark:text-[#adaaaa] font-sans font-medium mb-2">Training Plan CSV (import/export)</p>
           <pre>{'Date,Title,Type,PlannedDistance(km),PlannedDuration(hh:mm:ss),Notes\n2026-03-03,Easy Run,Easy,10,1:00:00,Keep HR under 140\n2026-03-04,Rest Day,Rest,,,\n2026-03-05,Tempo Intervals,Intervals,8,0:45:00,"4×2km @ threshold"'}</pre>
-          <p className="text-gray-700 dark:text-gray-200 font-sans font-medium mt-3 mb-2">Types: Easy · Tempo · Long · Intervals · Recovery · Rest · Race · Strength · Other</p>
+          <p className="text-gray-700 dark:text-[#adaaaa] font-sans font-medium mt-3 mb-2">Types: Easy · Tempo · Long · Intervals · Recovery · Rest · Race · Strength · Other</p>
         </div>
       </details>
 
@@ -1164,65 +1164,65 @@ export default function TrainingPage() {
       {/* Race Preview Dialog */}
       {racePreview && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onClick={() => setRacePreview(null)}>
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-sm" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-700">
+          <div className="bg-[#20201f]-xl w-full max-w-sm" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between px-5 py-4 border-b border-[#484847]/20">
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
                   <span className="text-lg">🏁</span>
-                  <p className="font-semibold text-gray-900 dark:text-white truncate">{racePreview.title}</p>
+                  <p className="font-bold text-white truncate">{racePreview.title}</p>
                 </div>
-                <p className="text-xs text-gray-400 mt-0.5 ml-7">{formatDate(racePreview.date)}</p>
+                <p className="text-xs text-[#767575] mt-0.5 ml-7">{formatDate(racePreview.date)}</p>
               </div>
-              <button onClick={() => setRacePreview(null)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl leading-none ml-3 shrink-0">×</button>
+              <button onClick={() => setRacePreview(null)} className="text-[#767575] hover:text-gray-600 dark:hover:text-[#adaaaa] text-xl leading-none ml-3 shrink-0">×</button>
             </div>
             <div className="px-5 py-4 space-y-3 text-sm">
               {racePreview.location && (
                 <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                  <span className="text-gray-400">📍</span>
+                  <span className="text-[#767575]">📍</span>
                   <span>{racePreview.location}</span>
                 </div>
               )}
               {racePreview.raceDistanceMeters != null && (
                 <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                  <span className="text-gray-400">📏</span>
+                  <span className="text-[#767575]">📏</span>
                   <span>{formatDistance(racePreview.raceDistanceMeters)}</span>
                 </div>
               )}
               <div className="grid grid-cols-2 gap-3 pt-1">
-                <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">
-                  <p className="text-xs text-gray-400 mb-0.5">Goal time</p>
-                  <p className="font-semibold text-gray-900 dark:text-white">
+                <div className="bg-gray-50 dark:bg-[#131313]/50 rounded-lg p-3">
+                  <p className="text-xs text-[#767575] mb-0.5">Goal time</p>
+                  <p className="font-bold text-white">
                     {racePreview.goalTimeSecs != null ? secondsToHhmm(racePreview.goalTimeSecs) : '—'}
                   </p>
                 </div>
-                <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">
-                  <p className="text-xs text-gray-400 mb-0.5">Result</p>
+                <div className="bg-gray-50 dark:bg-[#131313]/50 rounded-lg p-3">
+                  <p className="text-xs text-[#767575] mb-0.5">Result</p>
                   <p className={`font-semibold ${racePreview.resultTimeSecs != null ? (racePreview.goalTimeSecs != null && racePreview.resultTimeSecs <= racePreview.goalTimeSecs ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-white') : 'text-gray-400'}`}>
                     {racePreview.resultTimeSecs != null ? secondsToHhmm(racePreview.resultTimeSecs) : '—'}
                   </p>
                 </div>
               </div>
               {racePreview.notes && !/^\[/.test(racePreview.notes.trim()) && (
-                <p className="text-xs text-gray-500 dark:text-gray-400 italic">{racePreview.notes.replace(/\[[^\]]+\]/g, '').trim()}</p>
+                <p className="text-xs text-[#767575] dark:text-[#767575] italic">{racePreview.notes.replace(/\[[^\]]+\]/g, '').trim()}</p>
               )}
               {racePreview.linkedActivityId && (
                 <Link
                   to={`/activities/${racePreview.linkedActivityId}`}
-                  className="flex items-center gap-1 text-xs text-primary-600 dark:text-primary-400 hover:underline"
+                  className="flex items-center gap-1 text-xs text-[#cffc00] hover:text-white transition-colors"
                   onClick={() => setRacePreview(null)}
                 >
                   View linked activity →
                 </Link>
               )}
             </div>
-            <div className="flex items-center justify-between px-5 py-3 border-t border-gray-100 dark:border-gray-700">
+            <div className="flex items-center justify-between px-5 py-3 border-t border-[#484847]/20">
               <button
                 onClick={() => { setRacePreview(null); setModal({ mode: 'edit', workout: racePreview }); }}
-                className="px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700"
+                className="px-3 py-2 text-sm font-medium text-gray-600 dark:text-[#adaaaa] border border-[#484847]/30 rounded-md hover:bg-[#20201f] transition-colors"
               >
                 Edit
               </button>
-              <button onClick={() => setRacePreview(null)} className="px-4 py-2 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-md">
+              <button onClick={() => setRacePreview(null)} className="px-4 py-2 text-sm font-medium text-[#3b4a00] bg-[#cffc00] hover:bg-[#c2ed00] rounded-md">
                 Close
               </button>
             </div>
@@ -1233,26 +1233,26 @@ export default function TrainingPage() {
       {/* Absence Detail Dialog */}
       {absenceDetail && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onClick={() => setAbsenceDetail(null)}>
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-xs" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-700">
+          <div className="bg-[#20201f]-xl w-full max-w-xs" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between px-5 py-4 border-b border-[#484847]/20">
               {(() => {
                 const cfg = absenceTypeConfig(absenceDetail.absenceType);
-                return <p className="font-semibold text-gray-900 dark:text-white">{cfg.emoji} {cfg.label}</p>;
+                return <p className="font-bold text-white">{cfg.emoji} {cfg.label}</p>;
               })()}
-              <button onClick={() => setAbsenceDetail(null)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl leading-none">×</button>
+              <button onClick={() => setAbsenceDetail(null)} className="text-[#767575] hover:text-gray-600 dark:hover:text-[#adaaaa] text-xl leading-none">×</button>
             </div>
             <div className="px-5 py-4 space-y-2 text-sm">
-              <div><p className="text-xs text-gray-400">Date</p><p className="font-medium text-gray-900 dark:text-white">{formatDate(absenceDetail.date)}</p></div>
-              {absenceDetail.notes && <div><p className="text-xs text-gray-400">Notes</p><p className="text-gray-700 dark:text-gray-300">{absenceDetail.notes}</p></div>}
+              <div><p className="font-label text-[10px] text-[#767575]">Date</p><p className="font-bold text-white">{formatDate(absenceDetail.date)}</p></div>
+              {absenceDetail.notes && <div><p className="font-label text-[10px] text-[#767575]">Notes</p><p className="text-gray-700 dark:text-gray-300">{absenceDetail.notes}</p></div>}
             </div>
-            <div className="px-5 py-3 border-t border-gray-100 dark:border-gray-700 flex justify-between">
+            <div className="px-5 py-3 border-t border-[#484847]/20 flex justify-between">
               <button
                 onClick={() => handleRemoveAbsence(absenceDetail.id)}
                 className="px-3 py-2 text-sm font-medium text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 rounded-md"
               >
                 Delete
               </button>
-              <button onClick={() => setAbsenceDetail(null)} className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700">
+              <button onClick={() => setAbsenceDetail(null)} className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-[#adaaaa] border border-[#484847]/30 rounded-md hover:bg-[#20201f] transition-colors">
                 Close
               </button>
             </div>
@@ -1270,10 +1270,10 @@ export default function TrainingPage() {
         const displayDate = detailDate.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
         return (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onClick={() => setDayDetail(null)}>
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-sm max-h-[80vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
-              <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100 dark:border-gray-700">
-                <p className="font-semibold text-gray-900 dark:text-white">{displayDate}</p>
-                <button onClick={() => setDayDetail(null)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl leading-none">×</button>
+            <div className="bg-[#20201f]-xl w-full max-w-sm max-h-[80vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center justify-between px-5 py-3.5 border-b border-[#484847]/20">
+                <p className="font-bold text-white">{displayDate}</p>
+                <button onClick={() => setDayDetail(null)} className="text-[#767575] hover:text-gray-600 dark:hover:text-[#adaaaa] text-xl leading-none">×</button>
               </div>
               <div className="overflow-y-auto flex-1 px-4 py-3 space-y-2">
                 {detailWorkouts.map((w) => {
@@ -1309,10 +1309,10 @@ export default function TrainingPage() {
                   <button
                     key={a.id}
                     onClick={() => { setDayDetail(null); setActivityPreview({ id: a.id, name: a.name }); }}
-                    className="w-full text-left rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 p-2.5 hover:bg-gray-100 dark:hover:bg-gray-600"
+                    className="w-full text-left rounded-lg border border-[#484847]/30 bg-gray-50 dark:bg-[#131313] p-2.5 hover:bg-gray-100 dark:hover:bg-gray-600"
                   >
-                    <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{a.name}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{formatDistKm(a.distance)}</p>
+                    <p className="text-sm font-bold text-white truncate">{a.name}</p>
+                    <p className="text-xs text-[#767575] dark:text-[#767575] mt-0.5">{formatDistKm(a.distance)}</p>
                   </button>
                 ))}
                 {detailAbsences.map((ab) => {
@@ -1329,19 +1329,19 @@ export default function TrainingPage() {
                   );
                 })}
                 {detailWorkouts.length === 0 && detailActivities.length === 0 && detailAbsences.length === 0 && (
-                  <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-4">No items for this day.</p>
+                  <p className="text-sm text-[#767575] dark:text-[#767575] text-center py-4">No items for this day.</p>
                 )}
               </div>
-              <div className="px-4 py-3 border-t border-gray-100 dark:border-gray-700 flex gap-2">
+              <div className="px-4 py-3 border-t border-[#484847]/20 flex gap-2">
                 <button
                   onClick={() => { setDayDetail(null); setModal({ mode: 'create', initialDate: dayDetail }); }}
-                  className="flex-1 px-3 py-2 text-sm font-medium text-primary-600 dark:text-primary-400 border border-primary-300 dark:border-primary-600 rounded-md hover:bg-primary-50 dark:hover:bg-primary-900/20"
+                  className="flex-1 px-3 py-2 text-sm font-medium text-[#cffc00] dark:text-primary-400 border border-primary-300 dark:border-primary-600 rounded-md hover:bg-primary-50 dark:hover:bg-primary-900/20"
                 >
                   + Workout
                 </button>
                 <button
                   onClick={() => { setDayDetail(null); setAbsenceDialogDate(dayDetail); }}
-                  className="flex-1 px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700"
+                  className="flex-1 px-3 py-2 text-sm font-medium text-gray-600 dark:text-[#adaaaa] border border-[#484847]/30 rounded-md hover:bg-[#20201f] transition-colors"
                 >
                   + Absence
                 </button>
@@ -1354,23 +1354,23 @@ export default function TrainingPage() {
       {/* Clear Range Dialog */}
       {showClearRange && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onClick={() => setShowClearRange(false)}>
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-sm" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-700">
-              <p className="font-semibold text-gray-900 dark:text-white">Clear Schedule Range</p>
-              <button onClick={() => setShowClearRange(false)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl leading-none">×</button>
+          <div className="bg-[#20201f]-xl w-full max-w-sm" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between px-5 py-4 border-b border-[#484847]/20">
+              <p className="font-bold text-white">Clear Schedule Range</p>
+              <button onClick={() => setShowClearRange(false)} className="text-[#767575] hover:text-gray-600 dark:hover:text-[#adaaaa] text-xl leading-none">×</button>
             </div>
             <div className="px-5 py-4 space-y-4">
-              <p className="text-sm text-gray-500 dark:text-gray-400">Remove all scheduled workouts between these dates.</p>
+              <p className="font-label text-xs text-[#767575]">Remove all scheduled workouts between these dates.</p>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">From</label>
+                  <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">From</label>
                   <input type="date" value={clearFrom} onChange={(e) => setClearFrom(e.target.value)}
-                    className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none" />
+                    className="w-full rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none" />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">To</label>
+                  <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">To</label>
                   <input type="date" value={clearTo} onChange={(e) => setClearTo(e.target.value)}
-                    className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none" />
+                    className="w-full rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none" />
                 </div>
               </div>
               {clearFrom && clearTo && (
@@ -1381,8 +1381,8 @@ export default function TrainingPage() {
                 </label>
               )}
             </div>
-            <div className="flex justify-end gap-2 px-5 py-4 border-t border-gray-100 dark:border-gray-700">
-              <button onClick={() => setShowClearRange(false)} className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700">Cancel</button>
+            <div className="flex justify-end gap-2 px-5 py-4 border-t border-[#484847]/20">
+              <button onClick={() => setShowClearRange(false)} className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-[#adaaaa] border border-[#484847]/30 rounded-md hover:bg-[#20201f] transition-colors">Cancel</button>
               <button
                 onClick={handleClearRange}
                 disabled={!clearFrom || !clearTo || !clearConfirm}
@@ -1397,3 +1397,6 @@ export default function TrainingPage() {
     </div>
   );
 }
+
+
+

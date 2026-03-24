@@ -326,10 +326,10 @@ export default function YearInfographicDialog({ year, onClose }: Props) {
               <div className="bg-gray-800 rounded-lg p-4 flex flex-col gap-2">
                 <p className="text-xs text-gray-400 uppercase tracking-wide">Total Distance</p>
                 <p className="text-4xl font-bold text-red-400">{Math.round(data.totalDistanceKm)}</p>
-                <p className="text-sm text-gray-400">km</p>
+                <p className="font-label text-xs text-[#767575]">km</p>
                 {cityComp && (
                   <div className="mt-2">
-                    <p className="text-xs text-gray-500">{cityComp.label}</p>
+                    <p className="font-label text-[10px] text-[#767575]">{cityComp.label}</p>
                     <div className="h-2 bg-gray-700 rounded-full mt-1 overflow-hidden">
                       <div
                         className="h-full bg-red-500 rounded-full"
@@ -351,7 +351,7 @@ export default function YearInfographicDialog({ year, onClose }: Props) {
                   <div>
                     <p className="text-xs text-gray-400 uppercase tracking-wide">Max Streak</p>
                     <p className="text-3xl font-bold">{data.maxStreakDays}</p>
-                    <p className="text-xs text-gray-500">days</p>
+                    <p className="font-label text-[10px] text-[#767575]">days</p>
                   </div>
                 </div>
                 <div className="mt-1 overflow-hidden">
@@ -419,7 +419,7 @@ export default function YearInfographicDialog({ year, onClose }: Props) {
                 <div>
                   <p className="text-xs text-gray-400 uppercase tracking-wide">Total Hours</p>
                   <p className="text-3xl font-bold text-yellow-400">{fmt(data.totalHours, 0)}</p>
-                  <p className="text-xs text-gray-500">hours of activity</p>
+                  <p className="font-label text-[10px] text-[#767575]">hours of activity</p>
                 </div>
               </div>
               <div className="bg-gray-800 rounded-lg p-4 flex items-center gap-6">
@@ -427,7 +427,7 @@ export default function YearInfographicDialog({ year, onClose }: Props) {
                 <div>
                   <p className="text-xs text-gray-400 uppercase tracking-wide">Total Elevation</p>
                   <p className="text-3xl font-bold text-blue-400">{Math.round(data.totalElevationM).toLocaleString()}</p>
-                  <p className="text-xs text-gray-500">meters ({fmt(data.everestMultiple, 2)}× Everest)</p>
+                  <p className="font-label text-[10px] text-[#767575]">meters ({fmt(data.everestMultiple, 2)}× Everest)</p>
                 </div>
               </div>
             </div>
@@ -443,3 +443,4 @@ export default function YearInfographicDialog({ year, onClose }: Props) {
     </div>
   );
 }
+

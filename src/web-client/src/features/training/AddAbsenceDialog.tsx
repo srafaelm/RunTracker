@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { AbsenceType } from '../../types';
 
 const ABSENCE_TYPES: { value: AbsenceType; label: string; emoji: string; color: string; activeColor: string }[] = [
-  { value: AbsenceType.Sick,     label: 'Sick',     emoji: '🤒', color: 'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300', activeColor: 'border-red-500 bg-red-50 dark:bg-red-900/40 text-red-700 dark:text-red-300' },
-  { value: AbsenceType.Rest,     label: 'Rest',     emoji: '😴', color: 'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300', activeColor: 'border-gray-500 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200' },
-  { value: AbsenceType.Vacation, label: 'Vacation', emoji: '🏖️', color: 'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300', activeColor: 'border-blue-500 bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300' },
-  { value: AbsenceType.Injury,   label: 'Injury',   emoji: '🤕', color: 'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300', activeColor: 'border-orange-500 bg-orange-50 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300' },
-  { value: AbsenceType.Other,    label: 'Other',    emoji: '📌', color: 'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300', activeColor: 'border-purple-500 bg-purple-50 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300' },
+  { value: AbsenceType.Sick,     label: 'Sick',     emoji: '🤒', color: 'border-[#484847]/30 text-gray-700 dark:text-gray-300', activeColor: 'border-red-500 bg-red-50 dark:bg-red-900/40 text-red-700 dark:text-red-300' },
+  { value: AbsenceType.Rest,     label: 'Rest',     emoji: '😴', color: 'border-[#484847]/30 text-gray-700 dark:text-gray-300', activeColor: 'border-gray-500 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200' },
+  { value: AbsenceType.Vacation, label: 'Vacation', emoji: '🏖️', color: 'border-[#484847]/30 text-gray-700 dark:text-gray-300', activeColor: 'border-blue-500 bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300' },
+  { value: AbsenceType.Injury,   label: 'Injury',   emoji: '🤕', color: 'border-[#484847]/30 text-gray-700 dark:text-gray-300', activeColor: 'border-orange-500 bg-orange-50 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300' },
+  { value: AbsenceType.Other,    label: 'Other',    emoji: '📌', color: 'border-[#484847]/30 text-gray-700 dark:text-gray-300', activeColor: 'border-purple-500 bg-purple-50 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300' },
 ];
 
 function datesInRange(from: string, to: string): string[] {
@@ -67,9 +67,9 @@ export default function AddAbsenceDialog({ initialDate, onConfirm, onClose }: Pr
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-md border border-gray-200 dark:border-gray-700">
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Add Absence Days</h2>
+      <div className="bg-[#20201f]-xl w-full max-w-md border border-[#484847]/30">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[#484847]/20">
+          <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white">Add Absence Days</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-2xl leading-none">×</button>
         </div>
 
@@ -84,7 +84,7 @@ export default function AddAbsenceDialog({ initialDate, onConfirm, onClose }: Pr
                   type="button"
                   onClick={() => setAbsenceType(t.value)}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors ${
-                    absenceType === t.value ? t.activeColor : `${t.color} hover:bg-gray-50 dark:hover:bg-gray-700`
+                    absenceType === t.value ? t.activeColor : `${t.color} hover:bg-[#20201f] transition-colors`
                   }`}
                 >
                   <span>{t.emoji}</span>
@@ -97,36 +97,36 @@ export default function AddAbsenceDialog({ initialDate, onConfirm, onClose }: Pr
           {/* Date range */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">From</label>
+              <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">From</label>
               <input
                 type="date"
                 value={fromDate}
                 onChange={(e) => setFromDate(e.target.value)}
-                className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white px-3 py-2 text-sm focus:outline-none focus:border-primary-500"
+                className="w-full rounded-md border border-[#484847]/30 dark:bg-gray-700 dark:text-white px-3 py-2 text-sm focus:outline-none focus:border-primary-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">To</label>
+              <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">To</label>
               <input
                 type="date"
                 value={toDate}
                 min={fromDate}
                 onChange={(e) => setToDate(e.target.value)}
-                className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white px-3 py-2 text-sm focus:outline-none focus:border-primary-500"
+                className="w-full rounded-md border border-[#484847]/30 dark:bg-gray-700 dark:text-white px-3 py-2 text-sm focus:outline-none focus:border-primary-500"
               />
             </div>
           </div>
 
           {/* Day count hint */}
           {dayCount > 0 && (
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="font-label text-xs text-[#767575]">
               {dayCount === 1 ? '1 day selected' : `${dayCount} days selected`}
             </p>
           )}
 
           {/* Notes */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">
               Notes <span className="text-gray-400 font-normal">(optional)</span>
             </label>
             <input
@@ -134,23 +134,23 @@ export default function AddAbsenceDialog({ initialDate, onConfirm, onClose }: Pr
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="e.g. flu, holiday, knee pain…"
-              className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white px-3 py-2 text-sm focus:outline-none focus:border-primary-500"
+              className="w-full rounded-md border border-[#484847]/30 dark:bg-gray-700 dark:text-white px-3 py-2 text-sm focus:outline-none focus:border-primary-500"
               onKeyDown={(e) => { if (e.key === 'Enter') handleSubmit(); }}
             />
           </div>
         </div>
 
-        <div className="flex items-center justify-end gap-2 px-5 py-4 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex items-center justify-end gap-2 px-5 py-4 border-t border-[#484847]/20">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
+            className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 border border-[#484847]/30 rounded-lg hover:bg-[#20201f] transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleSubmit}
             disabled={saving || dayCount === 0}
-            className="px-4 py-2 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-lg disabled:opacity-50"
+            className="px-4 py-2 text-sm font-medium text-[#3b4a00] bg-[#cffc00] hover:bg-[#c2ed00] rounded-lg disabled:opacity-50"
           >
             {saving ? 'Saving…' : dayCount <= 1 ? 'Add day' : `Add ${dayCount} days`}
           </button>
@@ -159,3 +159,5 @@ export default function AddAbsenceDialog({ initialDate, onConfirm, onClose }: Pr
     </div>
   );
 }
+
+

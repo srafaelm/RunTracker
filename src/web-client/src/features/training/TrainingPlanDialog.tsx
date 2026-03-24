@@ -77,21 +77,21 @@ export default function TrainingPlanDialog({ onClose }: Props) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-lg p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Load Training Plan</h2>
+          <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white">Load Training Plan</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-xl">✕</button>
         </div>
 
         {isLoading ? (
-          <p className="text-sm text-gray-500">Loading plans…</p>
+          <p className="font-label text-xs text-[#767575]">Loading plans…</p>
         ) : !showPreview ? (
           /* Step 1: Select plan + date */
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Plan</label>
+              <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Plan</label>
               <select
                 value={selectedPlan}
                 onChange={e => { setSelectedPlan(e.target.value); setShowPreview(false); }}
-                className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full rounded-lg border border-[#484847]/30 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:border-[#cffc00] focus:outline-none"
               >
                 <option value="">— Select a plan —</option>
                 {plans.map(p => (
@@ -102,13 +102,13 @@ export default function TrainingPlanDialog({ onClose }: Props) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Race Date</label>
+              <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Race Date</label>
               <input
                 type="date"
                 value={raceDate}
                 onChange={e => setRaceDate(e.target.value)}
                 min={new Date(Date.now() + 86400000).toISOString().slice(0, 10)}
-                className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full rounded-lg border border-[#484847]/30 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:border-[#cffc00] focus:outline-none"
               />
             </div>
 
@@ -118,7 +118,7 @@ export default function TrainingPlanDialog({ onClose }: Props) {
               <button onClick={handlePreview} className="flex-1 py-2 rounded-lg bg-primary-600 text-white text-sm font-medium hover:bg-primary-700 transition-colors">
                 Preview &amp; Adjust →
               </button>
-              <button onClick={onClose} className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <button onClick={onClose} className="px-4 py-2 rounded-lg border border-[#484847]/30 text-sm text-gray-600 dark:text-gray-300 hover:bg-[#20201f] transition-colors transition-colors">
                 Cancel
               </button>
             </div>
@@ -127,7 +127,7 @@ export default function TrainingPlanDialog({ onClose }: Props) {
           /* Step 2: Intensity slider + volume preview */
           <div className="space-y-5">
             <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-3">
-              <p className="text-sm font-medium text-gray-900 dark:text-white">{plan?.name}</p>
+              <p className="font-label text-sm font-bold text-white">{plan?.name}</p>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Race: {raceDate} · {plan?.weeksCount} weeks</p>
             </div>
 
@@ -147,11 +147,11 @@ export default function TrainingPlanDialog({ onClose }: Props) {
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-3 text-center">
+              <div className="border border-[#484847]/30 rounded-lg p-3 text-center">
                 <p className="text-2xl font-bold text-gray-900 dark:text-white tabular-nums">{adjustedTotalKm}</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Total km</p>
               </div>
-              <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-3 text-center">
+              <div className="border border-[#484847]/30 rounded-lg p-3 text-center">
                 <p className="text-2xl font-bold text-gray-900 dark:text-white tabular-nums">{avgWeeklyKm}</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Avg km/week</p>
               </div>
@@ -161,16 +161,16 @@ export default function TrainingPlanDialog({ onClose }: Props) {
             {previewWorkouts.length > 0 && (
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <p className="text-xs font-medium text-gray-600 dark:text-gray-400">Workouts ({previewWorkouts.length})</p>
+                  <p className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa]">Workouts ({previewWorkouts.length})</p>
                   {existingDates.size > 0 && (
                     <span className="text-xs text-orange-500">{previewWorkouts.filter(w => existingDates.has(w.date)).length} conflict(s)</span>
                   )}
                 </div>
-                <div className="max-h-40 overflow-y-auto space-y-0.5 rounded-lg border border-gray-200 dark:border-gray-700">
+                <div className="max-h-40 overflow-y-auto space-y-0.5 rounded-lg border border-[#484847]/30">
                   {previewWorkouts.map((w, i) => {
                     const hasConflict = existingDates.has(w.date);
                     return (
-                      <div key={i} className={`flex items-center gap-2 px-2 py-1 text-xs ${hasConflict ? 'bg-orange-50 dark:bg-orange-900/20' : 'hover:bg-gray-50 dark:hover:bg-gray-700/30'}`}>
+                      <div key={i} className={`flex items-center gap-2 px-2 py-1 text-xs ${hasConflict ? 'bg-orange-50 dark:bg-orange-900/20' : 'hover:bg-[#20201f] transition-colors/30'}`}>
                         <span className="text-gray-400 w-20 shrink-0">{w.date}</span>
                         <span className="flex-1 truncate text-gray-700 dark:text-gray-300">{w.title}</span>
                         <span className="text-gray-400 shrink-0">{WORKOUT_TYPE_LABELS[w.workoutType] ?? ''}</span>
@@ -189,7 +189,7 @@ export default function TrainingPlanDialog({ onClose }: Props) {
             {apply.isError && <p className="text-sm text-red-600 dark:text-red-400">Failed to apply plan. Please try again.</p>}
 
             <div className="flex gap-2">
-              <button onClick={() => setShowPreview(false)} className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <button onClick={() => setShowPreview(false)} className="px-4 py-2 rounded-lg border border-[#484847]/30 text-sm text-gray-600 dark:text-gray-300 hover:bg-[#20201f] transition-colors transition-colors">
                 ← Back
               </button>
               <button
@@ -206,3 +206,4 @@ export default function TrainingPlanDialog({ onClose }: Props) {
     </div>
   );
 }
+

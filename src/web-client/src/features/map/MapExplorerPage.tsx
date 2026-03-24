@@ -61,22 +61,22 @@ export default function MapExplorerPage() {
   return (
     <div className="h-[calc(100vh-4rem)] relative">
       {/* Filters */}
-      <div className="absolute top-4 left-4 z-10 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-3 flex flex-col gap-3">
+      <div className="absolute top-4 left-4 z-10 bg-[#20201f]-lg p-3 flex flex-col gap-3">
         <ActivityFilters sportType={sportType} onSportTypeChange={setSportType} />
         <div>
-          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Year</label>
+          <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Year</label>
           <select
             value={year ?? ''}
             onChange={(e) => setYear(e.target.value ? Number(e.target.value) : undefined)}
-            className="rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 px-3 py-1.5 text-sm focus:border-primary-500 focus:outline-none"
+            className="rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-[#adaaaa] px-3 py-1.5 text-sm focus:border-primary-500 focus:outline-none"
           >
             <option value="">All time</option>
             {years.map((y) => <option key={y} value={y}>{y}</option>)}
           </select>
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">View</label>
-          <div className="flex rounded-md border border-gray-300 dark:border-gray-600 overflow-hidden">
+          <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">View</label>
+          <div className="flex rounded-md border border-[#484847]/30 overflow-hidden">
             {(['routes', 'heatmap'] as ViewMode[]).map((mode) => (
               <button
                 key={mode}
@@ -84,7 +84,7 @@ export default function MapExplorerPage() {
                 className={`flex-1 px-3 py-1.5 text-xs font-medium capitalize transition-colors ${
                   viewMode === mode
                     ? 'bg-primary-600 text-white'
-                    : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600'
+                    : 'bg-[#20201f] text-gray-600 dark:text-[#adaaaa] hover:bg-gray-50 dark:hover:bg-gray-600'
                 }`}
               >
                 {mode}
@@ -92,20 +92,20 @@ export default function MapExplorerPage() {
             ))}
           </div>
         </div>
-        <p className="text-xs text-gray-400 dark:text-gray-500">{geoJsonData.features.length} routes</p>
+        <p className="text-xs text-[#767575] dark:text-gray-500">{geoJsonData.features.length} routes</p>
       </div>
 
       <Map
         initialViewState={{ latitude: 52, longitude: 5, zoom: 8 }}
         style={{ width: '100%', height: '100%' }}
-        mapStyle="https://tiles.openfreemap.org/styles/liberty"
+        mapStyle="https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
       >
         {viewMode === 'routes' && (
           <Source id="routes" type="geojson" data={geoJsonData}>
             <Layer
               id="route-lines"
               type="line"
-              paint={{ 'line-color': '#2563eb', 'line-width': 2, 'line-opacity': 0.7 }}
+              paint={{ 'line-color': '#81ecff', 'line-width': 3, 'line-opacity': 1 }}
             />
           </Source>
         )}
@@ -137,3 +137,9 @@ export default function MapExplorerPage() {
     </div>
   );
 }
+
+
+
+
+
+

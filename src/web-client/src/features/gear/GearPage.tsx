@@ -55,23 +55,23 @@ function GearForm({
   }
 
   const inputCls =
-    'w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500';
+    'w-full border border-[#484847]/30 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:border-[#cffc00] focus:outline-none';
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name *</label>
+          <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Name *</label>
           <input type="text" required value={name} onChange={(e) => setName(e.target.value)} className={inputCls} placeholder="e.g. Nike Vaporfly" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Brand</label>
+          <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Brand</label>
           <input type="text" value={brand} onChange={(e) => setBrand(e.target.value)} className={inputCls} placeholder="e.g. Nike" />
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Type</label>
+          <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Type</label>
           <select value={type} onChange={(e) => setType(parseInt(e.target.value) as GearType)} className={inputCls}>
             {Object.entries(GEAR_TYPE_LABELS).map(([val, label]) => (
               <option key={val} value={val}>{label}</option>
@@ -79,13 +79,13 @@ function GearForm({
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Purchase Date</label>
+          <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Purchase Date</label>
           <input type="date" value={purchaseDate} onChange={(e) => setPurchaseDate(e.target.value)} className={inputCls} />
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Starting Distance (km)</label>
+          <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Starting Distance (km)</label>
           <input
             type="number" min={0} step={0.1}
             value={startingDistanceKm}
@@ -95,7 +95,7 @@ function GearForm({
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Retirement Distance (km)</label>
+          <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Retirement Distance (km)</label>
           <input
             type="number" min={0} step={1}
             value={retirementDistanceKm}
@@ -106,7 +106,7 @@ function GearForm({
         </div>
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Notes</label>
+        <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Notes</label>
         <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={2} className={inputCls} placeholder="Any notes…" />
       </div>
       {initial?.isRetired !== undefined && (
@@ -116,10 +116,10 @@ function GearForm({
         </label>
       )}
       <div className="flex gap-3 pt-1">
-        <button type="submit" disabled={saving} className="px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 disabled:opacity-50">
+        <button type="submit" disabled={saving} className="px-4 py-2 bg-[#cffc00] text-[#3b4a00] font-label font-bold text-xs uppercase tracking-widest hover:bg-[#c2ed00] transition-colors">
           {saving ? 'Saving…' : 'Save'}
         </button>
-        <button type="button" onClick={onCancel} className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700">
+        <button type="button" onClick={onCancel} className="px-4 py-2 border border-[#484847]/30 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-[#20201f] transition-colors">
           Cancel
         </button>
       </div>
@@ -142,11 +142,11 @@ function GearCard({ gear, onEdit, onDelete, statsOpen, onToggleStats }: {
     'bg-green-500';
 
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow border p-5 space-y-3 ${gear.isRetired ? 'opacity-60 border-gray-200 dark:border-gray-700' : 'border-gray-200 dark:border-gray-700'}`}>
+    <div className={`bg-[#20201f]$1`}>
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-semibold text-gray-900 dark:text-white">{gear.name}</span>
+            <span className="font-bold text-white">{gear.name}</span>
             {gear.isRetired && (
               <span className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full">Retired</span>
             )}
@@ -156,12 +156,12 @@ function GearCard({ gear, onEdit, onDelete, statsOpen, onToggleStats }: {
           </p>
         </div>
         <div className="flex gap-1 shrink-0">
-          <button onClick={onEdit} className="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700" title="Edit">
+          <button onClick={onEdit} className="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 rounded-md hover:bg-[#20201f] transition-colors" title="Edit">
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
             </svg>
           </button>
-          <button onClick={onDelete} className="p-1.5 text-gray-400 hover:text-red-500 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700" title="Delete">
+          <button onClick={onDelete} className="p-1.5 text-gray-400 hover:text-red-500 rounded-md hover:bg-[#20201f] transition-colors" title="Delete">
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
             </svg>
@@ -173,7 +173,7 @@ function GearCard({ gear, onEdit, onDelete, statsOpen, onToggleStats }: {
       <div className="space-y-1">
         <div className="flex justify-between text-sm">
           <span className="text-gray-600 dark:text-gray-400">Total distance</span>
-          <span className="font-semibold text-gray-900 dark:text-white">{formatKm(gear.totalDistanceM)}</span>
+          <span className="font-bold text-white">{formatKm(gear.totalDistanceM)}</span>
         </div>
         {gear.retirementDistanceM && (
           <>
@@ -201,7 +201,7 @@ function GearCard({ gear, onEdit, onDelete, statsOpen, onToggleStats }: {
         {gear.type === GearType.Shoes && onToggleStats && (
           <button
             onClick={onToggleStats}
-            className="text-primary-600 hover:text-primary-700 font-medium shrink-0"
+            className="font-label text-xs text-[#cffc00] hover:text-white transition-colors shrink-0"
           >
             {statsOpen ? 'Hide stats ↑' : 'Shoe stats ↓'}
           </button>
@@ -231,7 +231,7 @@ function ShoeAnalysisPanel({ gearId }: { gearId: string }) {
     : 'text-red-600 dark:text-red-400';
 
   return (
-    <div className="border-t border-gray-100 dark:border-gray-700 px-5 pt-4 pb-5 space-y-4">
+    <div className="border-t border-[#484847]/20 px-5 pt-4 pb-5 space-y-4">
       {/* Rotation status */}
       <div className="flex items-center gap-2">
         <span className={`text-sm font-medium ${rotationColor}`}>{rotationStatus}</span>
@@ -303,13 +303,13 @@ function DeleteConfirmDialog({
 }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-sm p-6">
+      <div className="bg-[#20201f]-xl w-full max-w-sm p-6">
         <div className="flex items-center justify-center w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/30 mx-auto mb-4">
           <svg className="h-6 w-6 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
           </svg>
         </div>
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white text-center mb-1">
+        <h3 className="text-lg font-bold text-white text-center mb-1">
           Delete {gear.name}?
         </h3>
         <p className="text-sm text-gray-500 dark:text-gray-400 text-center mb-6">
@@ -319,7 +319,7 @@ function DeleteConfirmDialog({
           <button
             onClick={onCancel}
             disabled={deleting}
-            className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
+            className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 border border-[#484847]/30 rounded-lg hover:bg-[#20201f] transition-colors disabled:opacity-50"
           >
             Cancel
           </button>
@@ -372,7 +372,7 @@ export default function GearPage() {
   if (isLoading) return <LoadingSpinner size="lg" />;
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="p-6 sm:p-8 min-h-screen bg-[#0e0e0e] text-white">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Gear</h1>
@@ -381,7 +381,7 @@ export default function GearPage() {
         {!showAddForm && (
           <button
             onClick={() => setShowAddForm(true)}
-            className="px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700"
+            className="px-4 py-2 bg-[#cffc00] text-[#3b4a00] font-label font-bold text-xs uppercase tracking-widest hover:bg-[#c2ed00] transition-colors"
           >
             + Add Gear
           </button>
@@ -390,8 +390,8 @@ export default function GearPage() {
 
       {/* Add form */}
       {showAddForm && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Add Gear</h2>
+        <div className="bg-[#20201f] border border-[#484847]/30 p-6 mb-6">
+          <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white mb-4">Add Gear</h2>
           <GearForm
             onSave={handleCreate}
             onCancel={() => setShowAddForm(false)}
@@ -405,8 +405,8 @@ export default function GearPage() {
         <div className="space-y-4 mb-8">
           {active.map((gear) =>
             editingId === gear.id ? (
-              <div key={gear.id} className="bg-white dark:bg-gray-800 rounded-lg shadow border border-primary-300 dark:border-primary-700 p-6">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Edit Gear</h2>
+              <div key={gear.id} className="bg-[#20201f] border border-primary-300 dark:border-primary-700 p-6">
+                <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white mb-4">Edit Gear</h2>
                 <GearForm
                   initial={{
                     name: gear.name,
@@ -444,8 +444,8 @@ export default function GearPage() {
           <div className="space-y-4">
             {retired.map((gear) =>
               editingId === gear.id ? (
-                <div key={gear.id} className="bg-white dark:bg-gray-800 rounded-lg shadow border border-primary-300 dark:border-primary-700 p-6">
-                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Edit Gear</h2>
+                <div key={gear.id} className="bg-[#20201f] border border-primary-300 dark:border-primary-700 p-6">
+                  <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white mb-4">Edit Gear</h2>
                   <GearForm
                     initial={{
                       name: gear.name,
@@ -500,3 +500,5 @@ export default function GearPage() {
     </div>
   );
 }
+
+

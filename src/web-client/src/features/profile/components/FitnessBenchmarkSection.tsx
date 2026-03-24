@@ -118,13 +118,13 @@ export function FitnessBenchmarkSection() {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
+    <div className="bg-[#20201f]-sm border border-[#484847]/30 p-6 mb-8">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Fitness Benchmark</h2>
+        <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white">Fitness Benchmark</h2>
         <button
           onClick={() => { setShowAddForm(true); setEditingId(null); }}
-          className="text-sm text-primary-600 dark:text-primary-400 hover:text-primary-700 font-medium"
+          className="text-sm text-[#cffc00] dark:text-primary-400 hover:text-primary-700 font-medium"
         >
           + Add Item
         </button>
@@ -132,24 +132,24 @@ export function FitnessBenchmarkSection() {
 
       {/* Add form */}
       {showAddForm && (
-        <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg flex flex-wrap gap-2 items-end">
+        <div className="mb-4 p-3 bg-gray-50 dark:bg-[#131313] rounded-lg flex flex-wrap gap-2 items-end">
           <div className="flex-1 min-w-48">
-            <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">Name</label>
+            <label className="block text-xs text-[#767575] dark:text-[#767575] mb-1">Name</label>
             <input
               type="text"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               placeholder="e.g. 10km in 50 min"
-              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 rounded px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="w-full border border-[#484847]/30 dark:bg-[#20201f] dark:text-gray-100 rounded px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:border-[#cffc00] focus:outline-none"
               autoFocus
             />
           </div>
           <div className="w-36">
-            <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">Category</label>
+            <label className="block text-xs text-[#767575] dark:text-[#767575] mb-1">Category</label>
             <select
               value={newCategory}
               onChange={(e) => setNewCategory(e.target.value)}
-              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 rounded px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="w-full border border-[#484847]/30 dark:bg-[#20201f] dark:text-gray-100 rounded px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:border-[#cffc00] focus:outline-none"
             >
               <option value="">None</option>
               {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
@@ -164,7 +164,7 @@ export function FitnessBenchmarkSection() {
           </button>
           <button
             onClick={() => { setShowAddForm(false); setNewName(''); setNewCategory(''); }}
-            className="px-3 py-1.5 text-gray-600 dark:text-gray-300 text-sm"
+            className="px-3 py-1.5 text-gray-600 dark:text-[#adaaaa] text-sm"
           >
             Cancel
           </button>
@@ -172,11 +172,11 @@ export function FitnessBenchmarkSection() {
       )}
 
       {isLoading && (
-        <div className="text-sm text-gray-400 dark:text-gray-500 py-4 text-center">Loading...</div>
+        <div className="text-sm text-[#767575] dark:text-[#767575] py-4 text-center">Loading...</div>
       )}
 
       {!isLoading && items.length === 0 && (
-        <p className="text-sm text-gray-400 dark:text-gray-500 py-2">
+        <p className="text-sm text-[#767575] dark:text-[#767575] py-2">
           No benchmark items yet. Add items to track your fitness milestones.
         </p>
       )}
@@ -184,7 +184,7 @@ export function FitnessBenchmarkSection() {
       {/* Progress bar */}
       {activeItems.length > 0 && (
         <div className="mb-5">
-          <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
+          <div className="flex justify-between text-xs text-[#767575] dark:text-[#767575] mb-1">
             <span>{recentlyCompleted} / {activeItems.length} completed recently (last 7 days)</span>
             <span>{Math.round(progressPct)}%</span>
           </div>
@@ -200,7 +200,7 @@ export function FitnessBenchmarkSection() {
       {/* Items grouped by category */}
       {Object.keys(grouped).sort().map((cat) => (
         <div key={cat} className="mb-4">
-          <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-2">{cat}</h3>
+          <h3 className="text-xs font-semibold uppercase tracking-wide text-[#767575] dark:text-[#767575] mb-2">{cat}</h3>
           <div className="space-y-1">
             {grouped[cat].map((item) => {
               const completedToday = isCompletedToday(item.lastCompletedAt);
@@ -209,17 +209,17 @@ export function FitnessBenchmarkSection() {
 
               if (isEditing) {
                 return (
-                  <div key={item.id} className="flex flex-wrap gap-2 items-center p-2 bg-gray-50 dark:bg-gray-700 rounded">
+                  <div key={item.id} className="flex flex-wrap gap-2 items-center p-2 bg-gray-50 dark:bg-[#131313] rounded">
                     <input
                       type="text"
                       value={editName}
                       onChange={(e) => setEditName(e.target.value)}
-                      className="flex-1 min-w-32 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                      className="flex-1 min-w-32 border border-[#484847]/30 dark:bg-[#20201f] dark:text-gray-100 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:border-[#cffc00] focus:outline-none"
                     />
                     <select
                       value={editCategory}
                       onChange={(e) => setEditCategory(e.target.value)}
-                      className="w-32 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                      className="w-32 border border-[#484847]/30 dark:bg-[#20201f] dark:text-gray-100 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:border-[#cffc00] focus:outline-none"
                     >
                       <option value="">None</option>
                       {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
@@ -233,7 +233,7 @@ export function FitnessBenchmarkSection() {
                     </button>
                     <button
                       onClick={() => setEditingId(null)}
-                      className="px-2 py-1 text-gray-600 dark:text-gray-300 text-xs"
+                      className="px-2 py-1 text-gray-600 dark:text-[#adaaaa] text-xs"
                     >
                       Cancel
                     </button>
@@ -244,7 +244,7 @@ export function FitnessBenchmarkSection() {
               return (
                 <div
                   key={item.id}
-                  className={`flex items-center gap-3 px-2 py-2 rounded-lg group ${completedRecently ? 'bg-green-50 dark:bg-green-900/20' : 'hover:bg-gray-50 dark:hover:bg-gray-700/50'}`}
+                  className={`flex items-center gap-3 px-2 py-2 rounded-lg group ${completedRecently ? 'bg-green-50 dark:bg-green-900/20' : 'hover:bg-[#20201f] transition-colors/50'}`}
                 >
                   {/* Checkbox indicator */}
                   <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${completedRecently ? 'bg-green-500 border-green-500' : 'border-gray-300 dark:border-gray-500'}`}>
@@ -266,7 +266,7 @@ export function FitnessBenchmarkSection() {
 
                   {/* Last completed */}
                   {item.lastCompletedAt && (
-                    <span className="text-xs text-gray-400 dark:text-gray-500 hidden sm:block">
+                    <span className="text-xs text-[#767575] dark:text-[#767575] hidden sm:block">
                       {completedToday ? 'Today' : formatDate(item.lastCompletedAt)}
                     </span>
                   )}
@@ -289,19 +289,19 @@ export function FitnessBenchmarkSection() {
                           value={completionDate}
                           onChange={(e) => setCompletionDate(e.target.value)}
                           max={new Date().toISOString().slice(0, 10)}
-                          className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded px-1.5 py-0.5 text-xs focus:outline-none focus:ring-1 focus:ring-primary-500"
+                          className="border border-[#484847]/30 dark:bg-[#131313] dark:text-gray-100 rounded px-1.5 py-0.5 text-xs focus:outline-none focus:ring-1 focus:border-[#cffc00] focus:outline-none"
                           autoFocus
                         />
                         <button
                           onClick={() => logCompletion.mutate({ itemId: item.id, date: completionDate })}
                           disabled={logCompletion.isPending}
-                          className="text-xs text-primary-600 dark:text-primary-400 hover:text-primary-700 px-1.5 py-0.5 rounded border border-primary-300 dark:border-primary-600 whitespace-nowrap"
+                          className="text-xs text-[#cffc00] dark:text-primary-400 hover:text-primary-700 px-1.5 py-0.5 rounded border border-primary-300 dark:border-primary-600 whitespace-nowrap"
                         >
                           OK
                         </button>
                         <button
                           onClick={() => setCompletingId(null)}
-                          className="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 px-1 py-0.5"
+                          className="text-xs text-[#767575] hover:text-gray-700 dark:text-[#767575] px-1 py-0.5"
                         >
                           ✕
                         </button>
@@ -309,7 +309,7 @@ export function FitnessBenchmarkSection() {
                     ) : (
                       <button
                         onClick={() => { setCompletingId(item.id); setCompletionDate(new Date().toISOString().slice(0, 10)); }}
-                        className="text-xs text-primary-600 dark:text-primary-400 hover:text-primary-700 px-1.5 py-0.5 rounded border border-primary-300 dark:border-primary-600 whitespace-nowrap"
+                        className="text-xs text-[#cffc00] dark:text-primary-400 hover:text-primary-700 px-1.5 py-0.5 rounded border border-primary-300 dark:border-primary-600 whitespace-nowrap"
                         title="Mark as done"
                       >
                         Done
@@ -317,7 +317,7 @@ export function FitnessBenchmarkSection() {
                     )}
                     <button
                       onClick={() => startEdit(item)}
-                      className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-0.5"
+                      className="text-[#767575] hover:text-gray-600 dark:hover:text-[#adaaaa] p-0.5"
                       title="Edit"
                     >
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -326,7 +326,7 @@ export function FitnessBenchmarkSection() {
                     </button>
                     <button
                       onClick={() => { if (confirm(`Delete "${item.name}"?`)) deleteItem.mutate(item.id); }}
-                      className="text-gray-400 hover:text-red-500 dark:hover:text-red-400 p-0.5"
+                      className="text-[#767575] hover:text-red-500 dark:hover:text-red-400 p-0.5"
                       title="Delete"
                     >
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -343,10 +343,10 @@ export function FitnessBenchmarkSection() {
 
       {/* History toggle */}
       {items.length > 0 && (
-        <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
+        <div className="mt-4 pt-4 border-t border-[#484847]/20">
           <button
             onClick={() => setShowHistory(!showHistory)}
-            className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 flex items-center gap-1"
+            className="text-sm text-[#767575] dark:text-[#767575] hover:text-gray-700 dark:hover:text-[#adaaaa] flex items-center gap-1"
           >
             <svg
               className={`w-4 h-4 transition-transform ${showHistory ? 'rotate-180' : ''}`}
@@ -360,20 +360,20 @@ export function FitnessBenchmarkSection() {
           {showHistory && (
             <div className="mt-3 space-y-2">
               {historyLoading && (
-                <div className="text-sm text-gray-400 dark:text-gray-500">Loading history...</div>
+                <div className="text-sm text-[#767575] dark:text-gray-500">Loading history...</div>
               )}
               {!historyLoading && history.length === 0 && (
-                <div className="text-sm text-gray-400 dark:text-gray-500">No history yet.</div>
+                <div className="text-sm text-[#767575] dark:text-gray-500">No history yet.</div>
               )}
               {history.map((entry: BenchmarkHistoryEntry) => (
                 <div key={entry.date} className="flex items-start gap-3 text-sm">
-                  <span className="text-gray-400 dark:text-gray-500 w-28 flex-shrink-0 text-xs">
+                  <span className="text-[#767575] dark:text-[#767575] w-28 flex-shrink-0 text-xs">
                     {formatHistoryDate(entry.date)}
                   </span>
-                  <span className="font-medium text-gray-700 dark:text-gray-200 w-12 flex-shrink-0">
+                  <span className="font-medium text-gray-700 dark:text-[#adaaaa] w-12 flex-shrink-0">
                     {entry.completedCount}/{entry.totalActive}
                   </span>
-                  <span className="text-gray-500 dark:text-gray-400 text-xs leading-relaxed">
+                  <span className="text-[#767575] dark:text-[#767575] text-xs leading-relaxed">
                     {entry.completedItemNames.join(', ')}
                   </span>
                 </div>
@@ -385,3 +385,6 @@ export function FitnessBenchmarkSection() {
     </div>
   );
 }
+
+
+

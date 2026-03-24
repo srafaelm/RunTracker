@@ -75,24 +75,24 @@ export default function PaceCalculatorPage() {
   const paces = PACE_OFFSETS.map((o) => paceSeconds + o);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <h1 className="text-xl font-bold text-gray-900 dark:text-white mb-1">Pace Calculator</h1>
-      <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">
+    <div className="p-6 sm:p-8 min-h-screen bg-[#0e0e0e] text-white">
+      <h1 className="font-headline text-4xl sm:text-5xl font-bold tracking-tighter uppercase mb-1">Pace Calculator</h1>
+      <p className="font-label text-xs uppercase tracking-widest text-[#767575] mb-8">
         Estimated finish times based on your expected pace.
       </p>
 
       <div className="flex gap-6 items-start">
         {/* Pace input — sticky sidebar */}
         <div className="shrink-0 sticky top-4">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-            <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Expected Pace</h2>
-            <div className="flex flex-col gap-2">
+          <div className="bg-[#20201f] border-l-2 border-[#cffc00] p-5">
+            <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white mb-4">Expected Pace</h2>
+            <div className="flex flex-col gap-3">
               <div>
-                <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">Minutes</label>
+                <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Minutes</label>
                 <select
                   value={minutes}
                   onChange={(e) => setMinutes(parseInt(e.target.value))}
-                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-2 py-2 focus:border-[#cffc00] focus:outline-none transition-colors"
                 >
                   {Array.from({ length: 20 }, (_, i) => i + 1).map((m) => (
                     <option key={m} value={m}>{m} min</option>
@@ -100,11 +100,11 @@ export default function PaceCalculatorPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">Seconds</label>
+                <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Seconds</label>
                 <select
                   value={seconds}
                   onChange={(e) => setSeconds(parseInt(e.target.value))}
-                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-2 py-2 focus:border-[#cffc00] focus:outline-none transition-colors"
                 >
                   {Array.from({ length: 61 }, (_, i) => i).map((s) => (
                     <option key={s} value={s}>{s} sec</option>
@@ -112,26 +112,26 @@ export default function PaceCalculatorPage() {
                 </select>
               </div>
             </div>
-            <p className="mt-3 text-xs font-semibold text-primary-600 dark:text-primary-400">
+            <p className="mt-4 font-headline text-2xl font-bold text-[#cffc00]">
               {formatPaceLabel(paceSeconds)}
             </p>
           </div>
         </div>
 
         {/* Table */}
-        <div className="flex-1 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+        <div className="flex-1 bg-[#20201f] overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-xs">
+            <table className="w-full">
               <thead>
-                <tr className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/40">
-                  <th className="text-left px-3 py-2 text-gray-500 dark:text-gray-400 font-medium">Distance</th>
+                <tr className="border-b border-[#484847]/20">
+                  <th className="text-left px-3 py-3 font-label text-[10px] uppercase tracking-widest text-[#adaaaa]">Distance</th>
                   {paces.map((p, i) => (
                     <th
                       key={p}
-                      className={`px-3 py-2 text-right font-medium whitespace-nowrap ${
+                      className={`px-3 py-3 text-right font-label text-[10px] uppercase tracking-widest whitespace-nowrap ${
                         i === CENTER
-                          ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/30'
-                          : 'text-gray-500 dark:text-gray-400'
+                          ? 'text-[#cffc00] bg-[#cffc00]/5'
+                          : 'text-[#adaaaa]'
                       }`}
                     >
                       {formatPaceLabel(p)}
@@ -143,22 +143,22 @@ export default function PaceCalculatorPage() {
                 {DISTANCES.map((d) => (
                   <tr
                     key={d.label}
-                    className={`border-b border-gray-100 dark:border-gray-700/50 ${
+                    className={`border-b border-[#484847]/10 ${
                       d.highlight
-                        ? 'bg-gray-50 dark:bg-gray-700/30'
-                        : 'hover:bg-gray-50 dark:hover:bg-gray-700/20'
+                        ? 'bg-[#cffc00]/5'
+                        : 'hover:bg-zinc-800/20 transition-colors'
                     }`}
                   >
-                    <td className={`px-3 py-1.5 ${d.highlight ? 'font-semibold text-gray-900 dark:text-white' : 'text-gray-700 dark:text-gray-300'}`}>
+                    <td className={`px-3 py-1.5 font-label text-xs ${d.highlight ? 'font-bold text-[#cffc00] uppercase tracking-widest' : 'text-[#adaaaa]'}`}>
                       {d.label}
                     </td>
                     {paces.map((p, i) => (
                       <td
                         key={p}
-                        className={`px-3 py-1.5 text-right tabular-nums ${
+                        className={`px-3 py-1.5 text-right tabular-nums font-label text-xs ${
                           i === CENTER
-                            ? 'font-medium text-primary-700 dark:text-primary-300 bg-primary-50 dark:bg-primary-900/30'
-                            : 'text-gray-600 dark:text-gray-400'
+                            ? 'font-bold text-[#cffc00] bg-[#cffc00]/5'
+                            : 'text-[#767575]'
                         }`}
                       >
                         {formatTime(p * d.km)}

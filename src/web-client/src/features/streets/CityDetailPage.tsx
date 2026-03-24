@@ -17,7 +17,7 @@ function streetStatus(isCompleted: boolean, pct: number): string {
 function streetStatusClass(isCompleted: boolean, pct: number): string {
   if (isCompleted) return 'text-green-600 dark:text-green-400 font-medium';
   if (pct > 0) return 'text-yellow-600 dark:text-yellow-400';
-  return 'text-gray-400 dark:text-gray-500';
+  return 'text-[#767575] dark:text-gray-500';
 }
 
 function fmtDist(m: number) {
@@ -112,29 +112,29 @@ export default function CityDetailPage() {
   }
 
   if (cityLoading || geoLoading) return <LoadingSpinner size="lg" />;
-  if (!city) return <div className="p-8 text-center text-gray-500 dark:text-gray-400">City not found</div>;
+  if (!city) return <div className="p-8 text-center text-[#767575] dark:text-gray-400">City not found</div>;
 
   return (
     <div className="h-[calc(100vh-4rem)] flex flex-col">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between gap-3 flex-wrap">
+      <div className="bg-[#20201f] border-b border-[#484847]/20 px-4 py-3 flex items-center justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-          <Link to="/streets" className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 shrink-0">
+          <Link to="/streets" className="text-[#767575] hover:text-gray-600 dark:hover:text-[#adaaaa] shrink-0">
             ← Back
           </Link>
           <div className="min-w-0">
             <h1 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white truncate">{city.name}</h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
+            <p className="text-sm text-[#767575] dark:text-[#767575] truncate">
               {city.region ? `${city.region}, ` : ''}{city.country}
             </p>
           </div>
         </div>
         <div className="flex items-center gap-2 shrink-0 flex-wrap justify-end">
           <div className="text-right">
-            <p className="text-xl sm:text-2xl font-bold text-primary-600">
+            <p className="text-xl sm:text-2xl font-bold text-[#cffc00]">
               {city.completionPercentage.toFixed(1)}%
             </p>
-            <p className="text-xs text-gray-500">
+            <p className="font-label text-[10px] text-[#767575]">
               {city.completedStreets}/{city.totalStreets} streets
             </p>
           </div>
@@ -162,7 +162,7 @@ export default function CityDetailPage() {
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md border text-sm font-medium transition-colors ${
               showStreets
                 ? 'bg-primary-50 dark:bg-primary-900/20 border-primary-300 dark:border-primary-700 text-primary-700 dark:text-primary-300'
-                : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                : 'border-[#484847]/30 text-gray-600 dark:text-[#adaaaa] hover:bg-[#20201f] transition-colors'
             }`}
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -191,7 +191,7 @@ export default function CityDetailPage() {
       )}
 
       {/* Map legend */}
-      <div className="absolute bottom-6 left-4 z-10 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-3 text-sm">
+      <div className="absolute bottom-6 left-4 z-10 bg-[#20201f]-lg p-3 text-sm">
         <div className="flex items-center gap-2 mb-1">
           <span className="w-4 h-0.5 bg-green-500 inline-block" /> Completed
         </div>
@@ -207,7 +207,7 @@ export default function CityDetailPage() {
           </div>
         )}
         {geoJson && (
-          <p className="text-xs text-gray-400 mt-2">
+          <p className="text-xs text-[#767575] mt-2">
             {geoJson.features.length} streets loaded
           </p>
         )}
@@ -222,14 +222,14 @@ export default function CityDetailPage() {
               : { latitude: 52, longitude: 5, zoom: 12 }
           }
           style={{ width: '100%', height: '100%' }}
-          mapStyle="https://tiles.openfreemap.org/styles/liberty"
+          mapStyle="https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
         >
           {/* Unvisited streets (gray) */}
           <Source id="unvisited" type="geojson" data={unvisitedData}>
             <Layer
               id="unvisited-lines"
               type="line"
-              paint={{ 'line-color': '#9ca3af', 'line-width': 2, 'line-opacity': 0.5 }}
+              paint={{ 'line-color': '#484847', 'line-width': 2, 'line-opacity': 0.9 }}
             />
           </Source>
 
@@ -238,7 +238,7 @@ export default function CityDetailPage() {
             <Layer
               id="in-progress-lines"
               type="line"
-              paint={{ 'line-color': '#eab308', 'line-width': 3, 'line-opacity': 0.8 }}
+              paint={{ 'line-color': '#facc15', 'line-width': 3, 'line-opacity': 1 }}
             />
           </Source>
 
@@ -247,7 +247,7 @@ export default function CityDetailPage() {
             <Layer
               id="completed-lines"
               type="line"
-              paint={{ 'line-color': '#22c55e', 'line-width': 3, 'line-opacity': 0.9 }}
+              paint={{ 'line-color': '#cffc00', 'line-width': 3, 'line-opacity': 1 }}
             />
           </Source>
 
@@ -258,9 +258,9 @@ export default function CityDetailPage() {
                 id="route-suggestion-line"
                 type="line"
                 paint={{
-                  'line-color': '#f97316',
+                  'line-color': '#ff734a',
                   'line-width': 4,
-                  'line-opacity': 0.9,
+                  'line-opacity': 1,
                   'line-dasharray': [2, 1],
                 }}
               />
@@ -271,29 +271,29 @@ export default function CityDetailPage() {
 
       {/* Streets panel */}
       {showStreets && (
-        <div className="h-64 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 flex flex-col">
+        <div className="h-64 border-t border-[#484847]/20 bg-[#20201f] flex flex-col">
           <div className="flex-1 overflow-auto">
-            <table className="min-w-full text-sm divide-y divide-gray-200 dark:divide-gray-700">
-              <thead className="bg-gray-50 dark:bg-gray-700 sticky top-0">
+            <table className="min-w-full text-sm divide-y divide-[#484847]/10">
+              <thead className="bg-gray-50 dark:bg-[#131313] sticky top-0">
                 <tr>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Street</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Type</th>
-                  <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                  <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Coverage</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-[#767575] dark:text-[#767575] uppercase tracking-wider">Street</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-[#767575] dark:text-[#767575] uppercase tracking-wider">Type</th>
+                  <th className="px-4 py-2 text-left text-xs font-medium text-[#767575] dark:text-[#767575] uppercase tracking-wider">Status</th>
+                  <th className="px-4 py-2 text-right text-xs font-medium text-[#767575] dark:text-[#767575] uppercase tracking-wider">Coverage</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
+              <tbody className="divide-y divide-[#484847]/10">
                 {streets?.items.map((s) => (
-                  <tr key={s.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                  <tr key={s.id} className="hover:bg-[#20201f] transition-colors/50">
                     <td className="px-4 py-2 text-gray-900 dark:text-white font-medium truncate max-w-xs">{s.name}</td>
-                    <td className="px-4 py-2 text-gray-500 dark:text-gray-400 capitalize">{s.highwayType}</td>
+                    <td className="px-4 py-2 text-[#767575] dark:text-[#767575] capitalize">{s.highwayType}</td>
                     <td className={`px-4 py-2 ${streetStatusClass(s.isCompleted, s.completionPercentage)}`}>
                       {streetStatus(s.isCompleted, s.completionPercentage)}
                       {!s.isCompleted && s.completionPercentage > 0 && (
                         <span className="ml-1 text-xs">({s.completionPercentage.toFixed(0)}%)</span>
                       )}
                     </td>
-                    <td className="px-4 py-2 text-right text-gray-500 dark:text-gray-400 tabular-nums">
+                    <td className="px-4 py-2 text-right text-[#767575] dark:text-[#767575] tabular-nums">
                       {s.completedNodes}/{s.nodeCount}
                     </td>
                   </tr>
@@ -302,20 +302,20 @@ export default function CityDetailPage() {
             </table>
           </div>
           {streets && streets.totalPages > 1 && (
-            <div className="flex items-center justify-between px-4 py-2 border-t border-gray-200 dark:border-gray-700 text-xs text-gray-500 dark:text-gray-400 shrink-0">
+            <div className="flex items-center justify-between px-4 py-2 border-t border-[#484847]/20 text-xs text-[#767575] dark:text-[#767575] shrink-0">
               <span>Page {streets.pageNumber} of {streets.totalPages} · {streets.totalCount} streets</span>
               <div className="flex gap-2">
                 <button
                   onClick={() => setStreetPage((p) => Math.max(1, p - 1))}
                   disabled={!streets.hasPreviousPage}
-                  className="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded disabled:opacity-40 hover:bg-gray-50 dark:hover:bg-gray-700"
+                  className="px-2 py-1 border border-[#484847]/30 rounded disabled:opacity-40 hover:bg-[#20201f] transition-colors"
                 >
                   ← Prev
                 </button>
                 <button
                   onClick={() => setStreetPage((p) => p + 1)}
                   disabled={!streets.hasNextPage}
-                  className="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded disabled:opacity-40 hover:bg-gray-50 dark:hover:bg-gray-700"
+                  className="px-2 py-1 border border-[#484847]/30 rounded disabled:opacity-40 hover:bg-[#20201f] transition-colors"
                 >
                   Next →
                 </button>
@@ -327,3 +327,9 @@ export default function CityDetailPage() {
     </div>
   );
 }
+
+
+
+
+
+

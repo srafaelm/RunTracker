@@ -57,9 +57,9 @@ export default function ImportGpxDialog({ onClose }: Props) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-md">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Import GPX File</h2>
+      <div className="bg-[#20201f]-xl w-full max-w-md">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#484847]/20">
+          <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white">Import GPX File</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl leading-none">×</button>
         </div>
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
@@ -70,11 +70,11 @@ export default function ImportGpxDialog({ onClose }: Props) {
           )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">
               GPX File <span className="text-red-500">*</span>
             </label>
             <div
-              className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4 text-center cursor-pointer hover:border-primary-400 transition-colors"
+              className="border-2 border-dashed border-[#484847]/30 rounded-lg p-4 text-center cursor-pointer hover:border-primary-400 transition-colors"
               onClick={() => fileInputRef.current?.click()}
             >
               {file ? (
@@ -93,7 +93,7 @@ export default function ImportGpxDialog({ onClose }: Props) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">
               Activity Name
             </label>
             <input
@@ -101,18 +101,18 @@ export default function ImportGpxDialog({ onClose }: Props) {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Leave blank to use filename"
-              className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white px-3 py-2 text-sm focus:outline-none focus:border-primary-500"
+              className="w-full rounded-md border border-[#484847]/30 dark:bg-gray-700 dark:text-white px-3 py-2 text-sm focus:outline-none focus:border-primary-500"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">
               Sport Type
             </label>
             <select
               value={sportType}
               onChange={(e) => setSportType(Number(e.target.value) as SportType)}
-              className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white px-3 py-2 text-sm focus:outline-none focus:border-primary-500"
+              className="w-full rounded-md border border-[#484847]/30 dark:bg-gray-700 dark:text-white px-3 py-2 text-sm focus:outline-none focus:border-primary-500"
             >
               {SPORT_TYPE_OPTIONS.map((o) => (
                 <option key={o.value} value={o.value}>{o.label}</option>
@@ -124,14 +124,14 @@ export default function ImportGpxDialog({ onClose }: Props) {
             <button
               type="submit"
               disabled={!file || loading}
-              className="flex-1 py-2 px-4 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 disabled:opacity-50 transition-colors"
+              className="flex-1 py-2 px-4 bg-[#cffc00] text-[#3b4a00] font-label font-bold text-xs uppercase tracking-widest hover:bg-[#c2ed00] transition-colors transition-colors"
             >
               {loading ? 'Importing…' : 'Import'}
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="py-2 px-4 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              className="py-2 px-4 border border-[#484847]/30 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-[#20201f] transition-colors transition-colors"
             >
               Cancel
             </button>
@@ -141,3 +141,5 @@ export default function ImportGpxDialog({ onClose }: Props) {
     </div>
   );
 }
+
+

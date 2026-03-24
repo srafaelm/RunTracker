@@ -282,16 +282,16 @@ export default function DashboardPage() {
   if (isAllTime ? allTimeLoading : yearlyLoading) return <LoadingSpinner size="lg" />;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6 sm:py-8">
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-6 sm:mb-8">
-        <div className="flex items-center gap-3">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+    <div className="p-6 sm:p-8 min-h-screen bg-[#0e0e0e] text-white">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-8">
+        <div className="flex items-center gap-4">
+          <h1 className="font-headline text-3xl sm:text-4xl font-bold tracking-tighter uppercase text-white">Dashboard</h1>
           {/* Template switcher */}
           {templates.length > 1 && (
             <select
               value={activeTemplate?.id ?? ''}
               onChange={(e) => activateTemplate.mutate(e.target.value)}
-              className="rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 px-2 py-1 text-sm focus:outline-none"
+              className="bg-[#1a1a1a] border border-[#484847] text-white px-3 py-1.5 text-sm font-label focus:outline-none focus:border-[#cffc00]"
             >
               {templates.map((t) => (
                 <option key={t.id} value={t.id}>{t.name}</option>
@@ -303,7 +303,7 @@ export default function DashboardPage() {
           <select
             value={year}
             onChange={(e) => handleYearChange(Number(e.target.value))}
-            className="rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+            className="bg-[#1a1a1a] border border-[#484847] text-white px-3 py-2 text-sm font-label focus:border-[#cffc00] focus:outline-none"
           >
             <option value={0}>All time</option>
             {years.map((y) => (
@@ -312,19 +312,19 @@ export default function DashboardPage() {
           </select>
           <Link
             to={`/report/${year}`}
-            className="rounded-md bg-gray-900 dark:bg-gray-700 px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
+            className="bg-[#1a1a1a] border border-[#484847] px-3 py-2 text-sm font-label uppercase tracking-widest text-white hover:border-[#cffc00] hover:text-[#cffc00] transition-colors"
           >
             {isAllTime ? 'All Time Report' : 'Year Report'}
           </Link>
           <button
             onClick={() => setShowNewForm((v) => !v)}
-            className="rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+            className="bg-[#1a1a1a] border border-[#484847] px-3 py-2 text-sm font-label uppercase tracking-widest text-white hover:border-[#cffc00] hover:text-[#cffc00] transition-colors"
           >
             + Template
           </button>
           <button
             onClick={() => editMode ? setEditMode(false) : startEdit()}
-            className="rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+            className="bg-[#1a1a1a] border border-[#484847] px-3 py-2 text-sm font-label uppercase tracking-widest text-white hover:border-[#cffc00] hover:text-[#cffc00] transition-colors"
           >
             Edit
           </button>
@@ -333,7 +333,7 @@ export default function DashboardPage() {
 
       {/* New Template Form */}
       {showNewForm && (
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 mb-4 flex items-center gap-3">
+        <div className="bg-[#1a1a1a] border border-[#484847] p-4 mb-6 flex items-center gap-3">
           <input
             type="text"
             value={newTemplateName}
@@ -341,16 +341,16 @@ export default function DashboardPage() {
             onKeyDown={(e) => { if (e.key === 'Enter') handleCreateTemplate(); if (e.key === 'Escape') setShowNewForm(false); }}
             placeholder="Template name…"
             autoFocus
-            className="flex-1 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white px-3 py-2 text-sm focus:outline-none focus:border-primary-500"
+            className="flex-1 bg-[#0e0e0e] border border-[#484847] text-white px-3 py-2 text-sm font-label focus:outline-none focus:border-[#cffc00]"
           />
           <button
             onClick={handleCreateTemplate}
             disabled={!newTemplateName.trim() || createTemplate.isPending}
-            className="px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 disabled:opacity-50"
+            className="px-4 py-2 bg-[#cffc00] text-[#3b4a00] text-sm font-label font-bold uppercase tracking-widest hover:bg-[#c2ed00] disabled:opacity-50 transition-colors"
           >
             Create
           </button>
-          <button onClick={() => setShowNewForm(false)} className="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-200">
+          <button onClick={() => setShowNewForm(false)} className="px-3 py-2 text-sm font-label text-zinc-500 hover:text-white transition-colors">
             Cancel
           </button>
         </div>
@@ -358,23 +358,23 @@ export default function DashboardPage() {
 
       {/* Edit Dashboard Panel */}
       {editMode && activeTemplate && (
-        <div ref={editPanelRef} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 mb-6">
+        <div ref={editPanelRef} className="bg-[#1a1a1a] border border-[#484847] p-4 mb-6">
           <div className="flex items-center gap-3 mb-3">
             <input
               type="text"
               value={editName}
               onChange={(e) => setEditName(e.target.value)}
-              className="rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white px-3 py-1 text-sm font-semibold focus:outline-none focus:border-primary-500"
+              className="bg-[#0e0e0e] border border-[#484847] text-white px-3 py-1 text-sm font-label font-semibold focus:outline-none focus:border-[#cffc00]"
             />
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
             {(Object.entries(WIDGET_LABELS) as [DashboardWidgetId, string][]).map(([id, label]) => (
-              <label key={id} className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
+              <label key={id} className="flex items-center gap-2 text-sm text-zinc-400 cursor-pointer font-label">
                 <input
                   type="checkbox"
                   checked={editWidgets.includes(id)}
                   onChange={() => toggleEditWidget(id)}
-                  className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                  className="border-[#484847] focus:ring-[#cffc00]"
                 />
                 {label}
               </label>
@@ -384,19 +384,19 @@ export default function DashboardPage() {
             <button
               onClick={saveEdit}
               disabled={updateTemplate.isPending}
-              className="px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 disabled:opacity-50"
+              className="px-4 py-2 bg-[#cffc00] text-[#3b4a00] text-sm font-label font-bold uppercase tracking-widest hover:bg-[#c2ed00] disabled:opacity-50"
             >
               {updateTemplate.isPending ? 'Saving…' : 'Save'}
             </button>
             <button
               onClick={() => setEditMode(false)}
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700"
+              className="px-4 py-2 border border-[#484847] text-zinc-400 text-sm font-label uppercase tracking-widest hover:border-white hover:text-white transition-colors"
             >
               Cancel
             </button>
             <button
               onClick={() => setEditWidgets(DEFAULT_DASHBOARD_WIDGETS as DashboardWidgetId[])}
-              className="px-4 py-2 text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              className="px-4 py-2 text-sm text-zinc-500 hover:text-zinc-200 font-label transition-colors"
             >
               Reset widgets
             </button>
@@ -404,7 +404,7 @@ export default function DashboardPage() {
               <button
                 onClick={handleDeleteTemplate}
                 disabled={deleteTemplate.isPending || activateTemplate.isPending}
-                className="ml-auto px-4 py-2 text-sm text-red-500 hover:text-red-700 dark:hover:text-red-400"
+                className="ml-auto px-4 py-2 text-sm text-[#ff734a] hover:text-[#ff9070] font-label transition-colors"
               >
                 Delete template
               </button>
@@ -423,7 +423,7 @@ export default function DashboardPage() {
               <div className="flex flex-col items-start gap-3 rounded-xl bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 p-5">
                 <div className="text-3xl">🏅</div>
                 <div>
-                  <p className="font-semibold text-gray-900 dark:text-white">Connect Strava</p>
+                  <p className="font-bold text-white">Connect Strava</p>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Sync all your past and future runs automatically.</p>
                 </div>
                 <button
@@ -445,7 +445,7 @@ export default function DashboardPage() {
               <div className="flex flex-col items-start gap-3 rounded-xl bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 p-5">
                 <div className="text-3xl">🔄</div>
                 <div>
-                  <p className="font-semibold text-gray-900 dark:text-white">Strava Connected</p>
+                  <p className="font-bold text-white">Strava Connected</p>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Your activities are being synced. Check back shortly.</p>
                 </div>
               </div>
@@ -453,7 +453,7 @@ export default function DashboardPage() {
             <div className="flex flex-col items-start gap-3 rounded-xl bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 p-5">
               <div className="text-3xl">✏️</div>
               <div>
-                <p className="font-semibold text-gray-900 dark:text-white">Add Manually</p>
+                <p className="font-bold text-white">Add Manually</p>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Log an activity without Strava — runs, rides, or anything else.</p>
               </div>
               <Link
@@ -472,56 +472,56 @@ export default function DashboardPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-8">
           {isAllTime ? (
             <>
-              <StatCard title="Total Distance" value={`${Math.round((allTimeStats?.totalDistance ?? 0) / 1000)} km`} icon="📏" />
-              <StatCard title={activityCountLabel} value={String(allTimeStats?.totalRuns ?? 0)} icon={activityCountIcon} />
-              <StatCard title="Total Time" value={(() => { const s = allTimeStats?.totalTimeSeconds ?? 0; const h = Math.floor(s / 3600); const m = Math.floor((s % 3600) / 60); return `${h}h ${m}m`; })()} icon="⏱️" />
+              <StatCard title="Total Distance" value={`${Math.round((allTimeStats?.totalDistance ?? 0) / 1000)} km`} icon="📏" accent="primary" />
+              <StatCard title={activityCountLabel} value={String(allTimeStats?.totalRuns ?? 0)} icon={activityCountIcon} accent="tertiary" />
+              <StatCard title="Total Time" value={(() => { const s = allTimeStats?.totalTimeSeconds ?? 0; const h = Math.floor(s / 3600); const m = Math.floor((s % 3600) / 60); return `${h}h ${m}m`; })()} icon="⏱️" accent="secondary" />
               <StatCard title="Elevation Gain" value={formatElevation(allTimeStats?.totalElevationGain ?? 0)} icon="⛰️" />
               {nextRace ? (() => {
                 const daysUntil = Math.max(0, Math.ceil((new Date(nextRace.date).getTime() - Date.now()) / 86400000));
                 return (
                   <Link to="/races" className="block">
-                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-purple-200 dark:border-purple-700 hover:border-purple-400 dark:hover:border-purple-500 transition-colors">
-                      <p className="text-xs font-medium text-purple-500 dark:text-purple-400 uppercase tracking-wider mb-1">Next Race</p>
-                      <p className="text-lg font-bold text-gray-900 dark:text-white truncate">{nextRace.title}</p>
-                      <p className="text-sm text-purple-600 dark:text-purple-300 font-semibold">{daysUntil} days to go</p>
-                      <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{formatDate(nextRace.date)}{nextRace.plannedDistanceMeters ? ` · ${formatDistance(nextRace.plannedDistanceMeters)}` : ''}</p>
+                    <div className="bg-[#20201f] border-l-2 border-[#a855f7] p-6 hover:border-[#c084fc] transition-colors">
+                      <p className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa] mb-4">Next Race</p>
+                      <p className="font-headline text-lg font-bold text-white truncate">{nextRace.title}</p>
+                      <p className="font-label text-sm text-[#a855f7] font-semibold">{daysUntil} days to go</p>
+                      <p className="font-label text-xs text-[#767575] mt-1">{formatDate(nextRace.date)}{nextRace.plannedDistanceMeters ? ` · ${formatDistance(nextRace.plannedDistanceMeters)}` : ''}</p>
                     </div>
                   </Link>
                 );
               })() : (
                 <Link to="/races" className="block">
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700 hover:border-purple-400 dark:hover:border-purple-500 transition-colors">
-                    <p className="text-xs font-medium text-purple-500 dark:text-purple-400 uppercase tracking-wider mb-1">Next Race</p>
-                    <p className="text-lg font-bold text-gray-900 dark:text-white">No race planned</p>
-                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">Add a race to start counting down</p>
+                  <div className="bg-[#20201f] border-l-2 border-[#484847] p-6 hover:border-[#a855f7] transition-colors">
+                    <p className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa] mb-4">Next Race</p>
+                    <p className="font-headline text-lg font-bold text-white">No race planned</p>
+                    <p className="font-label text-xs text-[#767575] mt-1">Add a race to start counting down</p>
                   </div>
                 </Link>
               )}
             </>
           ) : (
             <>
-              <StatCard title="Total Distance" value={`${Math.round((yearlyStats?.totalDistance ?? 0) / 1000)} km`} icon="📏" />
-              <StatCard title={activityCountLabel} value={String(yearlyStats?.totalRuns ?? 0)} icon={activityCountIcon} />
-              <StatCard title="Total Time" value={(() => { const s = yearlyStats?.totalTimeSeconds ?? 0; const h = Math.floor(s / 3600); const m = Math.floor((s % 3600) / 60); return `${h}h ${m}m`; })()} icon="⏱️" />
+              <StatCard title="Total Distance" value={`${Math.round((yearlyStats?.totalDistance ?? 0) / 1000)} km`} icon="📏" accent="primary" />
+              <StatCard title={activityCountLabel} value={String(yearlyStats?.totalRuns ?? 0)} icon={activityCountIcon} accent="tertiary" />
+              <StatCard title="Total Time" value={(() => { const s = yearlyStats?.totalTimeSeconds ?? 0; const h = Math.floor(s / 3600); const m = Math.floor((s % 3600) / 60); return `${h}h ${m}m`; })()} icon="⏱️" accent="secondary" />
               <StatCard title="Elevation Gain" value={formatElevation(yearlyStats?.totalElevationGain ?? 0)} icon="⛰️" />
               {nextRace ? (() => {
                 const daysUntil = Math.max(0, Math.ceil((new Date(nextRace.date).getTime() - Date.now()) / 86400000));
                 return (
                   <Link to="/races" className="block">
-                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-purple-200 dark:border-purple-700 hover:border-purple-400 dark:hover:border-purple-500 transition-colors">
-                      <p className="text-xs font-medium text-purple-500 dark:text-purple-400 uppercase tracking-wider mb-1">Next Race</p>
-                      <p className="text-lg font-bold text-gray-900 dark:text-white truncate">{nextRace.title}</p>
-                      <p className="text-sm text-purple-600 dark:text-purple-300 font-semibold">{daysUntil} days to go</p>
-                      <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{formatDate(nextRace.date)}{nextRace.plannedDistanceMeters ? ` · ${formatDistance(nextRace.plannedDistanceMeters)}` : ''}</p>
+                    <div className="bg-[#20201f] border-l-2 border-[#a855f7] p-6 hover:border-[#c084fc] transition-colors">
+                      <p className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa] mb-4">Next Race</p>
+                      <p className="font-headline text-lg font-bold text-white truncate">{nextRace.title}</p>
+                      <p className="font-label text-sm text-[#a855f7] font-semibold">{daysUntil} days to go</p>
+                      <p className="font-label text-xs text-[#767575] mt-1">{formatDate(nextRace.date)}{nextRace.plannedDistanceMeters ? ` · ${formatDistance(nextRace.plannedDistanceMeters)}` : ''}</p>
                     </div>
                   </Link>
                 );
               })() : (
                 <Link to="/races" className="block">
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700 hover:border-purple-400 dark:hover:border-purple-500 transition-colors">
-                    <p className="text-xs font-medium text-purple-500 dark:text-purple-400 uppercase tracking-wider mb-1">Next Race</p>
-                    <p className="text-lg font-bold text-gray-900 dark:text-white">No race planned</p>
-                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">Add a race to start counting down</p>
+                  <div className="bg-[#20201f] border-l-2 border-[#484847] p-6 hover:border-[#a855f7] transition-colors">
+                    <p className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa] mb-4">Next Race</p>
+                    <p className="font-headline text-lg font-bold text-white">No race planned</p>
+                    <p className="font-label text-xs text-[#767575] mt-1">Add a race to start counting down</p>
                   </div>
                 </Link>
               )}
@@ -534,7 +534,7 @@ export default function DashboardPage() {
       {(show('streaks') || show('goals')) && (
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-6 items-stretch">
           {show('streaks') && allTimeStats && (
-            <StatCard title="Week Streak" value={`${allTimeStats.currentWeekStreak} wks`} icon="📅" className="flex flex-col justify-center" />
+            <StatCard title="Week Streak" value={`${allTimeStats.currentWeekStreak} wks`} icon="📅" accent="tertiary" className="flex flex-col justify-center" />
           )}
           {show('goals') && (
             <div className={show('streaks') ? 'col-span-1 md:col-span-3 lg:col-span-4' : 'col-span-2 md:col-span-4 lg:col-span-5'}>
@@ -546,17 +546,17 @@ export default function DashboardPage() {
 
       {/* Upcoming training */}
       {show('upcoming_training') && upcomingWorkouts && upcomingWorkouts.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 mb-8">
+        <div className="bg-[#20201f]-sm border border-gray-200 dark:border-gray-700 mb-8">
           <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-700">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Upcoming Training</h2>
-            <Link to="/training" className="text-sm text-primary-600 hover:text-primary-800 font-medium">View schedule →</Link>
+            <h2 className="text-lg font-bold text-white">Upcoming Training</h2>
+            <Link to="/training" className="text-sm text-[#cffc00] hover:text-primary-800 font-medium">View schedule →</Link>
           </div>
           <ul className="divide-y divide-gray-100 dark:divide-gray-700">
             {upcomingWorkouts.slice(0, 5).map((w) => (
               <li key={w.id} className="flex items-center gap-4 px-6 py-3">
                 <span className="text-sm text-gray-400 dark:text-gray-500 w-24 shrink-0">{formatDate(w.date)}</span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{w.title}</p>
+                  <p className="text-sm font-bold text-white truncate">{w.title}</p>
                   {w.notes && <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{w.notes}</p>}
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
@@ -576,10 +576,10 @@ export default function DashboardPage() {
 
       {/* Recent Activities */}
       {show('recent_activities') && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 mb-8">
+        <div className="bg-[#20201f]-sm border border-gray-200 dark:border-gray-700 mb-8">
           <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-700">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Activities</h2>
-            <Link to="/activities" className="text-sm text-primary-600 hover:text-primary-800 font-medium">View all →</Link>
+            <h2 className="text-lg font-bold text-white">Recent Activities</h2>
+            <Link to="/activities" className="text-sm text-[#cffc00] hover:text-primary-800 font-medium">View all →</Link>
           </div>
           {!recentActivities || recentActivities.items.length === 0 ? (
             <p className="px-6 py-8 text-center text-gray-400 dark:text-gray-500 text-sm">
@@ -592,12 +592,12 @@ export default function DashboardPage() {
                   <Link to={`/activities/${activity.id}`} className="flex items-center gap-4 px-6 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                     <span className="text-sm text-gray-400 dark:text-gray-500 w-24 shrink-0 hidden sm:block">{formatDate(activity.startDate)}</span>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{activity.name}</p>
+                      <p className="text-sm font-bold text-white truncate">{activity.name}</p>
                       <p className="text-xs text-gray-400 dark:text-gray-500 sm:hidden">{formatDate(activity.startDate)} · {sportTypeName(activity.sportType)}</p>
                       <p className="text-xs text-gray-400 dark:text-gray-500 hidden sm:block">{sportTypeName(activity.sportType)}</p>
                     </div>
                     <div className="flex items-center gap-4 sm:gap-6 shrink-0 text-sm text-gray-600 dark:text-gray-300">
-                      <span className="font-medium text-gray-900 dark:text-white">{formatDistance(activity.distance)}</span>
+                      <span className="font-bold text-white">{formatDistance(activity.distance)}</span>
                       <span className="hidden sm:block">{formatDuration(activity.movingTime)}</span>
                       <span className="text-gray-400 dark:text-gray-500">{formatPace(activity.averagePaceMinPerKm)}/km</span>
                     </div>
@@ -612,8 +612,8 @@ export default function DashboardPage() {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {show('monthly_chart') && !isAllTime && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Monthly Distance (km)</h2>
+          <div className="bg-[#20201f]-sm p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-lg font-bold text-white mb-4">Monthly Distance (km)</h2>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={monthlyChartData}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -627,8 +627,8 @@ export default function DashboardPage() {
         )}
 
         {show('weekly_chart') && !isAllTime && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Weekly Distance (km)</h2>
+          <div className="bg-[#20201f]-sm p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-lg font-bold text-white mb-4">Weekly Distance (km)</h2>
             {!weeklyStats ? <LoadingSpinner /> : (
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={weeklyChartData}>
@@ -644,10 +644,10 @@ export default function DashboardPage() {
         )}
 
         {show('multi_year') && multiYearChartData.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700 lg:col-span-2">
+          <div className="bg-[#20201f]-sm p-6 border border-gray-200 dark:border-gray-700 lg:col-span-2">
             <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
               <div>
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Distance per year (km/month)</h2>
+                <h2 className="text-lg font-bold text-white">Distance per year (km/month)</h2>
                 <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">Current year ({year}) is highlighted</p>
               </div>
               <div className="flex flex-wrap gap-1.5">
@@ -683,10 +683,10 @@ export default function DashboardPage() {
         )}
 
         {show('eddington') && eddingtonData && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700 lg:col-span-2">
+          <div className="bg-[#20201f]-sm p-6 border border-gray-200 dark:border-gray-700 lg:col-span-2">
             <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
               <div>
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Eddington Number</h2>
+                <h2 className="text-lg font-bold text-white">Eddington Number</h2>
                 <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">Largest E where you've run at least E km on at least E separate days</p>
               </div>
               <div className="flex gap-8 text-center">
@@ -715,8 +715,8 @@ export default function DashboardPage() {
         )}
 
         {show('pace_trend') && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700 lg:col-span-2">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Pace Trend (min/km)</h2>
+          <div className="bg-[#20201f]-sm p-6 border border-gray-200 dark:border-gray-700 lg:col-span-2">
+            <h2 className="text-lg font-bold text-white mb-4">Pace Trend (min/km)</h2>
             {!paceTrend ? <LoadingSpinner /> : (
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={paceChartData}>
@@ -734,8 +734,8 @@ export default function DashboardPage() {
 
       {/* Exploration Stats */}
       {show('exploration_stats') && explorationStats && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mt-8">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Exploration Stats</h2>
+        <div className="bg-[#20201f]-sm border border-gray-200 dark:border-gray-700 p-6 mt-8">
+          <h2 className="text-lg font-bold text-white mb-4">Exploration Stats</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
             <div className="text-center">
               <p className="text-3xl font-bold text-cyan-500">{explorationStats.countriesCount}</p>
@@ -767,3 +767,4 @@ export default function DashboardPage() {
     </div>
   );
 }
+

@@ -110,13 +110,13 @@ export default function ActivityPreviewDialog({ activityId, activityName, onClos
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onClick={onClose}>
       <div
-        className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+        className="bg-[#20201f]-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-700 sticky top-0 bg-white dark:bg-gray-800 z-10">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[#484847]/20 sticky top-0 bg-white dark:bg-gray-800 z-10">
           <div className="min-w-0">
-            <p className="font-semibold text-gray-900 dark:text-white truncate">{activityName}</p>
+            <p className="font-bold text-white truncate">{activityName}</p>
             {activity && (
               <p className="text-xs text-gray-400 mt-0.5">
                 {formatDistance(activity.distance)} · {formatDuration(activity.movingTime)} · {formatPace(activity.averagePaceMinPerKm)} /km
@@ -135,45 +135,45 @@ export default function ActivityPreviewDialog({ activityId, activityName, onClos
             {/* Stats */}
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
               <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 text-center">
-                <p className="text-xs text-gray-400">Distance</p>
-                <p className="font-semibold text-gray-900 dark:text-white text-sm mt-0.5">{formatDistance(activity.distance)}</p>
+                <p className="font-label text-[10px] text-[#767575]">Distance</p>
+                <p className="font-bold text-white text-sm mt-0.5">{formatDistance(activity.distance)}</p>
               </div>
               <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 text-center">
-                <p className="text-xs text-gray-400">Time</p>
-                <p className="font-semibold text-gray-900 dark:text-white text-sm mt-0.5">{formatDuration(activity.movingTime)}</p>
+                <p className="font-label text-[10px] text-[#767575]">Time</p>
+                <p className="font-bold text-white text-sm mt-0.5">{formatDuration(activity.movingTime)}</p>
               </div>
               <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 text-center">
-                <p className="text-xs text-gray-400">Pace</p>
-                <p className="font-semibold text-gray-900 dark:text-white text-sm mt-0.5">{formatPace(activity.averagePaceMinPerKm)} /km</p>
+                <p className="font-label text-[10px] text-[#767575]">Pace</p>
+                <p className="font-bold text-white text-sm mt-0.5">{formatPace(activity.averagePaceMinPerKm)} /km</p>
               </div>
               <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 text-center">
-                <p className="text-xs text-gray-400">Elevation</p>
-                <p className="font-semibold text-gray-900 dark:text-white text-sm mt-0.5">{Math.round(activity.totalElevationGain)} m</p>
+                <p className="font-label text-[10px] text-[#767575]">Elevation</p>
+                <p className="font-bold text-white text-sm mt-0.5">{Math.round(activity.totalElevationGain)} m</p>
               </div>
               {activity.averageHeartRate != null && (
                 <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 text-center">
-                  <p className="text-xs text-gray-400">Avg HR</p>
-                  <p className="font-semibold text-gray-900 dark:text-white text-sm mt-0.5">{Math.round(activity.averageHeartRate)} bpm</p>
+                  <p className="font-label text-[10px] text-[#767575]">Avg HR</p>
+                  <p className="font-bold text-white text-sm mt-0.5">{Math.round(activity.averageHeartRate)} bpm</p>
                 </div>
               )}
               {activity.calories != null && (
                 <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 text-center">
-                  <p className="text-xs text-gray-400">Calories</p>
-                  <p className="font-semibold text-gray-900 dark:text-white text-sm mt-0.5">{activity.calories} kcal</p>
+                  <p className="font-label text-[10px] text-[#767575]">Calories</p>
+                  <p className="font-bold text-white text-sm mt-0.5">{activity.calories} kcal</p>
                 </div>
               )}
             </div>
 
             {/* Map */}
             {routeGeoJson && bounds && (
-              <div className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700" style={{ height: 200 }}>
+              <div className="rounded-lg overflow-hidden border border-[#484847]/30" style={{ height: 200 }}>
                 <Map
                   initialViewState={{ bounds, fitBoundsOptions: { padding: 30 } }}
                   style={{ width: '100%', height: '100%' }}
-                  mapStyle="https://tiles.openfreemap.org/styles/liberty"
+                  mapStyle="https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
                 >
                   <Source id="route" type="geojson" data={routeGeoJson}>
-                    <Layer id="route-line" type="line" paint={{ 'line-color': '#2563eb', 'line-width': 3 }} />
+                    <Layer id="route-line" type="line" paint={{ 'line-color': '#cffc00', 'line-width': 4, 'line-opacity': 1 }} />
                   </Source>
                 </Map>
               </div>
@@ -189,7 +189,7 @@ export default function ActivityPreviewDialog({ activityId, activityName, onClos
                     <div className="overflow-x-auto">
                       <table className="w-full text-xs">
                         <thead>
-                          <tr className="text-gray-400 border-b border-gray-100 dark:border-gray-700">
+                          <tr className="text-gray-400 border-b border-[#484847]/20">
                             <th className="text-left pb-1 font-medium">km</th>
                             <th className="text-right pb-1 font-medium">Pace</th>
                             {hasHrInSplits && <th className="text-right pb-1 font-medium">HR</th>}
@@ -246,10 +246,10 @@ export default function ActivityPreviewDialog({ activityId, activityName, onClos
         )}
 
         {/* Footer */}
-        <div className="px-5 py-3 border-t border-gray-100 dark:border-gray-700 flex justify-end sticky bottom-0 bg-white dark:bg-gray-800">
+        <div className="px-5 py-3 border-t border-[#484847]/20 flex justify-end sticky bottom-0 bg-white dark:bg-gray-800">
           <Link
             to={`/activities/${activityId}`}
-            className="px-4 py-2 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-md"
+            className="px-4 py-2 text-sm font-medium text-[#3b4a00] bg-[#cffc00] hover:bg-[#c2ed00] rounded-md"
             onClick={onClose}
           >
             View Full Details →
@@ -259,3 +259,8 @@ export default function ActivityPreviewDialog({ activityId, activityName, onClos
     </div>
   );
 }
+
+
+
+
+

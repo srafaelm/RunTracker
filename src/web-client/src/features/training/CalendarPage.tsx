@@ -11,10 +11,10 @@ const WORKOUT_TYPE_COLORS: Partial<Record<WorkoutType, string>> = {
   [WorkoutType.Intervals]: 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300',
   [WorkoutType.Long]:      'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
   [WorkoutType.Race]:      'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
-  [WorkoutType.Rest]:      'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400',
+  [WorkoutType.Rest]:      'bg-gray-100 text-gray-600 dark:bg-[#131313] dark:text-gray-400',
   [WorkoutType.Recovery]:  'bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-300',
   [WorkoutType.Strength]:  'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300',
-  [WorkoutType.Other]:     'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300',
+  [WorkoutType.Other]:     'bg-gray-100 text-gray-700 dark:bg-[#131313] dark:text-gray-300',
 };
 
 const WORKOUT_TYPE_LABELS: Partial<Record<WorkoutType, string>> = {
@@ -51,10 +51,10 @@ interface AddWorkoutModalProps {
 function AddWorkoutModal({ date, onClose }: AddWorkoutModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-sm p-6">
+      <div className="bg-[#20201f] rounded-2xl shadow-xl w-full max-w-sm p-6">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-gray-900 dark:text-white">Add for {date}</h3>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl">✕</button>
+          <h3 className="font-bold text-white">Add for {date}</h3>
+          <button onClick={onClose} className="text-[#767575] hover:text-gray-600 text-xl">✕</button>
         </div>
         <div className="space-y-2">
           <Link
@@ -126,26 +126,26 @@ export default function CalendarPage() {
   while (cells.length % 7 !== 0) cells.push({ day: null, date: null });
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
+    <div className="p-6 sm:p-8 min-h-screen bg-[#0e0e0e] text-white">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Calendar</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Scheduled workouts &amp; races</p>
+          <h1 className="font-headline text-xl font-bold uppercase tracking-tight text-white">Calendar</h1>
+          <p className="text-sm text-[#767575] dark:text-[#767575] mt-1">Scheduled workouts &amp; races</p>
         </div>
         <div className="flex items-center gap-2">
-          <Link to="/training" className="text-sm text-primary-600 hover:text-primary-700 font-medium">Training →</Link>
+          <Link to="/training" className="text-sm font-label text-xs text-[#cffc00] hover:text-white transition-colors">Training →</Link>
           <Link to="/races" className="text-sm text-purple-600 hover:text-purple-700 font-medium ml-4">Races →</Link>
         </div>
       </div>
 
       {/* Month navigation */}
       <div className="flex items-center justify-between mb-4">
-        <button onClick={prevMonth} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300">
+        <button onClick={prevMonth} className="p-2 rounded-lg hover:bg-[#20201f] transition-colors text-gray-600 dark:text-gray-300">
           ←
         </button>
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{monthName} {year}</h2>
-        <button onClick={nextMonth} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300">
+        <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white">{monthName} {year}</h2>
+        <button onClick={nextMonth} className="p-2 rounded-lg hover:bg-[#20201f] transition-colors text-gray-600 dark:text-gray-300">
           →
         </button>
       </div>
@@ -160,11 +160,11 @@ export default function CalendarPage() {
       </div>
 
       {/* Calendar grid */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+      <div className="bg-[#20201f] border border-[#484847]/30 overflow-hidden">
         {/* Day headers */}
-        <div className="grid grid-cols-7 border-b border-gray-200 dark:border-gray-700">
+        <div className="grid grid-cols-7 border-b border-[#484847]/20">
           {DAY_LABELS.map(d => (
-            <div key={d} className="py-2 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+            <div key={d} className="py-2 text-center text-xs font-medium text-[#767575] dark:text-[#767575] uppercase tracking-wider">
               {d}
             </div>
           ))}
@@ -180,15 +180,15 @@ export default function CalendarPage() {
             return (
               <div
                 key={i}
-                className={`min-h-[90px] border-b border-r border-gray-100 dark:border-gray-700 p-1 ${
-                  cell.day == null ? 'bg-gray-50 dark:bg-gray-800/50' : 'hover:bg-gray-50 dark:hover:bg-gray-700/30 cursor-pointer'
+                className={`min-h-[90px] border-b border-r border-gray-100 dark:border-[#484847]/30 p-1 ${
+                  cell.day == null ? 'bg-gray-50 dark:bg-[#20201f]/50' : 'hover:bg-[#20201f] transition-colors/30 cursor-pointer'
                 }`}
                 onClick={() => cell.date && setAddDate(cell.date)}
               >
                 {cell.day != null && (
                   <>
                     <div className={`text-xs font-medium mb-1 w-5 h-5 flex items-center justify-center rounded-full ${
-                      isToday ? 'bg-primary-600 text-white' : 'text-gray-500 dark:text-gray-400'
+                      isToday ? 'bg-primary-600 text-white' : 'text-[#767575] dark:text-gray-400'
                     }`}>
                       {hasRace ? <span title="Race day">★</span> : cell.day}
                     </div>
@@ -206,7 +206,7 @@ export default function CalendarPage() {
                         </Link>
                       ))}
                       {dayWorkouts.length > 3 && (
-                        <p className="text-xs text-gray-400 px-1">+{dayWorkouts.length - 3} more</p>
+                        <p className="text-xs text-[#767575] px-1">+{dayWorkouts.length - 3} more</p>
                       )}
                     </div>
                   </>
@@ -221,3 +221,6 @@ export default function CalendarPage() {
     </div>
   );
 }
+
+
+

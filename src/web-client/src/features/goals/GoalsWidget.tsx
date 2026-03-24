@@ -93,12 +93,12 @@ export default function GoalsWidget() {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5">
+    <div className="bg-[#20201f] p-5">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-base font-semibold text-gray-900 dark:text-white">Goals</h2>
+        <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white">Goals</h2>
         <button
           onClick={() => setShowAdd(v => !v)}
-          className="px-3 py-1 text-xs font-medium rounded-lg border border-primary-600 text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
+          className="px-3 py-1 text-xs font-medium rounded-lg border border-primary-600 text-[#cffc00] hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
         >
           {showAdd ? 'Cancel' : '+ Add Goal'}
         </button>
@@ -110,7 +110,7 @@ export default function GoalsWidget() {
             <select
               value={form.period}
               onChange={e => setForm(f => ({ ...f, period: e.target.value }))}
-              className="flex-1 min-w-[100px] text-sm rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-2 py-1"
+              className="flex-1 min-w-[100px] text-sm rounded border border-[#484847]/30 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-2 py-1"
             >
               <option value={String(GoalPeriod.Week)}>Weekly</option>
               <option value={String(GoalPeriod.Month)}>Monthly</option>
@@ -119,7 +119,7 @@ export default function GoalsWidget() {
             <select
               value={form.sportType}
               onChange={e => setForm(f => ({ ...f, sportType: e.target.value }))}
-              className="flex-1 min-w-[100px] text-sm rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-2 py-1"
+              className="flex-1 min-w-[100px] text-sm rounded border border-[#484847]/30 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-2 py-1"
             >
               <option value="">All Sports</option>
               {Object.entries(SportType).filter(([k]) => isNaN(Number(k))).map(([label, val]) => (
@@ -132,7 +132,7 @@ export default function GoalsWidget() {
               placeholder="Target km"
               value={form.target}
               onChange={e => setForm(f => ({ ...f, target: e.target.value }))}
-              className="flex-1 min-w-[90px] text-sm rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-2 py-1"
+              className="flex-1 min-w-[90px] text-sm rounded border border-[#484847]/30 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-2 py-1"
             />
           </div>
           <button
@@ -161,10 +161,10 @@ export default function GoalsWidget() {
                   min="1"
                   value={editValue}
                   onChange={e => setEditValue(e.target.value)}
-                  className="flex-1 text-sm rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-2 py-1"
+                  className="flex-1 text-sm rounded border border-[#484847]/30 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-2 py-1"
                 />
-                <button onClick={() => handleUpdate(goal.id)} className="text-xs text-primary-600 font-medium">Save</button>
-                <button onClick={() => setEditId(null)} className="text-xs text-gray-500">Cancel</button>
+                <button onClick={() => handleUpdate(goal.id)} className="text-xs text-[#cffc00] font-medium">Save</button>
+                <button onClick={() => setEditId(null)} className="font-label text-[10px] text-[#767575]">Cancel</button>
               </div>
             ) : (
               <div className="group relative">
@@ -191,7 +191,7 @@ export default function GoalsWidget() {
 
       {/* Monthly achievement history chart (only shown if monthly goals exist) */}
       {history && history.months.some(m => m.goalsTotal > 0) && (
-        <div className="mt-5 pt-4 border-t border-gray-100 dark:border-gray-700">
+        <div className="mt-5 pt-4 border-t border-[#484847]/20">
           <div className="flex items-center justify-between mb-2">
             <p className="text-xs font-medium text-gray-500 dark:text-gray-400">Monthly goal achievement (last 12 months)</p>
             {history.consecutiveStreak > 0 && (
@@ -217,3 +217,5 @@ export default function GoalsWidget() {
     </div>
   );
 }
+
+

@@ -86,6 +86,7 @@ export interface ActivityDetail extends ActivitySummary {
   weatherHumidityPct: number | null;
   weatherWindSpeedKmh: number | null;
   weatherCondition: string | null;
+  locationCity: string | null;
 }
 
 export interface PaginatedList<T> {

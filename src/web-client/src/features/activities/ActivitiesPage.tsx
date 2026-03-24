@@ -110,20 +110,22 @@ export default function ActivitiesPage() {
   if (isLoading) return <LoadingSpinner size="lg" />;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6 sm:py-8">
-      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-6">Activities</h1>
+    <div className="p-6 sm:p-8 min-h-screen bg-[#0e0e0e] text-white">
+      <div className="mb-8">
+        <h1 className="font-headline text-4xl sm:text-5xl font-bold tracking-tighter uppercase text-white">Activities</h1>
+      </div>
 
-      <div className="mb-3">
+      <div className="mb-4">
         <input
           type="text"
           placeholder="Search activities..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="w-full sm:w-72 px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500"
+          className="w-full sm:w-72 px-4 py-2.5 font-label text-sm bg-[#131313] border border-[#484847] text-white placeholder-[#767575] focus:outline-none focus:border-[#cffc00] transition-colors"
         />
       </div>
 
-      <div className="flex flex-wrap items-end gap-3 mb-4">
+      <div className="flex flex-wrap items-end gap-3 mb-6">
         <div className="flex-1 min-w-0">
           <ActivityFilters
             sportType={globalSportType}
@@ -134,27 +136,24 @@ export default function ActivitiesPage() {
             showDateRange
           />
         </div>
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2 flex-wrap shrink-0">
           {/* Column picker */}
           <div ref={columnsRef} className="relative">
             <button
               onClick={() => setColumnsOpen((o) => !o)}
-              className="flex items-center gap-1.5 rounded-md border border-gray-300 dark:border-gray-600 px-2.5 py-1.5 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              className="bg-[#20201f] border border-[#484847] px-3 py-2 font-label text-xs uppercase tracking-widest text-[#adaaaa] hover:border-[#cffc00] hover:text-white transition-colors"
             >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
-              </svg>
               Columns
             </button>
             {columnsOpen && (
-              <div className="absolute right-0 top-full mt-1 z-20 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-3 min-w-[140px]">
+              <div className="absolute right-0 top-full mt-1 z-20 bg-[#1a1a1a] border border-[#484847] shadow-2xl p-3 min-w-[140px]">
                 {COLUMNS.map((col) => (
-                  <label key={col.id} className="flex items-center gap-2 py-1 text-sm text-gray-700 dark:text-gray-300 cursor-pointer hover:text-gray-900 dark:hover:text-white">
+                  <label key={col.id} className="flex items-center gap-2 py-1.5 font-label text-xs uppercase tracking-widest text-[#adaaaa] cursor-pointer hover:text-white">
                     <input
                       type="checkbox"
                       checked={visibleColumns.includes(col.id)}
                       onChange={() => toggleColumn(col.id)}
-                      className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                      className="border-[#484847]"
                     />
                     {col.label}
                   </label>
@@ -162,36 +161,27 @@ export default function ActivitiesPage() {
               </div>
             )}
           </div>
-
-          {/* Compare */}
-          <Link
-            to="/activities/compare"
-            className="flex items-center gap-1.5 rounded-md border border-gray-300 dark:border-gray-600 px-2.5 py-1.5 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-          >
+          <Link to="/activities/compare" className="bg-[#20201f] border border-[#484847] px-3 py-2 font-label text-xs uppercase tracking-widest text-[#adaaaa] hover:border-[#cffc00] hover:text-white transition-colors">
             Compare
           </Link>
-
-          {/* Export */}
           <button
             onClick={() => setExportOpen(true)}
-            className="flex items-center gap-1.5 rounded-md border border-gray-300 dark:border-gray-600 px-2.5 py-1.5 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+            className="bg-[#20201f] border border-[#484847] px-3 py-2 font-label text-xs uppercase tracking-widest text-[#adaaaa] hover:border-[#cffc00] hover:text-white transition-colors"
           >
             Export CSV
           </button>
           <a
             href="/api/activities/export/full"
             download="runtracker-export.zip"
-            className="flex items-center gap-1.5 rounded-md border border-gray-300 dark:border-gray-600 px-2.5 py-1.5 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+            className="bg-[#20201f] border border-[#484847] px-3 py-2 font-label text-xs uppercase tracking-widest text-[#adaaaa] hover:border-[#cffc00] hover:text-white transition-colors"
           >
             Export All
           </a>
-
-          {/* Page size */}
-          <label className="text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">Rows:</label>
+          <label className="font-label text-[10px] uppercase tracking-widest text-[#767575] whitespace-nowrap">Rows:</label>
           <select
             value={pageSize}
             onChange={(e) => { setPageSize(Number(e.target.value)); setPage(1); }}
-            className="rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 px-2 py-1.5 text-sm focus:border-primary-500 focus:outline-none"
+            className="bg-[#131313] border border-[#484847] text-white px-2 py-2 font-label text-xs focus:border-[#cffc00] focus:outline-none"
           >
             {[10, 25, 50, 100, 1000].map((n) => (
               <option key={n} value={n}>{n}</option>
@@ -208,12 +198,8 @@ export default function ActivitiesPage() {
               <button
                 key={tag.id}
                 onClick={() => toggleTag(tag.id)}
-                className={`px-2.5 py-1 rounded-full text-xs font-medium border transition-all ${
-                  active
-                    ? 'text-white border-transparent'
-                    : 'bg-transparent text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-gray-400'
-                }`}
-                style={active ? { backgroundColor: tag.color ?? '#6b7280', borderColor: tag.color ?? '#6b7280' } : {}}
+                className={`px-3 py-1 font-label text-xs uppercase tracking-widest transition-all border-l-2 ${active ? 'text-white' : 'text-[#767575] border-[#484847] hover:border-[#767575] hover:text-[#adaaaa]'}`}
+                style={active ? { backgroundColor: (tag.color ?? '#6b7280') + '20', borderColor: tag.color ?? '#6b7280', color: tag.color ?? '#adaaaa' } : {}}
               >
                 {tag.name}
               </button>
@@ -222,7 +208,7 @@ export default function ActivitiesPage() {
           {selectedTagIds.length > 0 && (
             <button
               onClick={() => { setSelectedTagIds([]); setPage(1); }}
-              className="px-2.5 py-1 rounded-full text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 border border-dashed border-gray-300 dark:border-gray-600"
+              className="px-3 py-1 font-label text-xs uppercase tracking-widest text-[#767575] border border-dashed border-[#484847] hover:text-white hover:border-[#767575] transition-colors"
             >
               Clear
             </button>
@@ -236,67 +222,64 @@ export default function ActivitiesPage() {
           <Link
             key={activity.id}
             to={`/activities/${activity.id}`}
-            className="block bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md transition-shadow"
+            className="block bg-[#20201f] border-l-2 border-[#484847] p-4 hover:border-[#cffc00] transition-colors"
           >
             <div className="flex items-start justify-between mb-1">
-              <span className="text-xs text-gray-400 dark:text-gray-500">{formatDate(activity.startDate)}</span>
-              <span className="text-xs text-gray-400 dark:text-gray-500">{sportTypeName(activity.sportType)}</span>
+              <span className="font-label text-[10px] uppercase tracking-widest text-[#767575]">{formatDate(activity.startDate)}</span>
+              <span className="font-label text-[10px] uppercase tracking-widest text-[#767575]">{sportTypeName(activity.sportType)}</span>
             </div>
-            <p className="text-sm font-semibold text-primary-600 mb-2 truncate">{activity.name}</p>
-            <div className="flex items-center gap-3 text-sm text-gray-700 dark:text-gray-300">
-              <span className="font-medium">{formatDistance(activity.distance)}</span>
-              <span className="text-gray-300 dark:text-gray-600">·</span>
+            <p className="font-headline text-sm font-bold text-[#cffc00] mb-2 truncate uppercase">{activity.name}</p>
+            <div className="flex items-center gap-3 font-label text-sm text-[#adaaaa]">
+              <span className="font-bold text-white">{formatDistance(activity.distance)}</span>
+              <span className="text-[#484847]">·</span>
               <span>{formatDuration(activity.movingTime)}</span>
-              <span className="text-gray-300 dark:text-gray-600">·</span>
+              <span className="text-[#484847]">·</span>
               <span>{formatPace(activity.averagePaceMinPerKm)}/km</span>
             </div>
           </Link>
         ))}
         {data?.items.length === 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8 text-center text-gray-500 dark:text-gray-400">
+          <div className="bg-[#20201f] border border-[#484847] p-8 text-center font-label text-[#767575]">
             No activities found. Connect your Strava account to sync your runs!
           </div>
         )}
       </div>
 
       {/* Desktop table */}
-      <div className="hidden sm:block bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-          <thead className="bg-gray-50 dark:bg-gray-700">
+      <div className="hidden sm:block bg-[#20201f] overflow-hidden">
+        <table className="min-w-full">
+          <thead className="bg-[#262626]/50">
             <tr>
-              {show('date') && <th onClick={() => handleSort('date')} className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer select-none hover:text-gray-700 dark:hover:text-gray-200">Date<SortIcon col="date" /></th>}
-              {show('name') && <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Name</th>}
-              {show('type') && <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Type</th>}
-              {show('distance') && <th onClick={() => handleSort('distance')} className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer select-none hover:text-gray-700 dark:hover:text-gray-200">Distance<SortIcon col="distance" /></th>}
-              {show('duration') && <th onClick={() => handleSort('duration')} className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer select-none hover:text-gray-700 dark:hover:text-gray-200">Duration<SortIcon col="duration" /></th>}
-              {show('pace') && <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pace</th>}
-              {show('elevation') && <th onClick={() => handleSort('elevation')} className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer select-none hover:text-gray-700 dark:hover:text-gray-200">Elevation<SortIcon col="elevation" /></th>}
+              {show('date') && <th onClick={() => handleSort('date')} className="px-6 py-4 text-left font-label text-[10px] uppercase tracking-widest text-[#adaaaa] cursor-pointer select-none hover:text-white">Date<SortIcon col="date" /></th>}
+              {show('name') && <th className="px-6 py-4 text-left font-label text-[10px] uppercase tracking-widest text-[#adaaaa]">Name</th>}
+              {show('type') && <th className="px-6 py-4 text-left font-label text-[10px] uppercase tracking-widest text-[#adaaaa]">Type</th>}
+              {show('distance') && <th onClick={() => handleSort('distance')} className="px-6 py-4 text-left font-label text-[10px] uppercase tracking-widest text-[#adaaaa] cursor-pointer select-none hover:text-white">Distance<SortIcon col="distance" /></th>}
+              {show('duration') && <th onClick={() => handleSort('duration')} className="px-6 py-4 text-left font-label text-[10px] uppercase tracking-widest text-[#adaaaa] cursor-pointer select-none hover:text-white">Duration<SortIcon col="duration" /></th>}
+              {show('pace') && <th className="px-6 py-4 text-left font-label text-[10px] uppercase tracking-widest text-[#adaaaa]">Pace</th>}
+              {show('elevation') && <th onClick={() => handleSort('elevation')} className="px-6 py-4 text-left font-label text-[10px] uppercase tracking-widest text-[#adaaaa] cursor-pointer select-none hover:text-white">Elevation<SortIcon col="elevation" /></th>}
             </tr>
           </thead>
-          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+          <tbody className="divide-y divide-[#484847]/10">
             {data?.items.map((activity) => (
-              <tr key={activity.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                {show('date') && <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{formatDate(activity.startDate)}</td>}
+              <tr key={activity.id} className="hover:bg-zinc-800/20 transition-colors">
+                {show('date') && <td className="px-6 py-4 whitespace-nowrap font-label text-sm text-[#767575]">{formatDate(activity.startDate)}</td>}
                 {show('name') && (
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <Link to={`/activities/${activity.id}`} className="text-sm font-medium text-primary-600 hover:text-primary-800">
+                    <Link to={`/activities/${activity.id}`} className="font-headline text-sm font-bold text-[#cffc00] hover:text-white uppercase transition-colors">
                       {activity.name}
                     </Link>
                   </td>
                 )}
-                {show('type') && <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{sportTypeName(activity.sportType)}</td>}
-                {show('distance') && <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white font-medium">{formatDistance(activity.distance)}</td>}
-                {show('duration') && <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{formatDuration(activity.movingTime)}</td>}
-                {show('pace') && <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{formatPace(activity.averagePaceMinPerKm)} /km</td>}
-                {show('elevation') && <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{Math.round(activity.totalElevationGain)} m</td>}
+                {show('type') && <td className="px-6 py-4 whitespace-nowrap font-label text-sm text-[#767575]">{sportTypeName(activity.sportType)}</td>}
+                {show('distance') && <td className="px-6 py-4 whitespace-nowrap font-headline text-sm font-bold text-white">{formatDistance(activity.distance)}</td>}
+                {show('duration') && <td className="px-6 py-4 whitespace-nowrap font-label text-sm text-[#adaaaa]">{formatDuration(activity.movingTime)}</td>}
+                {show('pace') && <td className="px-6 py-4 whitespace-nowrap font-label text-sm text-[#adaaaa]">{formatPace(activity.averagePaceMinPerKm)} /km</td>}
+                {show('elevation') && <td className="px-6 py-4 whitespace-nowrap font-label text-sm text-[#adaaaa]">{Math.round(activity.totalElevationGain)} m</td>}
               </tr>
             ))}
             {data?.items.length === 0 && (
               <tr>
-                <td
-                  colSpan={visibleColumns.length}
-                  className="px-6 py-12 text-center text-gray-500 dark:text-gray-400"
-                >
+                <td colSpan={visibleColumns.length} className="px-6 py-12 text-center font-label text-sm text-[#767575]">
                   No activities found. Connect your Strava account to sync your runs!
                 </td>
               </tr>
@@ -308,22 +291,21 @@ export default function ActivitiesPage() {
       {/* Pagination */}
       {data && data.totalPages > 1 && (
         <div className="flex flex-wrap items-center justify-between gap-3 mt-6">
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            Showing page {data.pageNumber} of {data.totalPages} ({data.totalCount}{' '}
-            total)
+          <p className="font-label text-[10px] uppercase tracking-widest text-[#767575]">
+            Page {data.pageNumber} of {data.totalPages} ({data.totalCount} total)
           </p>
-          <div className="flex space-x-2">
+          <div className="flex gap-2">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={!data.hasPreviousPage}
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-[#20201f] border border-[#484847] font-label text-xs uppercase tracking-widest text-[#adaaaa] hover:border-[#cffc00] hover:text-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
             >
               Previous
             </button>
             <button
               onClick={() => setPage((p) => p + 1)}
               disabled={!data.hasNextPage}
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-[#20201f] border border-[#484847] font-label text-xs uppercase tracking-widest text-[#adaaaa] hover:border-[#cffc00] hover:text-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
             >
               Next
             </button>

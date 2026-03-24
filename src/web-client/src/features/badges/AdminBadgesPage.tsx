@@ -41,10 +41,10 @@ export default function AdminBadgesPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6 sm:py-8">
+    <div className="p-6 sm:p-8 min-h-screen bg-[#0e0e0e] text-white sm:py-8">
       <div className="mb-6">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Badge Management</h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+        <p className="text-sm text-[#767575] dark:text-[#767575] mt-1">
           {allBadges.filter((b) => !b.isArchived).length} active · {allBadges.filter((b) => b.isArchived).length} archived
         </p>
       </div>
@@ -56,18 +56,18 @@ export default function AdminBadgesPage() {
           placeholder="Search badges…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 w-48"
+          className="px-3 py-2 rounded-lg border border-[#484847]/30 bg-[#20201f] text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:border-[#cffc00] focus:outline-none w-48"
         />
         <select
           value={categoryFilter}
           onChange={(e) => setCategoryFilter(e.target.value)}
-          className="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+          className="px-3 py-2 rounded-lg border border-[#484847]/30 bg-[#20201f] text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:border-[#cffc00] focus:outline-none"
         >
           {categories.map((c) => (
             <option key={c} value={c}>{c}</option>
           ))}
         </select>
-        <label className="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-gray-700 dark:text-gray-300 cursor-pointer select-none">
+        <label className="flex items-center gap-2 px-3 py-2 rounded-lg border border-[#484847]/30 bg-[#20201f] text-sm text-gray-700 dark:text-[#adaaaa] cursor-pointer select-none">
           <input
             type="checkbox"
             checked={showArchived}
@@ -79,30 +79,30 @@ export default function AdminBadgesPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm">
+      <div className="bg-[#20201f] border border-[#484847]/30 overflow-hidden shadow-sm">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
-              <th className="text-left px-4 py-3 font-semibold text-gray-500 dark:text-gray-400 w-10">Icon</th>
-              <th className="text-left px-4 py-3 font-semibold text-gray-500 dark:text-gray-400">Name</th>
-              <th className="text-left px-4 py-3 font-semibold text-gray-500 dark:text-gray-400 hidden md:table-cell">Category</th>
-              <th className="text-center px-4 py-3 font-semibold text-gray-500 dark:text-gray-400 w-24">Sort Order</th>
-              <th className="text-center px-4 py-3 font-semibold text-gray-500 dark:text-gray-400 w-24">Status</th>
-              <th className="text-right px-4 py-3 font-semibold text-gray-500 dark:text-gray-400 w-28">Action</th>
+            <tr className="border-b border-[#484847]/20 bg-gray-50 dark:bg-[#0e0e0e]/50">
+              <th className="text-left px-4 py-3 font-semibold text-[#767575] dark:text-[#767575] w-10">Icon</th>
+              <th className="text-left px-4 py-3 font-semibold text-[#767575] dark:text-gray-400">Name</th>
+              <th className="text-left px-4 py-3 font-semibold text-[#767575] dark:text-[#767575] hidden md:table-cell">Category</th>
+              <th className="text-center px-4 py-3 font-semibold text-[#767575] dark:text-[#767575] w-24">Sort Order</th>
+              <th className="text-center px-4 py-3 font-semibold text-[#767575] dark:text-[#767575] w-24">Status</th>
+              <th className="text-right px-4 py-3 font-semibold text-[#767575] dark:text-[#767575] w-28">Action</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100 dark:divide-gray-700/50">
+          <tbody className="divide-y divide-[#484847]/10/50">
             {filtered.map((badge) => (
               <tr
                 key={badge.id}
-                className={`transition-colors ${badge.isArchived ? 'opacity-50' : 'hover:bg-gray-50 dark:hover:bg-gray-700/30'}`}
+                className={`transition-colors ${badge.isArchived ? 'opacity-50' : 'hover:bg-[#20201f] transition-colors/30'}`}
               >
                 <td className="px-4 py-3 text-xl">{badge.icon}</td>
                 <td className="px-4 py-3">
-                  <div className="font-medium text-gray-900 dark:text-white">{badge.name}</div>
-                  <div className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 hidden sm:block">{badge.description}</div>
+                  <div className="font-bold text-white">{badge.name}</div>
+                  <div className="text-xs text-[#767575] dark:text-[#767575] mt-0.5 hidden sm:block">{badge.description}</div>
                 </td>
-                <td className="px-4 py-3 text-gray-500 dark:text-gray-400 hidden md:table-cell">{badge.category}</td>
+                <td className="px-4 py-3 text-[#767575] dark:text-[#767575] hidden md:table-cell">{badge.category}</td>
                 <td className="px-4 py-3 text-center">
                   <input
                     type="number"
@@ -112,14 +112,14 @@ export default function AdminBadgesPage() {
                     }
                     onBlur={() => handleSortOrderBlur(badge)}
                     onKeyDown={(e) => e.key === 'Enter' && handleSortOrderBlur(badge)}
-                    className="w-16 text-center px-2 py-1 rounded border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    className="w-16 text-center px-2 py-1 rounded border border-[#484847]/30 bg-[#20201f] text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:border-[#cffc00] focus:outline-none"
                   />
                 </td>
                 <td className="px-4 py-3 text-center">
                   <span
                     className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
                       badge.isArchived
-                        ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
+                        ? 'bg-gray-100 dark:bg-[#131313] text-[#767575] dark:text-gray-400'
                         : 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
                     }`}
                   >
@@ -139,7 +139,7 @@ export default function AdminBadgesPage() {
                     <button
                       onClick={() => archiveMutation.mutate(badge.id)}
                       disabled={archiveMutation.isPending}
-                      className="px-3 py-1 text-xs font-medium rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-600 dark:hover:text-red-400 transition-colors disabled:opacity-50"
+                      className="px-3 py-1 text-xs font-medium rounded-lg bg-gray-100 dark:bg-[#131313] text-gray-600 dark:text-[#767575] hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-600 dark:hover:text-red-400 transition-colors disabled:opacity-50"
                     >
                       Archive
                     </button>
@@ -149,7 +149,7 @@ export default function AdminBadgesPage() {
             ))}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-gray-400 dark:text-gray-500">
+                <td colSpan={6} className="px-4 py-8 text-center text-[#767575] dark:text-gray-500">
                   No badges match your filters.
                 </td>
               </tr>
@@ -160,3 +160,6 @@ export default function AdminBadgesPage() {
     </div>
   );
 }
+
+
+

@@ -154,15 +154,15 @@ export default function RaceHistoryPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <div className="flex items-center justify-between mb-6">
+    <div className="p-6 sm:p-8 min-h-screen bg-[#0e0e0e] text-white">
+      <div className="flex items-start justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Race Calendar</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Track your races, goals, and results</p>
+          <h1 className="font-headline text-4xl sm:text-5xl font-bold tracking-tighter uppercase">Race Calendar</h1>
+          <p className="font-label text-xs uppercase tracking-widest text-[#767575] mt-2">Track your races, goals, and results</p>
         </div>
         <button
           onClick={openNew}
-          className="px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700"
+          className="px-5 py-2.5 bg-[#cffc00] text-[#3b4a00] font-label font-bold text-xs uppercase tracking-widest hover:bg-[#c2ed00] transition-colors"
         >
           + Add Race
         </button>
@@ -170,70 +170,70 @@ export default function RaceHistoryPage() {
 
       {/* Add / Edit Form */}
       {showForm && (
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{editId ? 'Edit Race' : 'Add Race'}</h2>
+        <div className="bg-[#20201f] p-6 mb-6">
+          <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white mb-4">{editId ? 'Edit Race' : 'Add Race'}</h2>
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Race Name *</label>
+              <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Race Name *</label>
               <input required value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })}
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2 text-sm" />
+                className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Date *</label>
+              <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Date *</label>
               <input required type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })}
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2 text-sm" />
+                className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Race Distance (km)</label>
+              <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Race Distance (km)</label>
               <input type="number" step="0.001" min="0" value={form.raceDistanceMeters}
                 onChange={(e) => setForm({ ...form, raceDistanceMeters: e.target.value })}
                 placeholder="e.g. 42.195"
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2 text-sm" />
+                className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Location</label>
+              <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Location</label>
               <input value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })}
                 placeholder="City, Country"
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2 text-sm" />
+                className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Goal Time (h:mm:ss)</label>
+              <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Goal Time (h:mm:ss)</label>
               <input value={form.goalTimeSecs} onChange={(e) => setForm({ ...form, goalTimeSecs: e.target.value })}
                 placeholder="e.g. 3:30:00"
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2 text-sm" />
+                className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Result Time (h:mm:ss)</label>
+              <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Result Time (h:mm:ss)</label>
               <input value={form.resultTimeSecs} onChange={(e) => setForm({ ...form, resultTimeSecs: e.target.value })}
                 placeholder="Leave blank if upcoming"
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2 text-sm" />
+                className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors" />
             </div>
             <div className="md:col-span-2">
-              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Linked Strava Activity</label>
+              <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Linked Activity</label>
               <select
                 value={form.linkedActivityId}
                 onChange={(e) => setForm({ ...form, linkedActivityId: e.target.value })}
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2 text-sm"
+                className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors"
               >
                 <option value="">— None —</option>
                 {(nearbyActivities?.items ?? []).map((a) => (
                   <option key={a.id} value={a.id}>{a.name} ({a.startDate.slice(0, 10)})</option>
                 ))}
               </select>
-              <p className="text-xs text-gray-400 mt-0.5">Activities within ±7 days of race date</p>
+              <p className="font-label text-[10px] uppercase tracking-widest text-[#767575] mt-1">Activities within ±7 days of race date</p>
             </div>
             <div className="md:col-span-2">
-              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Notes</label>
+              <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Notes</label>
               <textarea value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} rows={2}
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2 text-sm" />
+                className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors" />
             </div>
             <div className="md:col-span-2 flex gap-3">
               <button type="submit" disabled={createRace.isPending || updateRace.isPending}
-                className="px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 disabled:opacity-50">
+                className="px-5 py-2.5 bg-[#cffc00] text-[#3b4a00] font-label font-bold text-xs uppercase tracking-widest hover:bg-[#c2ed00] transition-colors disabled:opacity-50">
                 {editId ? 'Save Changes' : 'Add Race'}
               </button>
               <button type="button" onClick={() => setShowForm(false)}
-                className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700">
+                className="px-5 py-2.5 bg-[#20201f] border border-[#484847] text-[#adaaaa] font-label text-xs uppercase tracking-widest hover:border-[#cffc00] hover:text-white transition-colors">
                 Cancel
               </button>
             </div>
@@ -241,44 +241,43 @@ export default function RaceHistoryPage() {
         </div>
       )}
 
-      {isLoading && <p className="text-gray-500 dark:text-gray-400 text-sm">Loading…</p>}
+      {isLoading && <p className="font-label text-xs uppercase tracking-widest text-[#767575]">Loading…</p>}
 
-      {/* Upcoming Races */}
       {upcomingRaces.length > 0 && (
         <div className="mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Upcoming</h2>
+          <h2 className="font-headline text-xl font-bold uppercase tracking-tight text-white mb-4 border-b border-[#484847]/20 pb-2">Upcoming</h2>
           <div className="space-y-3">
             {upcomingRaces.map((race) => {
               const daysUntil = Math.ceil((new Date(race.date).getTime() - Date.now()) / 86400000);
               const onTrack = getOnTrackStatus(race, recentRuns);
               const onTrackLabel = onTrack === 'on-track' ? 'On Track' : onTrack === 'close' ? 'Close' : onTrack === 'behind' ? 'Behind' : null;
-              const onTrackColor = onTrack === 'on-track' ? 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300' : onTrack === 'close' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300' : 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300';
+              const onTrackColor = onTrack === 'on-track' ? 'bg-[#cffc00]/10 text-[#cffc00]' : onTrack === 'close' ? 'bg-yellow-400/10 text-yellow-300' : 'bg-[#ff734a]/10 text-[#ff734a]';
               return (
-                <div key={race.id} className="bg-white dark:bg-gray-800 rounded-xl border border-purple-200 dark:border-purple-800 p-4 flex items-center gap-4">
+                <div key={race.id} className="bg-[#20201f] border-l-2 border-purple-500 p-4 flex items-center gap-4">
                   <div className="w-16 text-center">
-                    <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">{daysUntil}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">days</p>
+                    <p className="font-headline text-3xl font-bold text-purple-400">{daysUntil}</p>
+                    <p className="font-label text-[10px] uppercase tracking-widest text-[#767575]">days</p>
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <p className="font-semibold text-gray-900 dark:text-white">{race.title}</p>
+                      <p className="font-headline text-base font-bold text-white uppercase tracking-tight">{race.title}</p>
                       {onTrackLabel && (
-                        <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${onTrackColor}`}>{onTrackLabel}</span>
+                        <span className={`font-label text-[10px] uppercase tracking-widest px-2 py-0.5 ${onTrackColor}`}>{onTrackLabel}</span>
                       )}
                     </div>
-                    <div className="flex flex-wrap gap-3 text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                    <div className="flex flex-wrap gap-3 font-label text-xs text-[#767575] mt-1">
                       <span>{formatDate(race.date)}</span>
                       {race.location && <span>{race.location}</span>}
                       {raceDistance(race) && <span>{formatDistance(raceDistance(race)!)}</span>}
                       {race.goalTimeSecs && <span>Goal: {formatTime(race.goalTimeSecs)}</span>}
                     </div>
                   </div>
-                  <div className="flex gap-2 shrink-0 items-center">
+                  <div className="flex gap-3 shrink-0 items-center">
                     {race.linkedActivityId && (
-                      <Link to={`/activities/${race.linkedActivityId}`} className="text-xs text-primary-600 dark:text-primary-400 hover:underline">Activity →</Link>
+                      <Link to={`/activities/${race.linkedActivityId}`} className="font-label text-[10px] uppercase tracking-widest text-[#cffc00] hover:text-white transition-colors">Activity →</Link>
                     )}
-                    <button onClick={() => openEdit(race)} className="text-xs text-blue-600 dark:text-blue-400 hover:underline">Edit</button>
-                    <button onClick={() => setConfirmDelete({ id: race.id, title: race.title })} className="text-xs text-red-500 hover:underline">Delete</button>
+                    <button onClick={() => openEdit(race)} className="font-label text-[10px] uppercase tracking-widest text-[#81ecff] hover:text-white transition-colors">Edit</button>
+                    <button onClick={() => setConfirmDelete({ id: race.id, title: race.title })} className="font-label text-[10px] uppercase tracking-widest text-[#ff734a] hover:text-white transition-colors">Delete</button>
                   </div>
                 </div>
               );
@@ -287,40 +286,38 @@ export default function RaceHistoryPage() {
         </div>
       )}
 
-      {/* Result chart */}
       {chartData.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Finish Times (minutes)</h2>
+        <div className="bg-[#20201f] p-6 mb-8">
+          <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white mb-4">Finish Times (minutes)</h2>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-              <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#6b7280' }} />
-              <YAxis tick={{ fontSize: 11, fill: '#6b7280' }} />
-              <Tooltip formatter={(v: number) => `${v} min`} />
-              <Bar dataKey="result" fill="#7c3aed" name="Result" radius={[3, 3, 0, 0]} />
-              <Bar dataKey="goal" fill="#a78bfa" name="Goal" radius={[3, 3, 0, 0]} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#484847" />
+              <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#adaaaa' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 11, fill: '#adaaaa' }} axisLine={false} tickLine={false} />
+              <Tooltip contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #484847', borderRadius: 0 }} labelStyle={{ color: '#adaaaa' }} itemStyle={{ color: '#fff' }} formatter={(v: number) => `${v} min`} />
+              <Bar dataKey="result" fill="#cffc00" name="Result" radius={[2, 2, 0, 0]} />
+              <Bar dataKey="goal" fill="#484847" name="Goal" radius={[2, 2, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
       )}
 
-      {/* Past Races */}
       {pastRaces.length > 0 && (
         <div>
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Past Races</h2>
+          <h2 className="font-headline text-xl font-bold uppercase tracking-tight text-white mb-4 border-b border-[#484847]/20 pb-2">Past Races</h2>
           <div className="space-y-3">
             {pastRaces.map((race) => {
               const achieved = race.goalTimeSecs && race.resultTimeSecs ? race.resultTimeSecs <= race.goalTimeSecs : null;
               return (
-                <div key={race.id} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4">
+                <div key={race.id} className="bg-[#20201f] border-l-2 border-[#484847] p-4">
                   <div className="flex items-start gap-3">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <p className="font-semibold text-gray-900 dark:text-white">{race.title}</p>
-                        {achieved === true && <span className="text-xs bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300 px-2 py-0.5 rounded-full">Goal achieved</span>}
-                        {achieved === false && <span className="text-xs bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300 px-2 py-0.5 rounded-full">Goal missed</span>}
+                        <p className="font-headline text-base font-bold text-white uppercase tracking-tight">{race.title}</p>
+                        {achieved === true && <span className="font-label text-[10px] uppercase tracking-widest px-2 py-0.5 bg-[#cffc00]/10 text-[#cffc00]">Goal achieved</span>}
+                        {achieved === false && <span className="font-label text-[10px] uppercase tracking-widest px-2 py-0.5 bg-[#ff734a]/10 text-[#ff734a]">Goal missed</span>}
                       </div>
-                      <div className="flex flex-wrap gap-3 text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      <div className="flex flex-wrap gap-3 font-label text-xs text-[#767575] mt-1">
                         <span>{formatDate(race.date)}</span>
                         {race.location && <span>{race.location}</span>}
                         {raceDistance(race) && <span>{formatDistance(raceDistance(race)!)}</span>}
@@ -328,24 +325,24 @@ export default function RaceHistoryPage() {
                     </div>
                     <div className="text-right shrink-0">
                       {race.resultTimeSecs && (
-                        <p className="text-lg font-bold text-gray-900 dark:text-white">{formatTime(race.resultTimeSecs)}</p>
+                        <p className="font-headline text-xl font-bold text-[#cffc00]">{formatTime(race.resultTimeSecs)}</p>
                       )}
                       {race.goalTimeSecs && (
-                        <p className="text-xs text-gray-400">Goal: {formatTime(race.goalTimeSecs)}</p>
+                        <p className="font-label text-xs text-[#767575]">Goal: {formatTime(race.goalTimeSecs)}</p>
                       )}
                       {race.resultTimeSecs && raceDistance(race) && (
-                        <p className="text-xs text-gray-400">{pace(raceDistance(race), race.resultTimeSecs)}</p>
+                        <p className="font-label text-xs text-[#767575]">{pace(raceDistance(race), race.resultTimeSecs)}</p>
                       )}
                     </div>
                     <div className="flex flex-col gap-1 shrink-0 items-end">
                       {race.linkedActivityId && (
-                        <Link to={`/activities/${race.linkedActivityId}`} className="text-xs text-primary-600 dark:text-primary-400 hover:underline">Activity →</Link>
+                        <Link to={`/activities/${race.linkedActivityId}`} className="font-label text-[10px] uppercase tracking-widest text-[#cffc00] hover:text-white transition-colors">Activity →</Link>
                       )}
-                      <button onClick={() => openEdit(race)} className="text-xs text-blue-600 dark:text-blue-400 hover:underline">Edit</button>
-                      <button onClick={() => setConfirmDelete({ id: race.id, title: race.title })} className="text-xs text-red-500 hover:underline">Delete</button>
+                      <button onClick={() => openEdit(race)} className="font-label text-[10px] uppercase tracking-widest text-[#81ecff] hover:text-white transition-colors">Edit</button>
+                      <button onClick={() => setConfirmDelete({ id: race.id, title: race.title })} className="font-label text-[10px] uppercase tracking-widest text-[#ff734a] hover:text-white transition-colors">Delete</button>
                     </div>
                   </div>
-                  {race.notes && <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 border-t border-gray-100 dark:border-gray-700 pt-2">{race.notes}</p>}
+                  {race.notes && <p className="font-label text-xs text-[#767575] mt-2 border-t border-[#484847]/20 pt-2">{race.notes}</p>}
                 </div>
               );
             })}
@@ -354,45 +351,35 @@ export default function RaceHistoryPage() {
       )}
 
       {!isLoading && (races ?? []).length === 0 && (
-        <div className="text-center py-16">
+        <div className="text-center py-20">
           <p className="text-4xl mb-3">🏁</p>
-          <p className="text-gray-500 dark:text-gray-400">No races yet. Add your first race above!</p>
+          <p className="font-label text-xs uppercase tracking-widest text-[#767575]">No races yet. Add your first race above!</p>
         </div>
       )}
 
-      <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-800">
-        <Link to="/training" className="text-sm text-primary-600 hover:text-primary-800">← Back to Training Calendar</Link>
+      <div className="mt-8 pt-4 border-t border-[#484847]/20">
+        <Link to="/training" className="font-label text-xs uppercase tracking-widest text-[#cffc00] hover:text-white transition-colors">← Back to Training Calendar</Link>
       </div>
 
-      {/* Delete confirm dialog */}
       {confirmDelete && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 w-full max-w-sm p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/40 flex items-center justify-center shrink-0">
-                <svg className="w-5 h-5 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900 dark:text-white">Delete race</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">This action cannot be undone.</p>
-              </div>
-            </div>
-            <p className="text-sm text-gray-700 dark:text-gray-300 mb-6">
-              Are you sure you want to delete <span className="font-semibold">"{confirmDelete.title}"</span>?
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+          <div className="bg-[#1a1a1a] border border-[#484847] w-full max-w-sm p-6">
+            <h3 className="font-headline text-base font-bold uppercase tracking-tight text-white mb-2">Delete race</h3>
+            <p className="font-label text-xs text-[#767575] mb-4">This action cannot be undone.</p>
+            <p className="font-label text-sm text-[#adaaaa] mb-6">
+              Are you sure you want to delete <span className="font-bold text-white">"{confirmDelete.title}"</span>?
             </p>
             <div className="flex gap-3 justify-end">
               <button
                 onClick={() => setConfirmDelete(null)}
-                className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600"
+                className="px-4 py-2 bg-[#20201f] border border-[#484847] text-[#adaaaa] font-label text-xs uppercase tracking-widest hover:border-[#cffc00] hover:text-white transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={() => handleDelete(confirmDelete.id)}
                 disabled={deleteRace.isPending}
-                className="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg disabled:opacity-50"
+                className="px-4 py-2 bg-[#ff734a] text-white font-label text-xs uppercase tracking-widest hover:bg-red-500 transition-colors disabled:opacity-50"
               >
                 {deleteRace.isPending ? 'Deleting…' : 'Delete'}
               </button>

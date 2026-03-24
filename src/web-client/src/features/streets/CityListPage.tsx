@@ -37,19 +37,19 @@ function ImportCityForm({ onSuccess, onClose }: { onSuccess: () => void; onClose
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 p-6 w-full max-w-2xl mx-auto">
+    <form onSubmit={handleSubmit} className="bg-[#20201f]-xl border border-[#484847]/30 p-6 w-full max-w-2xl mx-auto">
       <div className="flex items-center justify-between mb-1">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Import City from OpenStreetMap</h2>
-        <button type="button" onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-2xl leading-none">&times;</button>
+        <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white">Import City from OpenStreetMap</h2>
+        <button type="button" onClick={onClose} className="text-[#767575] hover:text-gray-600 dark:hover:text-[#adaaaa] text-2xl leading-none">&times;</button>
       </div>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+      <p className="text-sm text-[#767575] dark:text-[#767575] mb-4">
         Enter the OSM relation ID of a municipality to import all its streets.
         Find IDs at{' '}
         <a
           href="https://www.openstreetmap.org"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-primary-600 hover:underline"
+          className="text-[#cffc00] hover:underline"
         >
           openstreetmap.org
         </a>
@@ -58,7 +58,7 @@ function ImportCityForm({ onSuccess, onClose }: { onSuccess: () => void; onClose
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
         <div>
-          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+          <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">
             OSM Relation ID *
           </label>
           <input
@@ -67,11 +67,11 @@ function ImportCityForm({ onSuccess, onClose }: { onSuccess: () => void; onClose
             onChange={(e) => setOsmRelationId(e.target.value)}
             placeholder="e.g. 2672880"
             required
-            className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+            className="w-full rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
           />
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+          <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">
             City Name *
           </label>
           <input
@@ -80,11 +80,11 @@ function ImportCityForm({ onSuccess, onClose }: { onSuccess: () => void; onClose
             onChange={(e) => setName(e.target.value)}
             placeholder="e.g. Amsterdam"
             required
-            className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+            className="w-full rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
           />
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+          <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">
             Region / Province
           </label>
           <input
@@ -92,11 +92,11 @@ function ImportCityForm({ onSuccess, onClose }: { onSuccess: () => void; onClose
             value={region}
             onChange={(e) => setRegion(e.target.value)}
             placeholder="e.g. Zuid-Holland"
-            className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+            className="w-full rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
           />
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+          <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">
             Country *
           </label>
           <input
@@ -105,7 +105,7 @@ function ImportCityForm({ onSuccess, onClose }: { onSuccess: () => void; onClose
             onChange={(e) => setCountry(e.target.value)}
             placeholder="e.g. Netherlands"
             required
-            className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
+            className="w-full rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-gray-100 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none"
           />
         </div>
       </div>
@@ -119,7 +119,7 @@ function ImportCityForm({ onSuccess, onClose }: { onSuccess: () => void; onClose
           {mutation.isPending ? 'Importing…' : 'Import City'}
         </button>
         {mutation.isPending && (
-          <span className="text-sm text-gray-500 dark:text-gray-400">
+          <span className="font-label text-xs text-[#767575]">
             This may take a minute for large cities…
           </span>
         )}
@@ -151,11 +151,11 @@ export default function CityListPage() {
   if (isLoading) return <LoadingSpinner size="lg" />;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="p-6 sm:p-8 min-h-screen bg-[#0e0e0e] text-white">
       <div className="flex flex-wrap items-start justify-between gap-4 mb-2">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Street Coverage</h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">
+          <p className="text-[#767575] dark:text-[#767575] mt-1">
             Street coverage tracking. Run every street in your city!
           </p>
         </div>
@@ -163,7 +163,7 @@ export default function CityListPage() {
           <button
             onClick={() => setImportDialogOpen(true)}
             title="Import city from OpenStreetMap"
-            className="p-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            className="p-2 rounded-md border border-[#484847]/30 text-gray-600 dark:text-[#adaaaa] hover:bg-[#20201f] transition-colors transition-colors"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -174,12 +174,12 @@ export default function CityListPage() {
               <button
                 onClick={() => reprocessMutation.mutate()}
                 disabled={reprocessMutation.isPending}
-                className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-sm font-medium rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-gray-100 dark:bg-[#131313] text-gray-700 dark:text-[#adaaaa] text-sm font-medium rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 border border-[#484847]/30 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {reprocessMutation.isPending ? 'Reprocessing…' : 'Reprocess All Activities'}
               </button>
               {reprocessMutation.isPending && (
-                <span className="text-xs text-gray-500 dark:text-gray-400">This may take a while…</span>
+                <span className="font-label text-[10px] text-[#767575]">This may take a while…</span>
               )}
               {reprocessMutation.isSuccess && reprocessMutation.data && (
                 <span className="text-xs text-green-600">
@@ -208,8 +208,8 @@ export default function CityListPage() {
       )}
 
       {(!cities || cities.length === 0) ? (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-12 text-center">
-          <p className="text-gray-500 dark:text-gray-400 text-lg">No cities imported yet. Use the form above to get started!</p>
+        <div className="bg-[#20201f]-sm border border-[#484847]/30 p-12 text-center">
+          <p className="text-[#767575] dark:text-[#767575] text-lg">No cities imported yet. Use the form above to get started!</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -217,32 +217,32 @@ export default function CityListPage() {
             <Link
               key={city.id}
               to={`/streets/${city.id}`}
-              className="block bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow"
+              className="block bg-[#20201f]-sm border border-[#484847]/30 hover:shadow-md transition-shadow"
             >
               <div className="p-6">
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                    <h2 className="text-xl font-bold text-white">
                       {city.name}
                     </h2>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                    <p className="font-label text-xs text-[#767575]">
                       {city.region ? `${city.region}, ` : ''}{city.country}
                     </p>
                   </div>
-                  <span className="text-2xl font-bold text-primary-600">
+                  <span className="text-2xl font-bold text-[#cffc00]">
                     {city.completionPercentage.toFixed(1)}%
                   </span>
                 </div>
 
                 {/* Progress bar */}
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 mb-3">
+                <div className="w-full bg-gray-200 dark:bg-[#131313] rounded-full h-3 mb-3">
                   <div
                     className="bg-primary-500 h-3 rounded-full transition-all duration-500"
                     style={{ width: `${Math.min(city.completionPercentage, 100)}%` }}
                   />
                 </div>
 
-                <div className="flex justify-between text-sm text-gray-500 dark:text-gray-400">
+                <div className="flex justify-between text-sm text-[#767575] dark:text-gray-400">
                   <span>
                     {city.completedStreets} / {city.totalStreets} streets
                   </span>
@@ -258,3 +258,6 @@ export default function CityListPage() {
     </div>
   );
 }
+
+
+

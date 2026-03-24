@@ -114,17 +114,17 @@ const PR_CATEGORIES: { label: string; types: RecordType[] }[] = [
 
 function PrCard({ pr, recordType }: { pr: PersonalRecord | undefined; recordType: RecordType }) {
   return (
-    <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-      <p className="text-sm text-gray-500 dark:text-gray-400">{recordTypeName(recordType)}</p>
+    <div className="bg-[#131313] border-l-2 border-[#484847] p-4 hover:border-[#cffc00] transition-colors">
+      <p className="font-label text-xs text-[#767575]">{recordTypeName(recordType)}</p>
       {pr ? (
         <>
           <p className="text-xl font-bold text-gray-900 dark:text-white mt-1">{pr.displayValue}</p>
           <div className="flex items-center justify-between mt-1">
-            <p className="text-xs text-gray-400 dark:text-gray-500">{formatDate(pr.achievedAt)}</p>
+            <p className="font-label text-[10px] text-[#767575]">{formatDate(pr.achievedAt)}</p>
             {pr.activityId && (
               <Link
                 to={`/activities/${pr.activityId}`}
-                className="text-xs text-primary-600 dark:text-primary-400 hover:underline"
+                className="font-label text-[10px] uppercase tracking-widest text-[#cffc00] hover:text-white transition-colors"
               >
                 View →
               </Link>
@@ -132,7 +132,7 @@ function PrCard({ pr, recordType }: { pr: PersonalRecord | undefined; recordType
           </div>
         </>
       ) : (
-        <p className="text-xl font-bold text-gray-300 dark:text-gray-600 mt-1">—</p>
+        <p className="font-headline text-xl font-bold text-[#484847] mt-1">—</p>
       )}
     </div>
   );
@@ -208,15 +208,15 @@ function WeightLogSection({ goalWeightKg }: { goalWeightKg?: number | null }) {
   }));
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+    <div className="bg-[#20201f] p-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Weight Log</h2>
-        <label className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 cursor-pointer">
+        <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white">Weight Log</h2>
+        <label className="flex items-center gap-2 font-label text-xs text-[#767575] cursor-pointer">
           <input
             type="checkbox"
             checked={showVolume}
             onChange={e => setShowVolume(e.target.checked)}
-            className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+            className="border-[#484847] text-[#cffc00] focus:ring-[#cffc00]"
           />
           Training volume
         </label>
@@ -225,13 +225,13 @@ function WeightLogSection({ goalWeightKg }: { goalWeightKg?: number | null }) {
       <form onSubmit={handleAdd} className="flex gap-3 mb-6">
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)}
           max={new Date().toISOString().slice(0, 10)}
-          className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2 text-sm" />
+          className="bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors" />
         <input type="number" step="0.1" min="20" max="300" value={weight}
           onChange={(e) => setWeight(e.target.value)}
           placeholder="kg"
-          className="w-24 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg px-3 py-2 text-sm" />
+          className="w-24 bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors" />
         <button type="submit" disabled={!weight || submitting}
-          className="px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 disabled:opacity-50">
+          className="px-5 py-2.5 bg-[#cffc00] text-[#3b4a00] font-label font-bold text-xs uppercase tracking-widest hover:bg-[#c2ed00] transition-colors disabled:opacity-50">
           Log
         </button>
       </form>
@@ -267,9 +267,9 @@ function WeightLogSection({ goalWeightKg }: { goalWeightKg?: number | null }) {
       {sorted.length > 0 && (
         <div className="mt-4 max-h-48 overflow-y-auto space-y-1">
           {sorted.slice().reverse().map((entry) => (
-            <div key={entry.id} className="flex items-center justify-between text-sm px-2 py-1 rounded hover:bg-gray-50 dark:hover:bg-gray-700">
-              <span className="text-gray-500 dark:text-gray-400">{entry.date}</span>
-              <span className="font-medium text-gray-900 dark:text-white">{entry.weightKg} kg</span>
+            <div key={entry.id} className="flex items-center justify-between font-label text-xs px-2 py-1 hover:bg-[#20201f] transition-colors">
+              <span className="font-label text-[10px] text-[#767575]">{entry.date}</span>
+              <span className="font-bold text-white">{entry.weightKg} kg</span>
               <button onClick={() => deleteEntry.mutate(entry.id)}
                 className="text-xs text-red-400 hover:text-red-600">✕</button>
             </div>
@@ -278,7 +278,7 @@ function WeightLogSection({ goalWeightKg }: { goalWeightKg?: number | null }) {
       )}
 
       {!isLoading && sorted.length === 0 && (
-        <p className="text-sm text-gray-400 dark:text-gray-500">No entries yet. Log your first weigh-in above.</p>
+        <p className="font-label text-xs text-[#767575]">No entries yet. Log your first weigh-in above.</p>
       )}
     </div>
   );
@@ -373,20 +373,17 @@ export default function ProfilePage() {
   if (statsLoading || profileLoading) return <LoadingSpinner size="lg" />;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-6 sm:mb-8">Profile</h1>
+    <div className="p-6 sm:p-8 min-h-screen bg-[#0e0e0e] text-white">
+      <h1 className="font-headline text-4xl sm:text-5xl font-bold tracking-tighter uppercase mb-8">Profile</h1>
 
       {/* Strava connect prompt — shown to new users or anyone who hasn't connected yet */}
       {!user?.stravaConnected && (
-        <div className="mb-6 rounded-xl border-2 border-orange-400 bg-orange-50 dark:bg-orange-950/30 dark:border-orange-500 p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <div className="flex-shrink-0 text-3xl">🏅</div>
+        <div className="mb-6 border-l-2 border-[#ff734a] bg-[#20201f] p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <div className="flex-1">
-            <p className="font-semibold text-orange-900 dark:text-orange-300 text-base">
+            <p className="font-headline text-base font-bold uppercase tracking-tight text-white">
               {isNewUser ? 'Welcome to RunTracker! Connect Strava to get started.' : 'Connect your Strava account to sync activities.'}
             </p>
-            <p className="text-sm text-orange-700 dark:text-orange-400 mt-0.5">
-              All your past and future runs will be imported automatically.
-            </p>
+            <p className="font-label text-xs text-[#767575] mt-0.5">All your past and future runs will be imported automatically.</p>
           </div>
           <button
             onClick={async () => {
@@ -398,7 +395,7 @@ export default function ProfilePage() {
                 alert(msg);
               }
             }}
-            className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-orange-500 hover:bg-orange-600 shadow-sm transition-colors"
+            className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 font-label font-bold text-xs uppercase tracking-widest text-white bg-[#ff734a] hover:bg-red-400 transition-colors"
           >
             Connect Strava
           </button>
@@ -407,11 +404,10 @@ export default function ProfilePage() {
 
       {/* Profile completion prompt — shown when key fields are missing */}
       {!editing && (!profile?.weightKg || !profile?.maxHeartRate || !profile?.birthYear) && (
-        <div className="mb-6 rounded-xl border-2 border-blue-300 bg-blue-50 dark:bg-blue-950/30 dark:border-blue-600 p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <div className="flex-shrink-0 text-3xl">📋</div>
+        <div className="mb-6 border-l-2 border-[#81ecff] bg-[#20201f] p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <div className="flex-1">
-            <p className="font-semibold text-blue-900 dark:text-blue-300 text-base">Complete your profile</p>
-            <p className="text-sm text-blue-700 dark:text-blue-400 mt-0.5">
+            <p className="font-headline text-base font-bold uppercase tracking-tight text-white">Complete your profile</p>
+            <p className="font-label text-xs text-[#767575] mt-0.5">
               Add your{[
                 !profile?.birthYear && 'age',
                 !profile?.weightKg && 'weight',
@@ -421,7 +417,7 @@ export default function ProfilePage() {
           </div>
           <button
             onClick={startEdit}
-            className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-sm transition-colors"
+            className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 font-label font-bold text-xs uppercase tracking-widest text-[#3b4a00] bg-[#cffc00] hover:bg-[#c2ed00] transition-colors"
           >
             Fill in profile
           </button>
@@ -429,17 +425,17 @@ export default function ProfilePage() {
       )}
 
       {/* Account + physical info */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 mb-6">
+      <div className="bg-[#20201f] p-4 mb-6">
         <div className="flex items-center gap-4 mb-4">
           <div className="relative">
             {profile?.profilePictureUrl ? (
               <img
                 src={profile.profilePictureUrl}
                 alt="Profile"
-                className="w-16 h-16 rounded-full object-cover border-2 border-gray-200 dark:border-gray-600"
+                className="w-16 h-16 rounded-full object-cover border-2 border-[#484847]"
               />
             ) : (
-              <div className="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center border-2 border-gray-200 dark:border-gray-600">
+              <div className="w-16 h-16 rounded-full bg-[#131313] flex items-center justify-center border-2 border-[#484847]">
                 <svg className="w-9 h-9 text-gray-400 dark:text-gray-500" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
                 </svg>
@@ -448,7 +444,7 @@ export default function ProfilePage() {
             <button
               onClick={() => fileInputRef.current?.click()}
               disabled={uploadingPic}
-              className="absolute -bottom-1 -right-1 w-6 h-6 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-500 rounded-full flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-600 shadow-sm"
+              className="absolute -bottom-1 -right-1 w-6 h-6 bg-[#20201f] border border-[#484847] rounded-full flex items-center justify-center hover:border-[#cffc00] transition-colors"
               title="Change photo"
             >
               {uploadingPic ? (
@@ -480,18 +476,18 @@ export default function ProfilePage() {
             />
           </div>
           <div>
-            <p className="font-semibold text-gray-900 dark:text-white">{profile?.displayName ?? profile?.userName ?? user?.email}</p>
-            {profile?.userName && <p className="text-sm text-gray-500 dark:text-gray-400">@{profile.userName}</p>}
+            <p className="font-bold text-white">{profile?.displayName ?? profile?.userName ?? user?.email}</p>
+            {profile?.userName && <p className="font-label text-xs text-[#767575]">@{profile.userName}</p>}
           </div>
         </div>
 
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Account Information</h2>
+          <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white">Account Information</h2>
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSportTypesDialogOpen(true)}
               title="Configure visible activity types"
-              className="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              className="p-1.5 text-[#767575] hover:text-[#cffc00] transition-colors"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -501,7 +497,7 @@ export default function ProfilePage() {
             {!editing && (
               <button
                 onClick={startEdit}
-                className="text-sm text-primary-600 hover:text-primary-700 font-medium"
+                className="font-label text-xs uppercase tracking-widest text-[#cffc00] hover:text-white transition-colors"
               >
                 Edit profile
               </button>
@@ -513,28 +509,28 @@ export default function ProfilePage() {
           <div className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Username</label>
+                <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Username</label>
                 <input
                   type="text"
                   value={form.username ?? ''}
                   onChange={(e) => setForm({ ...form, username: e.target.value || null })}
-                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors"
                   placeholder="your_username"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Display Name</label>
+                <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Display Name</label>
                 <input
                   type="text"
                   value={form.displayName ?? ''}
                   onChange={(e) => setForm({ ...form, displayName: e.target.value || null })}
-                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors"
                   placeholder="Your name"
                 />
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+              <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Email</label>
               <input
                 type="text"
                 value={user?.email ?? ''}
@@ -543,86 +539,86 @@ export default function ProfilePage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Bio</label>
+              <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Bio</label>
               <textarea
                 value={form.bio ?? ''}
                 onChange={(e) => setForm({ ...form, bio: e.target.value || null })}
                 rows={2}
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors"
                 placeholder="A short bio…"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Home Location</label>
+              <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Home Location</label>
               <input
                 type="text"
                 value={form.homeAddress ?? ''}
                 onChange={(e) => setForm({ ...form, homeAddress: e.target.value || null })}
-                className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors"
                 placeholder="e.g. Amsterdam, Netherlands"
               />
               <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Used as the default location in the Route Creator.</p>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Weight (kg)</label>
+                <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Weight (kg)</label>
                 <input
                   type="number"
                   min={30} max={300} step={0.1}
                   value={form.weightKg ?? ''}
                   onChange={(e) => setForm({ ...form, weightKg: e.target.value ? parseFloat(e.target.value) : null })}
-                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Goal Weight (kg)</label>
+                <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Goal Weight (kg)</label>
                 <input
                   type="number"
                   min={30} max={300} step={0.1}
                   value={form.goalWeightKg ?? ''}
                   onChange={(e) => setForm({ ...form, goalWeightKg: e.target.value ? parseFloat(e.target.value) : null })}
                   placeholder="Target"
-                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Height (cm)</label>
+                <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Height (cm)</label>
                 <input
                   type="number"
                   min={100} max={250}
                   value={form.heightCm ?? ''}
                   onChange={(e) => setForm({ ...form, heightCm: e.target.value ? parseInt(e.target.value) : null })}
-                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Max HR (bpm)</label>
+                <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Max HR (bpm)</label>
                 <input
                   type="number"
                   min={100} max={220}
                   value={form.maxHeartRate ?? ''}
                   onChange={(e) => setForm({ ...form, maxHeartRate: e.target.value ? parseInt(e.target.value) : null })}
-                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Resting HR (bpm)</label>
+                <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Resting HR (bpm)</label>
                 <input
                   type="number"
                   min={30} max={120}
                   value={form.restingHeartRate ?? ''}
                   onChange={(e) => setForm({ ...form, restingHeartRate: e.target.value ? parseInt(e.target.value) : null })}
-                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors"
                 />
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">HR Zone Algorithm</label>
+                <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">HR Zone Algorithm</label>
                 <select
                   value={form.hrZoneAlgorithm ?? HrZoneAlgorithm.FiveZonePercentMax}
                   onChange={(e) => setForm({ ...form, hrZoneAlgorithm: parseInt(e.target.value) as HrZoneAlgorithm })}
-                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors"
                 >
                   <option value={HrZoneAlgorithm.FiveZonePercentMax}>5-Zone % of Max HR</option>
                   <option value={HrZoneAlgorithm.FiveZoneKarvonen}>5-Zone Karvonen (HRR)</option>
@@ -631,11 +627,11 @@ export default function ProfilePage() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Gender</label>
+                <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Gender</label>
                 <select
                   value={form.gender ?? Gender.Unknown}
                   onChange={(e) => setForm({ ...form, gender: parseInt(e.target.value) as Gender })}
-                  className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors"
                 >
                   <option value={Gender.Unknown}>Prefer not to say</option>
                   <option value={Gender.Male}>Male</option>
@@ -644,12 +640,12 @@ export default function ProfilePage() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Birth Date</label>
+                <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1.5">Birth Date</label>
                 <div className="flex gap-2">
                   <select
                     value={form.birthDay ?? ''}
                     onChange={(e) => setForm({ ...form, birthDay: e.target.value ? parseInt(e.target.value) : null })}
-                    className="w-20 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    className="w-20 bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors"
                   >
                     <option value="">Day</option>
                     {Array.from({ length: 31 }, (_, i) => i + 1).map((d) => (
@@ -659,7 +655,7 @@ export default function ProfilePage() {
                   <select
                     value={form.birthMonth ?? ''}
                     onChange={(e) => setForm({ ...form, birthMonth: e.target.value ? parseInt(e.target.value) : null })}
-                    className="flex-1 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    className="flex-1 bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors"
                   >
                     <option value="">Month</option>
                     {['January','February','March','April','May','June','July','August','September','October','November','December'].map((m, i) => (
@@ -671,7 +667,7 @@ export default function ProfilePage() {
                     min={1920} max={new Date().getFullYear() - 10}
                     value={form.birthYear ?? ''}
                     onChange={(e) => setForm({ ...form, birthYear: e.target.value ? parseInt(e.target.value) : null })}
-                    className="w-24 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    className="w-24 bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors"
                     placeholder="Year"
                   />
                 </div>
@@ -697,15 +693,15 @@ export default function ProfilePage() {
               })();
 
               return (
-                <div className="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg space-y-3">
-                  <p className="text-xs text-gray-500 dark:text-gray-400">{info.description}</p>
+                <div className="p-3 bg-[#131313] border border-[#484847]/20 space-y-3">
+                  <p className="font-label text-[10px] text-[#767575]">{info.description}</p>
                   {algo === HrZoneAlgorithm.Custom ? (
                     <div>
-                      <p className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-2">Zone upper boundaries (bpm):</p>
+                      <p className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa] mb-2">Zone upper boundaries (bpm):</p>
                       <div className="grid grid-cols-5 gap-2">
                         {([1, 2, 3, 4, 5] as const).map((z, i) => (
                           <div key={z}>
-                            <label className="block text-xs text-gray-400 dark:text-gray-500 mb-1 text-center">Z{z} max</label>
+                            <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1 text-center">Z{z} max</label>
                             <input
                               type="number"
                               min={50} max={220}
@@ -715,7 +711,7 @@ export default function ProfilePage() {
                                 next[i] = e.target.value ? parseInt(e.target.value) : '';
                                 setForm({ ...form, customHrZones: JSON.stringify(next) });
                               }}
-                              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded px-2 py-1.5 text-sm text-center focus:outline-none focus:ring-2 focus:ring-primary-500"
+                              className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-2 py-1.5 text-center focus:border-[#cffc00] focus:outline-none transition-colors"
                               placeholder="—"
                             />
                           </div>
@@ -727,8 +723,8 @@ export default function ProfilePage() {
                       {preview.map((z, i) => (
                         <div key={z.zone} className="text-center">
                           <div className={`h-1.5 rounded-full ${ZONE_BAR_COLORS[i]} mb-1`} />
-                          <p className="text-xs font-medium text-gray-700 dark:text-gray-200">Z{z.zone}</p>
-                          <p className="text-xs text-gray-400 dark:text-gray-500 tabular-nums">{z.lower}–{z.upper}</p>
+                          <p className="font-label text-[10px] font-bold text-white">Z{z.zone}</p>
+                          <p className="font-label text-[10px] text-[#767575] tabular-nums">{z.lower}–{z.upper}</p>
                         </div>
                       ))}
                     </div>
@@ -738,19 +734,19 @@ export default function ProfilePage() {
             })()}
 
             {bmi && (
-              <p className="text-sm text-gray-500 dark:text-gray-400">Computed BMI: <span className="font-medium text-gray-700 dark:text-gray-200">{bmi}</span></p>
+              <p className="font-label text-xs text-[#767575]">Computed BMI: <span className="font-bold text-white">{bmi}</span></p>
             )}
             <div className="flex gap-3 pt-2">
               <button
                 onClick={saveProfile}
                 disabled={saving}
-                className="px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 disabled:opacity-50"
+                className="px-5 py-2.5 bg-[#cffc00] text-[#3b4a00] font-label font-bold text-xs uppercase tracking-widest hover:bg-[#c2ed00] transition-colors disabled:opacity-50"
               >
                 {saving ? 'Saving…' : 'Save'}
               </button>
               <button
                 onClick={() => setEditing(false)}
-                className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700"
+                className="px-5 py-2.5 bg-[#20201f] border border-[#484847] text-[#adaaaa] font-label text-xs uppercase tracking-widest hover:border-[#cffc00] hover:text-white transition-colors"
               >
                 Cancel
               </button>
@@ -761,68 +757,68 @@ export default function ProfilePage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Column 1: Account Information */}
               <div className="space-y-2">
-                <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-3">Account</p>
+                <p className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa] mb-3">Account</p>
                 {profile?.userName && (
                   <div>
-                    <p className="text-xs text-gray-400 dark:text-gray-500">Username</p>
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">@{profile.userName}</p>
+                    <p className="font-label text-[10px] text-[#767575]">Username</p>
+                    <p className="font-label text-xs text-white">@{profile.userName}</p>
                   </div>
                 )}
                 {profile?.displayName && (
                   <div>
-                    <p className="text-xs text-gray-400 dark:text-gray-500">Name</p>
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">{profile.displayName}</p>
+                    <p className="font-label text-[10px] text-[#767575]">Name</p>
+                    <p className="font-label text-xs text-white">{profile.displayName}</p>
                   </div>
                 )}
                 <div>
-                  <p className="text-xs text-gray-400 dark:text-gray-500">Email</p>
-                  <p className="text-sm font-medium text-gray-900 dark:text-white break-all">{user?.email}</p>
+                  <p className="font-label text-[10px] text-[#767575]">Email</p>
+                  <p className="text-sm font-bold text-white break-all">{user?.email}</p>
                 </div>
                 {profile?.bio && (
                   <div>
-                    <p className="text-xs text-gray-400 dark:text-gray-500">Bio</p>
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">{profile.bio}</p>
+                    <p className="font-label text-[10px] text-[#767575]">Bio</p>
+                    <p className="font-label text-xs text-white">{profile.bio}</p>
                   </div>
                 )}
               </div>
 
               {/* Column 2: Stats */}
               <div className="space-y-2">
-                <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-3">Stats</p>
+                <p className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa] mb-3">Stats</p>
                 {profile?.weightKg && (
                   <div>
-                    <p className="text-xs text-gray-400 dark:text-gray-500">Weight</p>
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">{profile.weightKg} kg</p>
+                    <p className="font-label text-[10px] text-[#767575]">Weight</p>
+                    <p className="font-label text-xs text-white">{profile.weightKg} kg</p>
                   </div>
                 )}
                 {profile?.heightCm && (
                   <div>
-                    <p className="text-xs text-gray-400 dark:text-gray-500">Height</p>
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">{profile.heightCm} cm</p>
+                    <p className="font-label text-[10px] text-[#767575]">Height</p>
+                    <p className="font-label text-xs text-white">{profile.heightCm} cm</p>
                   </div>
                 )}
                 {bmi && (
                   <div>
-                    <p className="text-xs text-gray-400 dark:text-gray-500">BMI</p>
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">{bmi}</p>
+                    <p className="font-label text-[10px] text-[#767575]">BMI</p>
+                    <p className="font-label text-xs text-white">{bmi}</p>
                   </div>
                 )}
                 {profile?.maxHeartRate && (
                   <div>
-                    <p className="text-xs text-gray-400 dark:text-gray-500">Max HR</p>
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">{profile.maxHeartRate} bpm</p>
+                    <p className="font-label text-[10px] text-[#767575]">Max HR</p>
+                    <p className="font-label text-xs text-white">{profile.maxHeartRate} bpm</p>
                   </div>
                 )}
                 {profile?.restingHeartRate && (
                   <div>
-                    <p className="text-xs text-gray-400 dark:text-gray-500">Resting HR</p>
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">{profile.restingHeartRate} bpm</p>
+                    <p className="font-label text-[10px] text-[#767575]">Resting HR</p>
+                    <p className="font-label text-xs text-white">{profile.restingHeartRate} bpm</p>
                   </div>
                 )}
                 {profile?.birthYear && (
                   <div>
-                    <p className="text-xs text-gray-400 dark:text-gray-500">Birth Date</p>
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">
+                    <p className="font-label text-[10px] text-[#767575]">Birth Date</p>
+                    <p className="font-label text-xs text-white">
                       {profile.birthMonth && profile.birthDay
                         ? `${profile.birthDay} ${new Date(profile.birthYear, profile.birthMonth - 1, profile.birthDay).toLocaleDateString('en-GB', { month: 'long' })} ${profile.birthYear}`
                         : profile.birthYear}
@@ -834,26 +830,26 @@ export default function ProfilePage() {
               {/* Column 3: HR Zones */}
               {profile?.hrZones && profile.hrZones.length > 0 ? (
                 <div>
-                  <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-3">HR Zones</p>
+                  <p className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa] mb-3">HR Zones</p>
                   <HrZoneDisplay zones={profile.hrZones} algorithm={profile.hrZoneAlgorithm} />
                 </div>
               ) : <div />}
             </div>
 
-            <div className="border-t border-gray-100 dark:border-gray-700 pt-3 flex flex-wrap items-start justify-between gap-2">
+            <div className="border-t border-[#484847]/20 pt-3 flex flex-wrap items-start justify-between gap-2">
               <span className="text-gray-600 dark:text-gray-400 pt-1">Strava</span>
               <div className="flex items-start">
                 {user?.stravaConnected ? (
                   <div className="flex flex-wrap items-center gap-3">
                     <div className="flex items-center gap-1.5">
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-400">
+                      <span className="inline-flex items-center px-3 py-1 font-label text-[10px] uppercase tracking-widest bg-[#cffc00]/10 text-[#cffc00]">
                         ✓ Connected
                       </span>
                       {profile?.stravaSyncStatus && (
                         <button
                           onClick={() => setSyncDialogOpen(true)}
                           title="View sync details"
-                          className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                          className="flex items-center gap-1.5 px-2 py-0.5 font-label text-[10px] text-[#767575] hover:text-[#cffc00] transition-colors"
                           aria-label="Strava sync details"
                         >
                           {profile.stravaSyncStatus.stravaHistoricalSyncComplete ? (
@@ -895,7 +891,7 @@ export default function ProfilePage() {
                           setSyncing(false);
                         }
                       }}
-                      className="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50"
+                      className="inline-flex items-center px-4 py-2 font-label font-bold text-xs uppercase tracking-widest text-[#3b4a00] bg-[#cffc00] hover:bg-[#c2ed00] transition-colors disabled:opacity-50"
                     >
                       {syncing ? 'Syncing...' : 'Sync Activities'}
                     </button>
@@ -914,7 +910,7 @@ export default function ProfilePage() {
                         alert(msg);
                       }
                     }}
-                    className="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium text-white bg-orange-500 hover:opacity-90"
+                    className="inline-flex items-center px-4 py-2 font-label font-bold text-xs uppercase tracking-widest bg-[#ff734a] text-white hover:bg-red-400 transition-colors"
                   >
                     Connect Strava
                   </button>
@@ -923,7 +919,7 @@ export default function ProfilePage() {
             </div>
 
             {/* Strava API Credentials (F1) */}
-            <div className="flex flex-wrap items-start justify-between gap-2 pt-1 border-t border-gray-100 dark:border-gray-700 mt-2">
+            <div className="flex flex-wrap items-start justify-between gap-2 pt-1 border-t border-[#484847]/20 mt-2">
               <button
                 onClick={() => {
                   if (!credOpen) {
@@ -933,29 +929,29 @@ export default function ProfilePage() {
                   }
                   setCredOpen((v) => !v);
                 }}
-                className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 flex items-center gap-1"
+                className="font-label text-xs text-[#adaaaa] hover:text-[#cffc00] flex items-center gap-1 transition-colors"
               >
                 <span>Strava API Credentials</span>
                 <span className="text-xs">{credOpen ? '▲' : '▼'}</span>
               </button>
               {credOpen && (
                 <div className="w-full mt-2 space-y-3">
-                  <p className="text-xs text-gray-400 dark:text-gray-500">
+                  <p className="font-label text-[10px] text-[#767575]">
                     Override the default Strava app credentials stored in server configuration.
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">Client ID</label>
+                      <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Client ID</label>
                       <input
                         type="text"
                         value={credClientId}
                         onChange={(e) => setCredClientId(e.target.value)}
                         placeholder="e.g. 12345"
-                        className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white px-3 py-1.5 text-sm focus:outline-none focus:border-primary-500"
+                        className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-1.5 focus:border-[#cffc00] focus:outline-none transition-colors"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">
+                      <label className="block font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">
                         Client Secret {stravaCredentials?.hasSecret && <span className="text-green-600 dark:text-green-400">(set)</span>}
                       </label>
                       <input
@@ -963,7 +959,7 @@ export default function ProfilePage() {
                         value={credSecret}
                         onChange={(e) => setCredSecret(e.target.value)}
                         placeholder={stravaCredentials?.hasSecret ? '••••••••' : 'Paste secret'}
-                        className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white px-3 py-1.5 text-sm focus:outline-none focus:border-primary-500"
+                        className="w-full bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-1.5 focus:border-[#cffc00] focus:outline-none transition-colors"
                       />
                     </div>
                   </div>
@@ -987,11 +983,11 @@ export default function ProfilePage() {
                           setCredSaving(false);
                         }
                       }}
-                      className="px-4 py-1.5 rounded-md text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 disabled:opacity-50"
+                      className="px-4 py-2 bg-[#cffc00] text-[#3b4a00] font-label font-bold text-xs uppercase tracking-widest hover:bg-[#c2ed00] transition-colors disabled:opacity-50"
                     >
                       {credSaving ? 'Saving…' : 'Save'}
                     </button>
-                    {credMessage && <span className="text-sm text-gray-500 dark:text-gray-400">{credMessage}</span>}
+                    {credMessage && <span className="font-label text-xs text-[#767575]">{credMessage}</span>}
                   </div>
                 </div>
               )}
@@ -1002,17 +998,17 @@ export default function ProfilePage() {
 
       {/* Badges */}
       {badges && badges.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Achievements</h2>
+        <div className="bg-[#20201f] p-6 mb-8">
+          <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white mb-4">Achievements</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {badges.map((badge) => (
               <div
                 key={badge.badgeType}
-                className="flex flex-col items-center text-center p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 hover:bg-primary-50 dark:hover:bg-gray-600 transition-colors"
+                className="flex flex-col items-center text-center p-3 bg-[#131313] border border-[#484847]/20 hover:border-[#cffc00] transition-colors"
                 title={badge.description}
               >
                 <span className="text-3xl mb-2">{badge.icon}</span>
-                <p className="text-xs font-semibold text-gray-800 dark:text-gray-200 leading-tight">{badge.name}</p>
+                <p className="font-label text-[10px] uppercase tracking-widest text-white leading-tight">{badge.name}</p>
                 <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{formatDate(badge.earnedAt)}</p>
               </div>
             ))}
@@ -1023,7 +1019,7 @@ export default function ProfilePage() {
       {/* All-time stats */}
       {stats && (
         <>
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">All-Time Statistics</h2>
+          <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white mb-4">All-Time Statistics</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
             <StatCard title="Total Distance" value={formatDistance(stats.totalDistance)} icon="📏" />
             <StatCard title="Total Runs" value={String(stats.totalRuns)} icon="🏃" />
@@ -1041,7 +1037,7 @@ export default function ProfilePage() {
             <StatCard title="Best Week Streak" value={`${stats.longestWeekStreak} wks`} icon="⭐" />
           </div>
           {stats.firstRunDate && (
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-8">
+            <p className="font-label text-xs text-[#767575] mb-8">
               Running since {formatDate(stats.firstRunDate)} · Last run on{' '}
               {stats.lastRunDate ? formatDate(stats.lastRunDate) : 'N/A'}
             </p>
@@ -1053,9 +1049,9 @@ export default function ProfilePage() {
       <RunningLevelCard />
 
       {/* Personal Records */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
+      <div className="bg-[#20201f] p-6 mb-8">
         <div className="mb-4">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Running Personal Records</h2>
+          <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white">Running Personal Records</h2>
           <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">Road &amp; trail runs only</p>
         </div>
         {prsLoading ? (
@@ -1063,7 +1059,7 @@ export default function ProfilePage() {
         ) : prs && prs.length > 0 ? (
           <PrCategories prs={prs} />
         ) : (
-          <p className="text-gray-500 dark:text-gray-400">No personal records yet. Start running to earn some!</p>
+          <p className="font-label text-xs text-[#767575]">No personal records yet. Start running to earn some!</p>
         )}
       </div>
 
@@ -1083,12 +1079,12 @@ export default function ProfilePage() {
         })();
         return (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 w-full max-w-md">
-              <div className="flex items-center justify-between p-5 border-b border-gray-100 dark:border-gray-700">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Visible Activity Types</h3>
+            <div className="bg-[#1a1a1a] border border-[#484847] w-full max-w-md">
+              <div className="flex items-center justify-between p-5 border-b border-[#484847]/20">
+                <h3 className="font-headline text-base font-bold uppercase tracking-tight text-white">Visible Activity Types</h3>
                 <button
                   onClick={() => setSportTypesDialogOpen(false)}
-                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                  className="text-[#adaaaa] hover:text-white transition-colors"
                 >
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -1096,12 +1092,12 @@ export default function ProfilePage() {
                 </button>
               </div>
               <div className="p-5">
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">Unchecked types are hidden from activity lists, statistics, and charts.</p>
+                <p className="font-label text-xs text-[#767575] mb-4">Unchecked types are hidden from activity lists, statistics, and charts.</p>
                 <div className="grid grid-cols-2 gap-2">
                   {(Object.values(SportType).filter((v) => typeof v === 'number') as SportType[]).map((st) => {
                     const isVisible = !hidden.includes(st as number);
                     return (
-                      <label key={st} className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer py-1">
+                      <label key={st} className="flex items-center gap-2 font-label text-xs text-[#adaaaa] cursor-pointer py-1">
                         <input
                           type="checkbox"
                           checked={isVisible}
@@ -1112,7 +1108,7 @@ export default function ProfilePage() {
                             await authApi.updateProfile({ hiddenSportTypes: JSON.stringify(next) });
                             await queryClient.invalidateQueries({ queryKey: ['profile'] });
                           }}
-                          className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                          className="border-[#484847] text-[#cffc00] focus:ring-[#cffc00]"
                         />
                         {sportTypeName(st as number)}
                       </label>
@@ -1120,10 +1116,10 @@ export default function ProfilePage() {
                   })}
                 </div>
               </div>
-              <div className="flex justify-end p-4 border-t border-gray-100 dark:border-gray-700">
+              <div className="flex justify-end p-4 border-t border-[#484847]/20">
                 <button
                   onClick={() => setSportTypesDialogOpen(false)}
-                  className="px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700"
+                  className="px-5 py-2.5 bg-[#cffc00] text-[#3b4a00] font-label font-bold text-xs uppercase tracking-widest hover:bg-[#c2ed00] transition-colors"
                 >
                   Done
                 </button>
@@ -1156,3 +1152,6 @@ export default function ProfilePage() {
     </div>
   );
 }
+
+
+

@@ -69,7 +69,7 @@ function TemplateBuilder({ initial, onSave, onCancel, isSaving }: TemplateBuilde
             value={name}
             onChange={e => setName(e.target.value)}
             placeholder="e.g. My 10K Plan"
-            className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+            className="w-full rounded-lg border border-[#484847]/30 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:border-[#cffc00] focus:outline-none"
           />
         </div>
         <div>
@@ -78,7 +78,7 @@ function TemplateBuilder({ initial, onSave, onCancel, isSaving }: TemplateBuilde
             value={description}
             onChange={e => setDescription(e.target.value)}
             placeholder="Optional description"
-            className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+            className="w-full rounded-lg border border-[#484847]/30 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:border-[#cffc00] focus:outline-none"
           />
         </div>
       </div>
@@ -86,7 +86,7 @@ function TemplateBuilder({ initial, onSave, onCancel, isSaving }: TemplateBuilde
       {/* Workouts table */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <p className="text-xs font-medium text-gray-700 dark:text-gray-300">Workouts ({workouts.length})</p>
+          <p className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa]">Workouts ({workouts.length})</p>
           <button
             onClick={addWorkout}
             className="text-xs px-2 py-1 rounded bg-primary-600 text-white hover:bg-primary-700"
@@ -94,7 +94,7 @@ function TemplateBuilder({ initial, onSave, onCancel, isSaving }: TemplateBuilde
             + Add
           </button>
         </div>
-        <div className="max-h-64 overflow-y-auto space-y-1.5 rounded-lg border border-gray-200 dark:border-gray-700 p-2">
+        <div className="max-h-64 overflow-y-auto space-y-1.5 rounded-lg border border-[#484847]/30 p-2">
           {workouts.length === 0 && (
             <p className="text-xs text-gray-400 text-center py-4">No workouts yet. Click "+ Add" to get started.</p>
           )}
@@ -107,7 +107,7 @@ function TemplateBuilder({ initial, onSave, onCancel, isSaving }: TemplateBuilde
                   onChange={e => updateWorkout(i, 'daysFromRace', Number(e.target.value))}
                   title="Days from race (negative = before race)"
                   placeholder="Day"
-                  className="w-full rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-1.5 py-1 text-xs focus:outline-none"
+                  className="w-full rounded border border-[#484847]/30 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-1.5 py-1 text-xs focus:outline-none"
                 />
               </div>
               <div className="col-span-3">
@@ -115,14 +115,14 @@ function TemplateBuilder({ initial, onSave, onCancel, isSaving }: TemplateBuilde
                   value={w.title}
                   onChange={e => updateWorkout(i, 'title', e.target.value)}
                   placeholder="Title"
-                  className="w-full rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-1.5 py-1 text-xs focus:outline-none"
+                  className="w-full rounded border border-[#484847]/30 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-1.5 py-1 text-xs focus:outline-none"
                 />
               </div>
               <div className="col-span-3">
                 <select
                   value={w.workoutType}
                   onChange={e => updateWorkout(i, 'workoutType', Number(e.target.value) as WorkoutType)}
-                  className="w-full rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-1 py-1 text-xs focus:outline-none"
+                  className="w-full rounded border border-[#484847]/30 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-1 py-1 text-xs focus:outline-none"
                 >
                   {Object.entries(WORKOUT_TYPE_LABELS).map(([k, label]) => (
                     <option key={k} value={k}>{label}</option>
@@ -137,7 +137,7 @@ function TemplateBuilder({ initial, onSave, onCancel, isSaving }: TemplateBuilde
                   placeholder="km"
                   step="0.1"
                   min="0"
-                  className="w-full rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-1.5 py-1 text-xs focus:outline-none"
+                  className="w-full rounded border border-[#484847]/30 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-1.5 py-1 text-xs focus:outline-none"
                 />
               </div>
               <div className="col-span-1">
@@ -164,7 +164,7 @@ function TemplateBuilder({ initial, onSave, onCancel, isSaving }: TemplateBuilde
         </button>
         <button
           onClick={onCancel}
-          className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+          className="px-4 py-2 rounded-lg border border-[#484847]/30 text-sm text-gray-600 dark:text-gray-300 hover:bg-[#20201f] transition-colors"
         >
           Cancel
         </button>
@@ -193,7 +193,7 @@ function ApplyForm({ templateId, onDone }: ApplyFormProps) {
   }
 
   return (
-    <div className="space-y-3 mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+    <div className="space-y-3 mt-3 pt-3 border-t border-[#484847]/20">
       <div>
         <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Race Date</label>
         <input
@@ -201,12 +201,12 @@ function ApplyForm({ templateId, onDone }: ApplyFormProps) {
           value={raceDate}
           onChange={e => setRaceDate(e.target.value)}
           min={new Date(Date.now() + 86400000).toISOString().slice(0, 10)}
-          className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+          className="w-full rounded-lg border border-[#484847]/30 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:border-[#cffc00] focus:outline-none"
         />
       </div>
       <div>
         <div className="flex items-center justify-between mb-1">
-          <label className="text-xs font-medium text-gray-700 dark:text-gray-300">Intensity</label>
+          <label className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa]">Intensity</label>
           <span className="text-xs font-semibold tabular-nums text-green-600">{intensityLabel}</span>
         </div>
         <input
@@ -266,7 +266,7 @@ export default function MyTemplatesDialog({ onClose }: Props) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+          <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white">
             {mode === 'list' ? 'My Templates' : mode === 'create' ? 'New Template' : 'Edit Template'}
           </h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-xl">✕</button>
@@ -276,7 +276,7 @@ export default function MyTemplatesDialog({ onClose }: Props) {
           <>
             <button
               onClick={() => { setEditTarget(null); setMode('create'); }}
-              className="w-full mb-3 py-2 rounded-lg border-2 border-dashed border-primary-400 text-primary-600 dark:text-primary-400 text-sm font-medium hover:bg-primary-50 dark:hover:bg-primary-900/20"
+              className="w-full mb-3 py-2 rounded-lg border-2 border-dashed border-primary-400 text-[#cffc00] dark:text-primary-400 text-sm font-medium hover:bg-primary-50 dark:hover:bg-primary-900/20"
             >
               + New Template
             </button>
@@ -289,7 +289,7 @@ export default function MyTemplatesDialog({ onClose }: Props) {
 
             <div className="space-y-3">
               {templates.map(t => (
-                <div key={t.id} className="border border-gray-200 dark:border-gray-700 rounded-xl p-3">
+                <div key={t.id} className="border border-[#484847]/30 rounded-xl p-3">
                   <div className="flex items-start justify-between">
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-sm text-gray-900 dark:text-white truncate">{t.name}</p>
@@ -305,7 +305,7 @@ export default function MyTemplatesDialog({ onClose }: Props) {
                       </button>
                       <button
                         onClick={() => { setEditTarget(t); setMode('edit'); }}
-                        className="text-xs px-2 py-1 rounded border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+                        className="text-xs px-2 py-1 rounded border border-[#484847]/30 text-gray-600 dark:text-gray-300 hover:bg-[#20201f] transition-colors"
                       >
                         Edit
                       </button>
@@ -338,3 +338,5 @@ export default function MyTemplatesDialog({ onClose }: Props) {
     </div>
   );
 }
+
+

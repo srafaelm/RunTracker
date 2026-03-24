@@ -139,14 +139,14 @@ export default function RouteCreatorPage() {
   return (
     <div className="h-[calc(100vh-4rem)] flex flex-col md:flex-row">
       {/* Sidebar */}
-      <div className="w-full md:w-80 shrink-0 bg-white dark:bg-gray-800 border-b md:border-b-0 md:border-r border-gray-200 dark:border-gray-700 flex flex-col overflow-y-auto">
-        <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+      <div className="w-full md:w-80 shrink-0 bg-[#20201f] border-b md:border-b-0 md:border-r border-[#484847]/30 flex flex-col overflow-y-auto">
+        <div className="p-4 border-b border-[#484847]/20">
           <div className="flex items-center justify-between mb-1">
             <h1 className="text-lg font-bold text-gray-900 dark:text-white">Route Creator</h1>
             <button
               onClick={flyToCurrentLocation}
               title="Go to my location"
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-gray-300 dark:border-gray-600 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-[#484847]/30 text-sm text-gray-600 dark:text-[#adaaaa] hover:bg-[#20201f] transition-colors transition-colors"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <circle cx="12" cy="12" r="4" />
@@ -155,18 +155,18 @@ export default function RouteCreatorPage() {
               My Location
             </button>
           </div>
-          <p className="text-xs text-gray-500 dark:text-gray-400">Click on the map to add waypoints</p>
+          <p className="font-label text-[10px] text-[#767575]">Click on the map to add waypoints</p>
           {locationError && <p className="text-xs text-red-500 mt-1">{locationError}</p>}
         </div>
 
         {/* Current route builder */}
-        <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="p-4 border-b border-[#484847]/20">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
               Waypoints: {waypoints.length}
             </span>
             {waypoints.length > 0 && (
-              <span className="text-sm font-semibold text-primary-600">
+              <span className="text-sm font-semibold text-[#cffc00]">
                 {formatDist(distanceKm)}
               </span>
             )}
@@ -175,7 +175,7 @@ export default function RouteCreatorPage() {
           {waypoints.length > 0 && (
             <ol className="max-h-40 overflow-y-auto mb-3 space-y-1">
               {waypoints.map((pt, i) => (
-                <li key={i} className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 rounded px-2 py-1">
+                <li key={i} className="flex items-center justify-between text-xs text-gray-600 dark:text-[#767575] bg-gray-50 dark:bg-[#131313] rounded px-2 py-1">
                   <span>{i + 1}. {pt[0].toFixed(4)}, {pt[1].toFixed(4)}</span>
                   <button
                     onClick={() => removeWaypoint(i)}
@@ -194,7 +194,7 @@ export default function RouteCreatorPage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Route name…"
-            className="w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 px-3 py-2 text-sm mb-2 focus:border-primary-500 focus:outline-none"
+            className="w-full rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-[#adaaaa] px-3 py-2 text-sm mb-2 focus:border-primary-500 focus:outline-none"
           />
 
           <div className="flex gap-2">
@@ -209,14 +209,14 @@ export default function RouteCreatorPage() {
               onClick={() => exportRouteGpx(name.trim() || 'route', waypoints)}
               disabled={waypoints.length < 2}
               title="Export current route as GPX"
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-md text-sm hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="px-3 py-2 border border-[#484847]/30 text-gray-600 dark:text-[#adaaaa] rounded-md text-sm hover:bg-[#20201f] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
               GPX
             </button>
             <button
               onClick={clearRoute}
               disabled={waypoints.length === 0}
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-md text-sm hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-40"
+              className="px-3 py-2 border border-[#484847]/30 text-gray-600 dark:text-[#adaaaa] rounded-md text-sm hover:bg-[#20201f] transition-colors disabled:opacity-40"
             >
               Clear
             </button>
@@ -228,10 +228,10 @@ export default function RouteCreatorPage() {
         </div>
 
         {/* Generate Route */}
-        <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Generate Route</h2>
+        <div className="p-4 border-b border-[#484847]/20">
+          <h2 className="text-sm font-bold text-white mb-3">Generate Route</h2>
           <div className="flex items-center gap-2 mb-3">
-            <label className="text-xs text-gray-500 dark:text-gray-400 shrink-0">Distance (km)</label>
+            <label className="text-xs text-[#767575] dark:text-[#767575] shrink-0">Distance (km)</label>
             <input
               type="number"
               min={1}
@@ -239,10 +239,10 @@ export default function RouteCreatorPage() {
               step={0.5}
               value={genDistance}
               onChange={(e) => setGenDistance(Math.max(1, parseFloat(e.target.value) || 1))}
-              className="w-20 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 px-2 py-1.5 text-sm focus:border-primary-500 focus:outline-none"
+              className="w-20 rounded-md border border-[#484847]/30 dark:bg-[#131313] dark:text-[#adaaaa] px-2 py-1.5 text-sm focus:border-primary-500 focus:outline-none"
             />
           </div>
-          <p className="text-xs text-gray-400 dark:text-gray-500 mb-2">
+          <p className="text-xs text-[#767575] dark:text-[#767575] mb-2">
             Uses current map center as start point
           </p>
           <div className="flex gap-2">
@@ -257,7 +257,7 @@ export default function RouteCreatorPage() {
               onClick={() => { const next = genSeed + 1; setGenSeed(next); handleGenerate(next); }}
               disabled={generating || genSource === null}
               title="Generate a different route with the same distance"
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-md text-sm hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="px-3 py-2 border border-[#484847]/30 text-gray-600 dark:text-[#adaaaa] rounded-md text-sm hover:bg-[#20201f] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
               ↻ Alt
             </button>
@@ -277,21 +277,21 @@ export default function RouteCreatorPage() {
 
         {/* Saved routes list */}
         <div className="p-4 flex-1">
-          <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+          <h2 className="text-sm font-bold text-white mb-3">
             Saved Routes ({savedRoutes?.length ?? 0})
           </h2>
           {(!savedRoutes || savedRoutes.length === 0) ? (
-            <p className="text-xs text-gray-400 dark:text-gray-500">No saved routes yet.</p>
+            <p className="text-xs text-[#767575] dark:text-gray-500">No saved routes yet.</p>
           ) : (
             <ul className="space-y-2">
               {savedRoutes.map((r) => (
                 <li
                   key={r.id}
-                  className="flex items-center justify-between bg-gray-50 dark:bg-gray-700 rounded-lg px-3 py-2"
+                  className="flex items-center justify-between bg-gray-50 dark:bg-[#131313] rounded-lg px-3 py-2"
                 >
                   <div className="min-w-0">
-                    <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{r.name}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">{formatDist(r.distanceM / 1000)}</p>
+                    <p className="text-sm font-bold text-white truncate">{r.name}</p>
+                    <p className="font-label text-[10px] text-[#767575]">{formatDist(r.distanceM / 1000)}</p>
                   </div>
                   <div className="flex items-center gap-2 ml-3 shrink-0">
                     <button
@@ -329,7 +329,7 @@ export default function RouteCreatorPage() {
             zoom: 12,
           }}
           style={{ width: '100%', height: '100%' }}
-          mapStyle="https://tiles.openfreemap.org/styles/liberty"
+          mapStyle="https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
           onClick={handleMapClick}
           cursor="crosshair"
         >
@@ -338,7 +338,7 @@ export default function RouteCreatorPage() {
             <Layer
               id="route-line"
               type="line"
-              paint={{ 'line-color': '#3b82f6', 'line-width': 4, 'line-opacity': 0.85 }}
+              paint={{ 'line-color': '#cffc00', 'line-width': 5, 'line-opacity': 1 }}
             />
           </Source>
 
@@ -364,3 +364,9 @@ export default function RouteCreatorPage() {
     </div>
   );
 }
+
+
+
+
+
+

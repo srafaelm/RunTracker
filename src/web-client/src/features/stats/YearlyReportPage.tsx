@@ -148,21 +148,21 @@ function ActivityHeatmap({ year, distByDate }: { year: number; distByDate: Recor
 function SectionHeader({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
     <div className="mb-4">
-      <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest">{title}</h2>
-      {subtitle && <p className="text-xs text-gray-500 mt-0.5">{subtitle}</p>}
+      <h2 className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa]">{title}</h2>
+      {subtitle && <p className="font-label text-[10px] text-[#767575] mt-0.5">{subtitle}</p>}
     </div>
   );
 }
 
 function StatsTable({ rows }: { rows: { label: string; value: string; sub?: string }[] }) {
   return (
-    <div className="divide-y divide-gray-700/50">
+    <div className="divide-y divide-[#484847]/10">
       {rows.map((r) => (
         <div key={r.label} className="flex items-center justify-between py-2.5 px-1">
-          <span className="text-sm text-gray-400">{r.label}</span>
+          <span className="font-label text-xs text-[#767575]">{r.label}</span>
           <div className="text-right">
-            <span className="text-sm font-semibold text-white">{r.value}</span>
-            {r.sub && <span className="text-xs text-gray-500 ml-2 block">{r.sub}</span>}
+            <span className="font-label text-sm font-bold text-white">{r.value}</span>
+            {r.sub && <span className="font-label text-[10px] text-[#adaaaa] ml-2 block">{r.sub}</span>}
           </div>
         </div>
       ))}
@@ -340,7 +340,7 @@ export default function YearlyReportPage() {
   }, [stats, weeklyThisYear]);
 
   if (isAllTime ? allTimeLoading : (statsLoading || activitiesLoading)) {
-    return <div className="min-h-screen bg-gray-900 flex items-center justify-center"><LoadingSpinner size="lg" /></div>;
+    return <div className="min-h-screen bg-[#0e0e0e] flex items-center justify-center"><LoadingSpinner size="lg" /></div>;
   }
 
   // ── All-time report ──────────────────────────────────────────────────────────
@@ -367,23 +367,23 @@ export default function YearlyReportPage() {
     ];
     const YearNav = (
       <select value={0} onChange={(e) => navigate(`/report/${e.target.value}`)}
-        className="bg-gray-800 border border-gray-700 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:border-blue-500">
+        className="bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors">
         <option value={0}>All time</option>
         {years.map((y) => <option key={y} value={y}>{y}</option>)}
       </select>
     );
     return (
-      <div className="min-h-screen bg-gray-900 text-white">
-        <div className="bg-gray-950 border-b border-gray-800 px-6 py-5">
+      <div className="min-h-screen bg-[#0e0e0e] text-white">
+        <div className="bg-[#131313] border-b border-[#484847]/20 px-6 py-5">
           <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4">
             <div className="flex flex-wrap items-baseline gap-3">
-              <span className="text-2xl font-black tracking-tight">Run<span className="text-blue-400">Tracker</span></span>
-              <span className="text-4xl font-black text-white tracking-tight">All Time</span>
-              {profile?.displayName && <p className="text-gray-400 text-sm font-medium uppercase tracking-widest">{profile.displayName}</p>}
+              <span className="font-headline text-2xl font-black tracking-tighter">Run<span className="text-[#cffc00]">Tracker</span></span>
+              <span className="font-headline text-4xl font-black text-white tracking-tighter uppercase">All Time</span>
+              {profile?.displayName && <p className="font-label text-xs uppercase tracking-widest text-[#767575]">{profile.displayName}</p>}
             </div>
             <div className="flex items-center gap-3">
               {YearNav}
-              <button onClick={() => navigate('/')} className="text-gray-400 hover:text-white text-sm px-3 py-2 border border-gray-700 rounded-md hover:border-gray-500 transition-colors">
+              <button onClick={() => navigate('/')} className="font-label text-xs uppercase tracking-widest text-[#adaaaa] hover:text-white px-3 py-2 border border-[#484847] hover:border-[#cffc00] transition-colors">
                 ← Dashboard
               </button>
             </div>
@@ -399,38 +399,38 @@ export default function YearlyReportPage() {
               { label: 'TOTAL TIME', value: `${fmtHrs(allTime?.totalTimeSeconds ?? 0)} hrs`, sub: null },
               { label: 'ELEVATION', value: `${Math.round(allTime?.totalElevationGain ?? 0).toLocaleString()} m`, sub: allEverestMultiple ? `${allEverestMultiple}× Everest` : null },
             ].map((s) => (
-              <div key={s.label} className="bg-gray-800 rounded-xl p-5 border border-gray-700">
-                <p className="text-xs text-gray-400 uppercase tracking-widest font-semibold mb-1">{s.label}</p>
-                <p className="text-3xl font-black text-white">{s.value}</p>
-                {s.sub && <p className="text-xs text-blue-400 mt-1">{s.sub}</p>}
+              <div key={s.label} className="bg-[#20201f] p-5">
+                <p className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa] mb-1">{s.label}</p>
+                <p className="font-headline text-3xl font-black text-white">{s.value}</p>
+                {s.sub && <p className="font-label text-[10px] text-[#cffc00] mt-1">{s.sub}</p>}
               </div>
             ))}
           </div>
 
           {/* Highlights */}
           {(allTime?.bestMonthLabel || allTimeBestWeek || (allTime?.longestRunDistance ?? 0) > 0) && (
-            <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+            <div className="bg-[#20201f] p-6">
               <SectionHeader title="All Time Highlights" subtitle="Best results across all recorded activities" />
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {allTime?.bestMonthLabel && allTime.bestMonthDistance > 0 && (
-                  <div className="bg-gray-700/50 rounded-lg p-4 text-center">
-                    <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Best Month</p>
-                    <p className="text-2xl font-black text-white">{allTime.bestMonthLabel}</p>
-                    <p className="text-sm text-blue-400 font-semibold">{(allTime.bestMonthDistance / 1000).toFixed(1)} km</p>
+                  <div className="bg-[#131313] p-4 text-center border-l-2 border-[#cffc00]">
+                    <p className="font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Best Month</p>
+                    <p className="font-headline text-2xl font-black text-white">{allTime.bestMonthLabel}</p>
+                    <p className="font-label text-xs text-[#cffc00] font-bold mt-1">{(allTime.bestMonthDistance / 1000).toFixed(1)} km</p>
                   </div>
                 )}
                 {allTimeBestWeek && allTimeBestWeek.distanceKm > 0 && (
-                  <div className="bg-gray-700/50 rounded-lg p-4 text-center">
-                    <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Best Week</p>
-                    <p className="text-2xl font-black text-white">{allTimeBestWeek.distanceKm.toFixed(1)} km</p>
-                    <p className="text-sm text-blue-400 font-semibold">{formatDate(allTimeBestWeek.weekStart)}</p>
+                  <div className="bg-[#131313] p-4 text-center border-l-2 border-[#81ecff]">
+                    <p className="font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Best Week</p>
+                    <p className="font-headline text-2xl font-black text-white">{allTimeBestWeek.distanceKm.toFixed(1)} km</p>
+                    <p className="font-label text-xs text-[#81ecff] font-bold mt-1">{formatDate(allTimeBestWeek.weekStart)}</p>
                   </div>
                 )}
                 {allTime && allTime.longestRunDistance > 0 && (
-                  <div className="bg-gray-700/50 rounded-lg p-4 text-center">
-                    <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Longest Run</p>
-                    <p className="text-2xl font-black text-white">{(allTime.longestRunDistance / 1000).toFixed(2)} km</p>
-                    {allTime.bestYear && <p className="text-sm text-blue-400 font-semibold">Best year: {allTime.bestYear} ({(allTime.bestYearDistance / 1000).toFixed(0)} km)</p>}
+                  <div className="bg-[#131313] p-4 text-center border-l-2 border-[#ff734a]">
+                    <p className="font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Longest Run</p>
+                    <p className="font-headline text-2xl font-black text-white">{(allTime.longestRunDistance / 1000).toFixed(2)} km</p>
+                    {allTime.bestYear && <p className="font-label text-xs text-[#ff734a] font-bold mt-1">Best year: {allTime.bestYear} ({(allTime.bestYearDistance / 1000).toFixed(0)} km)</p>}
                   </div>
                 )}
               </div>
@@ -439,17 +439,17 @@ export default function YearlyReportPage() {
 
           {/* General + Time Stats */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+            <div className="bg-[#20201f] p-6">
               <SectionHeader title="General Statistics" />
               <StatsTable rows={allGeneralRows} />
             </div>
-            <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+            <div className="bg-[#20201f] p-6">
               <SectionHeader title="Time Statistics" />
               <StatsTable rows={allTimeRows} />
             </div>
           </div>
 
-          <p className="text-center text-xs text-gray-600 pb-4">RunTracker · All Time · Data from Strava</p>
+          <p className="text-center font-label text-[10px] uppercase tracking-widest text-[#484847] pb-4">RunTracker · All Time</p>
         </div>
       </div>
     );
@@ -478,32 +478,32 @@ export default function YearlyReportPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-[#0e0e0e] text-white">
       {showInfographic && (
         <YearInfographicDialog year={year} onClose={() => setShowInfographic(false)} />
       )}
 
       {/* ── Header ── */}
-      <div className="bg-gray-950 border-b border-gray-800 px-6 py-5">
+      <div className="bg-[#131313] border-b border-[#484847]/20 px-6 py-5">
         <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-baseline gap-3">
-            <span className="text-2xl font-black tracking-tight">Run<span className="text-blue-400">Tracker</span></span>
-            <span className="text-5xl font-black text-white tracking-tight">{year}</span>
-            {profile?.displayName && <p className="text-gray-400 text-sm font-medium uppercase tracking-widest">{profile.displayName}</p>}
+            <span className="font-headline text-2xl font-black tracking-tighter">Run<span className="text-[#cffc00]">Tracker</span></span>
+            <span className="font-headline text-5xl font-black text-white tracking-tighter">{year}</span>
+            {profile?.displayName && <p className="font-label text-xs uppercase tracking-widest text-[#767575]">{profile.displayName}</p>}
           </div>
           <div className="flex items-center gap-3">
             <button
               onClick={() => setShowInfographic(true)}
-              className="text-sm px-3 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-md transition-colors"
+              className="font-label text-xs uppercase tracking-widest px-3 py-2 bg-[#cffc00] text-[#3b4a00] font-bold hover:bg-[#c2ed00] transition-colors"
             >
               📊 Infographic
             </button>
             <select value={year} onChange={(e) => navigate(`/report/${e.target.value}`)}
-              className="bg-gray-800 border border-gray-700 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:border-blue-500">
+              className="bg-[#131313] border border-[#484847] text-white font-label text-xs px-3 py-2 focus:border-[#cffc00] focus:outline-none transition-colors">
               <option value={0}>All time</option>
               {years.map((y) => <option key={y} value={y}>{y}</option>)}
             </select>
-            <button onClick={() => navigate('/')} className="text-gray-400 hover:text-white text-sm px-3 py-2 border border-gray-700 rounded-md hover:border-gray-500 transition-colors">
+            <button onClick={() => navigate('/')} className="font-label text-xs uppercase tracking-widest text-[#adaaaa] hover:text-white px-3 py-2 border border-[#484847] hover:border-[#cffc00] transition-colors">
               ← Dashboard
             </button>
           </div>
@@ -520,78 +520,78 @@ export default function YearlyReportPage() {
             { label: 'TOTAL TIME', value: `${fmtHrs(stats?.totalTimeSeconds ?? 0)} hrs`, sub: null },
             { label: 'ELEVATION', value: `${Math.round(stats?.totalElevationGain ?? 0).toLocaleString()} m`, sub: everestMultiple ? `${everestMultiple}× Everest` : null },
           ].map((s) => (
-            <div key={s.label} className="bg-gray-800 rounded-xl p-5 border border-gray-700">
-              <p className="text-xs text-gray-400 uppercase tracking-widest font-semibold mb-1">{s.label}</p>
-              <p className="text-3xl font-black text-white">{s.value}</p>
-              {s.sub && <p className="text-xs text-blue-400 mt-1">{s.sub}</p>}
+            <div key={s.label} className="bg-[#20201f] p-5">
+              <p className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa] mb-1">{s.label}</p>
+              <p className="font-headline text-3xl font-black text-white">{s.value}</p>
+              {s.sub && <p className="font-label text-[10px] text-[#cffc00] mt-1">{s.sub}</p>}
             </div>
           ))}
         </div>
 
         {/* ── Year Highlights ── */}
         {yearHighlights && yearHighlights.longestRun > 0 && (
-          <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+          <div className="bg-[#20201f] p-6">
             <SectionHeader title={`${year} Highlights`} subtitle="Best results for this year" />
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {yearHighlights.bestMonth && yearHighlights.bestMonth.totalDistance > 0 && (
-                <div className="bg-gray-700/50 rounded-lg p-4 text-center">
-                  <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Best Month</p>
-                  <p className="text-2xl font-black text-white">{yearHighlights.bestMonth.monthName}</p>
-                  <p className="text-sm text-blue-400 font-semibold">{(yearHighlights.bestMonth.totalDistance / 1000).toFixed(1)} km</p>
-                  <p className="text-xs text-gray-500 mt-0.5">{yearHighlights.bestMonth.totalRuns} {activityPlural.toLowerCase()}</p>
+                <div className="bg-[#131313] p-4 text-center border-l-2 border-[#cffc00]">
+                  <p className="font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Best Month</p>
+                  <p className="font-headline text-2xl font-black text-white">{yearHighlights.bestMonth.monthName}</p>
+                  <p className="font-label text-xs text-[#cffc00] font-bold mt-1">{(yearHighlights.bestMonth.totalDistance / 1000).toFixed(1)} km</p>
+                  <p className="font-label text-[10px] text-[#767575] mt-0.5">{yearHighlights.bestMonth.totalRuns} {activityPlural.toLowerCase()}</p>
                 </div>
               )}
               {yearHighlights.bestWeek && yearHighlights.bestWeek.totalDistance > 0 && (
-                <div className="bg-gray-700/50 rounded-lg p-4 text-center">
-                  <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Best Week</p>
-                  <p className="text-2xl font-black text-white">W{yearHighlights.bestWeek.weekNumber}</p>
-                  <p className="text-sm text-blue-400 font-semibold">{(yearHighlights.bestWeek.totalDistance / 1000).toFixed(1)} km</p>
-                  <p className="text-xs text-gray-500 mt-0.5">{new Date(yearHighlights.bestWeek.weekStart).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</p>
+                <div className="bg-[#131313] p-4 text-center border-l-2 border-[#81ecff]">
+                  <p className="font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Best Week</p>
+                  <p className="font-headline text-2xl font-black text-white">W{yearHighlights.bestWeek.weekNumber}</p>
+                  <p className="font-label text-xs text-[#81ecff] font-bold mt-1">{(yearHighlights.bestWeek.totalDistance / 1000).toFixed(1)} km</p>
+                  <p className="font-label text-[10px] text-[#767575] mt-0.5">{new Date(yearHighlights.bestWeek.weekStart).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</p>
                 </div>
               )}
-              <div className="bg-gray-700/50 rounded-lg p-4 text-center">
-                <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Longest {activitySingular}</p>
-                <p className="text-2xl font-black text-white">{(yearHighlights.longestRun / 1000).toFixed(2)} km</p>
-                <p className="text-sm text-blue-400 font-semibold">{year}</p>
+              <div className="bg-[#131313] p-4 text-center border-l-2 border-[#ff734a]">
+                <p className="font-label text-[10px] uppercase tracking-widest text-[#767575] mb-1">Longest {activitySingular}</p>
+                <p className="font-headline text-2xl font-black text-white">{(yearHighlights.longestRun / 1000).toFixed(2)} km</p>
+                <p className="font-label text-xs text-[#ff734a] font-bold mt-1">{year}</p>
               </div>
             </div>
           </div>
         )}
 
         {/* ── Activity Calendar ── */}
-        <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+        <div className="bg-[#20201f] p-6">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
             <SectionHeader title="Activity Calendar" />
-            <div className="flex items-center gap-4 text-sm text-gray-400 -mt-4">
+            <div className="flex items-center gap-4 font-label text-xs text-[#767575] -mt-4">
               <span>Active days: <strong className="text-white">{activeDays}</strong></span>
               <span>Max streak: <strong className="text-white">{maxStreak}</strong> days</span>
               {currentStreak > 0 && <span>Current: <strong className="text-white">{currentStreak}</strong> days</span>}
             </div>
           </div>
           <ActivityHeatmap year={year} distByDate={distByDate} />
-          <div className="flex items-center gap-2 mt-3 text-xs text-gray-500">
+          <div className="flex items-center gap-2 mt-3 font-label text-[10px] text-[#767575]">
             <span>Less</span>
-            {['#374151', '#1e40af', '#2563eb', '#3b82f6', '#93c5fd'].map((c) => <div key={c} className="w-3 h-3 rounded-sm" style={{ backgroundColor: c }} />)}
+            {['#484847', '#1e40af', '#2563eb', '#3b82f6', '#93c5fd'].map((c) => <div key={c} className="w-3 h-3" style={{ backgroundColor: c }} />)}
             <span>More</span>
           </div>
         </div>
 
         {/* ── Monthly + Individual Activities ── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+          <div className="bg-[#20201f] p-6">
             <SectionHeader title="Monthly Distance (km)" />
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={monthlyData} barCategoryGap="20%">
-                <XAxis dataKey="name" tick={{ fill: '#9ca3af', fontSize: 11 }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fill: '#6b7280', fontSize: 10 }} axisLine={false} tickLine={false} />
-                <Tooltip contentStyle={{ backgroundColor: '#1f2937', border: '1px solid #374151', borderRadius: 8 }} labelStyle={{ color: '#e5e7eb' }} itemStyle={{ color: '#93c5fd' }} formatter={(v: number) => [`${v} km`, 'Distance']} />
-                <Bar dataKey="km" radius={[4, 4, 0, 0]}>
-                  {monthlyData.map((entry) => <Cell key={entry.name} fill={MONTH_COLORS[entry.month] ?? '#3b82f6'} />)}
+                <XAxis dataKey="name" tick={{ fill: '#adaaaa', fontSize: 11 }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fill: '#adaaaa', fontSize: 10 }} axisLine={false} tickLine={false} />
+                <Tooltip contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #484847', borderRadius: 0 }} labelStyle={{ color: '#adaaaa' }} itemStyle={{ color: '#fff' }} formatter={(v: number) => [`${v} km`, 'Distance']} />
+                <Bar dataKey="km" radius={[2, 2, 0, 0]}>
+                  {monthlyData.map((entry) => <Cell key={entry.name} fill={MONTH_COLORS[entry.month] ?? '#cffc00'} />)}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+          <div className="bg-[#20201f] p-6">
             <SectionHeader title={`All ${activityPlural} — ${activities.length}`} />
             {activityBars.length > 0 ? (
               <div className="flex items-end gap-px h-[220px] overflow-hidden">
@@ -600,11 +600,11 @@ export default function YearlyReportPage() {
                   return <div key={i} title={`${a.date}: ${a.km} km`} className="flex-1 min-w-0 rounded-t-sm hover:opacity-80" style={{ height: `${(a.km / maxKm) * 100}%`, backgroundColor: MONTH_COLORS[a.month], minWidth: 2 }} />;
                 })}
               </div>
-            ) : <p className="text-gray-500 text-sm">No activities this year.</p>}
+            ) : <p className="font-label text-xs text-[#767575]">No activities this year.</p>}
             <div className="flex flex-wrap gap-2 mt-3">
               {MONTH_NAMES_SHORT.map((m, i) => (
-                <span key={m} className="flex items-center gap-1 text-xs text-gray-400">
-                  <span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: MONTH_COLORS[i] }} />{m}
+                <span key={m} className="flex items-center gap-1 font-label text-[10px] text-[#767575]">
+                  <span className="w-2 h-2 inline-block" style={{ backgroundColor: MONTH_COLORS[i] }} />{m}
                 </span>
               ))}
             </div>
@@ -613,18 +613,18 @@ export default function YearlyReportPage() {
 
         {/* ── 52-week Rolling Chart ── */}
         {rollingWeekData && rollingWeekData.weeks.length > 0 && (
-          <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+          <div className="bg-[#20201f] p-6">
             <div className="flex items-center justify-between mb-0">
               <SectionHeader title="Distance per week (last 52 weeks)" />
-              <span className="text-xs text-gray-400 -mt-4">Avg: <strong className="text-white">{rollingWeekData.avgKm} km</strong></span>
+              <span className="font-label text-[10px] text-[#767575] -mt-4">Avg: <strong className="text-white">{rollingWeekData.avgKm} km</strong></span>
             </div>
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={rollingWeekData.weeks} barCategoryGap="10%">
                 <XAxis dataKey="label" tick={false} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fill: '#6b7280', fontSize: 10 }} axisLine={false} tickLine={false} />
-                <Tooltip contentStyle={{ backgroundColor: '#1f2937', border: '1px solid #374151', borderRadius: 8 }} labelStyle={{ color: '#e5e7eb', fontSize: 11 }} itemStyle={{ color: '#93c5fd' }} formatter={(v: number) => [`${v} km`, 'Distance']} />
-                <ReferenceLine y={rollingWeekData.avgKm} stroke="#ef4444" strokeDasharray="4 2" strokeWidth={1.5} />
-                <Bar dataKey="km" fill="#3b82f6" radius={[2, 2, 0, 0]} />
+                <YAxis tick={{ fill: '#adaaaa', fontSize: 10 }} axisLine={false} tickLine={false} />
+                <Tooltip contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #484847', borderRadius: 0 }} labelStyle={{ color: '#adaaaa', fontSize: 11 }} itemStyle={{ color: '#fff' }} formatter={(v: number) => [`${v} km`, 'Distance']} />
+                <ReferenceLine y={rollingWeekData.avgKm} stroke="#ff734a" strokeDasharray="4 2" strokeWidth={1.5} />
+                <Bar dataKey="km" fill="#cffc00" radius={[2, 2, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -632,17 +632,17 @@ export default function YearlyReportPage() {
 
         {/* ── Weekday Statistics ── */}
         {weekdayData.length > 0 && (
-          <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+          <div className="bg-[#20201f] p-6">
             <SectionHeader title="Weekday Statistics" />
             <div className="flex flex-col lg:flex-row items-center gap-6">
               <div className="w-full" style={{ flex: '1 1 0' }}>
                 <ResponsiveContainer width="100%" height={280}>
                   <PieChart>
                     <Pie data={weekdayData} cx="50%" cy="50%" outerRadius={100} dataKey="value"
-                      label={({ name, pct }) => `${name}: ${pct} %`} labelLine={{ stroke: '#6b7280', strokeWidth: 1 }}>
+                      label={({ name, pct }) => `${name}: ${pct} %`} labelLine={{ stroke: '#484847', strokeWidth: 1 }}>
                       {weekdayData.map((d) => <Cell key={d.name} fill={d.fill} />)}
                     </Pie>
-                    <Tooltip contentStyle={{ backgroundColor: '#1f2937', border: '1px solid #374151', borderRadius: 8 }} labelStyle={{ color: '#e5e7eb' }}
+                    <Tooltip contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #484847', borderRadius: 0 }} labelStyle={{ color: '#adaaaa' }}
                       formatter={(v: number, _: string, entry: { payload?: { pct: number } }) => [`${v} ${activityPlural.toLowerCase()} (${entry.payload?.pct ?? 0}%)`, activityPlural]} />
                   </PieChart>
                 </ResponsiveContainer>
@@ -650,10 +650,10 @@ export default function YearlyReportPage() {
               <div className="w-full lg:w-52 shrink-0 space-y-2">
                 {[...weekdayData].sort((a, b) => b.count - a.count).map((d) => (
                   <div key={d.name} className="flex items-center gap-2">
-                    <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: d.fill }} />
-                    <span className="text-sm text-gray-300 flex-1">{d.name}</span>
-                    <span className="text-sm font-bold text-white">{d.pct}%</span>
-                    <span className="text-xs text-gray-500 w-12 text-right">{d.count} {activityPlural.toLowerCase()}</span>
+                    <div className="w-2.5 h-2.5 shrink-0" style={{ backgroundColor: d.fill }} />
+                    <span className="font-label text-xs text-[#adaaaa] flex-1">{d.name}</span>
+                    <span className="font-label text-xs font-bold text-white">{d.pct}%</span>
+                    <span className="font-label text-[10px] text-[#767575] w-12 text-right">{d.count} {activityPlural.toLowerCase()}</span>
                   </div>
                 ))}
               </div>
@@ -663,11 +663,11 @@ export default function YearlyReportPage() {
 
         {/* ── General + Time Stats ── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+          <div className="bg-[#20201f] p-6">
             <SectionHeader title="General Statistics" />
             <StatsTable rows={generalRows} />
           </div>
-          <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+          <div className="bg-[#20201f] p-6">
             <SectionHeader title="Time Statistics" />
             <StatsTable rows={timeRows} />
           </div>
@@ -681,16 +681,16 @@ export default function YearlyReportPage() {
             { label: 'YEAR STREAK', value: `${maxStreak} days` },
             { label: 'ELEVATION', value: `${everestMultiple}× Everest` },
           ].map((s) => (
-            <div key={s.label} className="bg-gray-800 rounded-xl p-5 border border-gray-700">
-              <p className="text-xs text-gray-400 uppercase tracking-widest font-semibold mb-1">{s.label}</p>
-              <p className="text-xl font-black text-white">{s.value}</p>
+            <div key={s.label} className="bg-[#20201f] p-5">
+              <p className="font-label text-[10px] uppercase tracking-widest text-[#adaaaa] mb-1">{s.label}</p>
+              <p className="font-headline text-xl font-black text-white">{s.value}</p>
             </div>
           ))}
         </div>
 
         {/* ── Personal Records ── */}
         {prs && prs.length > 0 && (
-          <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+          <div className="bg-[#20201f] p-6">
             <SectionHeader title={`${year} Personal Records`} subtitle="Records achieved during this year" />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {PR_CATEGORIES.map((cat) => {
@@ -698,12 +698,12 @@ export default function YearlyReportPage() {
                 if (catPrs.length === 0) return null;
                 return (
                   <div key={cat.label}>
-                    <p className="text-xs text-blue-400 uppercase tracking-widest font-semibold mb-2">{cat.label}</p>
+                    <p className="font-label text-[10px] uppercase tracking-widest text-[#cffc00] mb-2">{cat.label}</p>
                     <div className="space-y-2">
                       {catPrs.map((pr) => (
                         <div key={pr.recordType} className="flex items-center justify-between">
-                          <span className="text-xs text-gray-400">{recordTypeName(pr.recordType)}</span>
-                          <span className="text-sm font-bold text-white">{pr.displayValue}</span>
+                          <span className="font-label text-[10px] text-[#767575]">{recordTypeName(pr.recordType)}</span>
+                          <span className="font-label text-xs font-bold text-white">{pr.displayValue}</span>
                         </div>
                       ))}
                     </div>
@@ -714,7 +714,7 @@ export default function YearlyReportPage() {
           </div>
         )}
 
-        <p className="text-center text-xs text-gray-600 pb-4">RunTracker · {year} · Data from Strava</p>
+        <p className="text-center font-label text-[10px] uppercase tracking-widest text-[#484847] pb-4">RunTracker · {year}</p>
       </div>
     </div>
   );

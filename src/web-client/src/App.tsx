@@ -49,9 +49,9 @@ function ProtectedRoute() {
 
 function AppLayout() {
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen bg-[#0e0e0e] text-white flex">
       <Navbar />
-      <main>
+      <main className="flex-1 ml-64 min-w-0">
         <Outlet />
       </main>
     </div>

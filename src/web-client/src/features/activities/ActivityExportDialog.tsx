@@ -97,11 +97,11 @@ export default function ActivityExportDialog({ from, to, onClose }: Props) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={onClose}>
       <div
-        className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-md p-6"
+        className="bg-[#20201f]-xl w-full max-w-md p-6"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Export Activities</h2>
+          <h2 className="font-headline text-base font-bold uppercase tracking-tight text-white">Export Activities</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl leading-none">×</button>
         </div>
 
@@ -116,7 +116,7 @@ export default function ActivityExportDialog({ from, to, onClose }: Props) {
                       type="checkbox"
                       checked={selectedFields.includes(field.id)}
                       onChange={() => toggleField(field.id)}
-                      className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                      className="rounded border-gray-300 text-[#cffc00] focus:border-[#cffc00] focus:outline-none"
                     />
                     {field.label}
                   </label>
@@ -131,7 +131,7 @@ export default function ActivityExportDialog({ from, to, onClose }: Props) {
           <select
             value={count}
             onChange={(e) => setCount(Number(e.target.value))}
-            className="rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 px-3 py-1.5 text-sm focus:outline-none"
+            className="rounded-md border border-[#484847]/30 dark:bg-gray-700 dark:text-gray-200 px-3 py-1.5 text-sm focus:outline-none"
           >
             {[100, 500, 1000, 5000].map((n) => (
               <option key={n} value={n}>{n.toLocaleString()}</option>
@@ -156,7 +156,7 @@ export default function ActivityExportDialog({ from, to, onClose }: Props) {
           <button
             onClick={handleExport}
             disabled={exporting || selectedFields.length === 0}
-            className="px-5 py-2 rounded-lg text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 disabled:opacity-50"
+            className="px-5 py-2 rounded-lg text-sm font-medium text-[#3b4a00] bg-[#cffc00] hover:bg-[#c2ed00] disabled:opacity-50"
           >
             {exporting ? 'Exporting…' : 'Download CSV'}
           </button>
@@ -165,3 +165,5 @@ export default function ActivityExportDialog({ from, to, onClose }: Props) {
     </div>
   );
 }
+
+
